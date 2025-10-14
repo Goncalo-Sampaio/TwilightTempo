@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
@@ -6,7 +7,11 @@ public class SkillSystem : MonoBehaviour
     [SerializeField]
     private Transform skillHolder;
     [SerializeField]
-    private float rotationTime = 1f; 
+    private float rotationTime = 1f;
+    [SerializeField]
+    private List<SkillSlot> skillSlots = new List<SkillSlot>();
+    [SerializeField]
+    private List<SkillSO> skillSOs = new List<SkillSO>();
 
     private Vector3 rightRotation = new Vector3(0, 0, -60);
     private Vector3 leftRotation = new Vector3(0, 0, 60);
@@ -15,15 +20,27 @@ public class SkillSystem : MonoBehaviour
     private Vector3 initialRotation;
     private Vector3 finalRotation;
 
+    private int currentlyActiveSlot = 0;
+
+    private PlayerStateManager playerStateManager;
+    private PlayerStates state;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        currentlyActiveSlot = 0;
+
+        for (int i = 0; i < skillSlots.Count; i++)
+        {
+            skillSlots[i].AssignSkill(skillSOs[i]);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        state = playerStateManager.CurrentState;
+
         if (Input.GetKeyDown(KeyCode.E) && !rotating)
         {
             rotating = true;
@@ -31,6 +48,12 @@ public class SkillSystem : MonoBehaviour
             //skillHolder.Rotate(rightRotation);
             initialRotation = skillHolder.rotation.eulerAngles;
             finalRotation = skillHolder.rotation.eulerAngles + rightRotation;
+
+            currentlyActiveSlot--;
+            if (currentlyActiveSlot < 0)
+            {
+                currentlyActiveSlot = skillSlots.Count - 1;
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Q) && !rotating)
         {
@@ -39,6 +62,12 @@ public class SkillSystem : MonoBehaviour
             //skillHolder.Rotate(leftRotation);
             initialRotation = skillHolder.rotation.eulerAngles;
             finalRotation = skillHolder.rotation.eulerAngles + leftRotation;
+
+            currentlyActiveSlot++;
+            if (currentlyActiveSlot >= skillSlots.Count)
+            {
+                currentlyActiveSlot = 0;
+            }
         }
 
         if (rotating)
@@ -51,6 +80,11 @@ public class SkillSystem : MonoBehaviour
             {
                 rotating = false;
             }
+        }
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            skillSlots[currentlyActiveSlot].ActivateSlot();
         }
     }
 }

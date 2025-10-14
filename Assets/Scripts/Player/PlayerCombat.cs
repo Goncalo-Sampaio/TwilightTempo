@@ -43,7 +43,8 @@ public class PlayerCombat : MonoBehaviour
             if (Time.time - lastClickedTime >= 0.6f)
             {
                 animator.runtimeAnimatorController = combo[comboCounter].AnimatorOV;
-                animator.Play("Attack", 0, 0);
+                //animator.Play("Attack", 0, 0);
+                animator.CrossFadeInFixedTime("Attack", 0.25f, 0, 0.0f, 0.0f);
                 //activate weapon and/or damage
                 //also play knockbacks or visual effects here
                 comboCounter++;

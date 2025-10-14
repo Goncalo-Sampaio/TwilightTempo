@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43fbe1caf99b6884b84f108d5d0f38b2, type: 3}
+  m_Name: TrackingSounds
+  m_EditorClassIdentifier: Assembly-CSharp::SkillSO
+  skillName: Tracking Sounds
+  skillType: 1
+  skillAttunement: 1
+  cooldown: 10
+  icon: {fileID: 21300000, guid: e0b6cc8a9927746438ebd0d78ad3370d, type: 3}
+  skillObject: {fileID: 3962209284111943369, guid: 56b533d94b063a049b1ab534b5e4d07c, type: 3}
+  skillAnimatorOverride: {fileID: 22100000, guid: 40bca7bd590b0d444afbbc84e3bf9748, type: 2}
