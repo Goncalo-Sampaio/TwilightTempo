@@ -19,7 +19,7 @@ public class ThirdPersonCam1 : MonoBehaviour
     [SerializeField] private GameObject thirdPersonCamera;
     [SerializeField] private GameObject lockOnCamera;
 
-    [SerializeField] private Transform lockOnTaget;
+    [SerializeField] private Transform lockOnTarget;
     private Vector3 midWayPoint;
     
 
@@ -75,7 +75,7 @@ public class ThirdPersonCam1 : MonoBehaviour
 
             //playerObj.forward = dirToCombatLookAt.normalized;
 
-            Vector3 viewDir = lockOnTaget.position - new Vector3(playerObj.transform.position.x, lockOnTaget.position.y, playerObj.transform.position.z);
+            Vector3 viewDir = lockOnTarget.position - new Vector3(playerObj.transform.position.x, lockOnTarget.position.y, playerObj.transform.position.z);
             orientation.forward = viewDir.normalized;
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
@@ -92,8 +92,16 @@ public class ThirdPersonCam1 : MonoBehaviour
         thirdPersonCamera.SetActive(false);
         lockOnCamera.SetActive(false);
 
-        if (newStyle == CameraStyle.Basic) thirdPersonCamera.SetActive(true);
-        if (newStyle == CameraStyle.LockOn) lockOnCamera.SetActive(true);
+        if (newStyle == CameraStyle.Basic)
+        {
+            thirdPersonCamera.SetActive(true);
+            lockOnTarget.gameObject.SetActive(false);
+        }
+        if (newStyle == CameraStyle.LockOn)
+        {
+            lockOnCamera.SetActive(true); 
+            lockOnTarget.gameObject.SetActive(true);
+        } 
 
         currentStyle = newStyle;
     }
