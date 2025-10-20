@@ -28,6 +28,8 @@ public class SkillSystem : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerStateManager = GetComponent<PlayerStateManager>();
+
         currentlyActiveSlot = 0;
 
         for (int i = 0; i < skillSlots.Count; i++)
@@ -82,7 +84,7 @@ public class SkillSystem : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && state < PlayerStates.Skill)
         {
             skillSlots[currentlyActiveSlot].ActivateSlot();
         }

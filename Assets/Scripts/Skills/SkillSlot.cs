@@ -21,11 +21,25 @@ public class SkillSlot : MonoBehaviour
     private AnimatorOverrideController skillAOV;
     private ISkill skillScript;
 
+    private float skillTime;
+    private float castTime;
+    private float currentCooldown;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerStateManager = GetComponentInParent<PlayerStateManager>();
         currentState = playerStateManager.CurrentState;
+    }
+
+    private void Update()
+    {
+        currentCooldown -= Time.deltaTime;
+
+        if (currentCooldown < 0)
+        {
+            currentCooldown = 0;
+        }
     }
 
     public void AssignSkill(SkillSO skill)
@@ -46,9 +60,13 @@ public class SkillSlot : MonoBehaviour
 
     public void ActivateSlot()
     {
-        skillScript.Cast();
-        animator.runtimeAnimatorController = skillAOV;
-        //animator.Play("Skill", 0, 0);
-        animator.CrossFadeInFixedTime("Skill", 0.25f, 0, 0.0f, 0.0f);
+        if (currentCooldown <= 0)
+        {
+            skillScript.Cast();
+            currentCooldown = cooldown;
+            animator.runtimeAnimatorController = skillAOV;
+            //animator.Play("Skill", 0, 0);
+            animator.CrossFadeInFixedTime("Skill", 0.25f, 0, 0.0f, 0.0f);
+        }
     }
 }
