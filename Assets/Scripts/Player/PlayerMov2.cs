@@ -130,7 +130,7 @@ public class PlayerMov2 : MonoBehaviour
     {
         currentPlayerState = playerStateManager.CurrentState;
 
-        if (currentPlayerState > PlayerStates.Moving)
+        if (currentPlayerState > PlayerStates.Falling)
         {
             return;
         }

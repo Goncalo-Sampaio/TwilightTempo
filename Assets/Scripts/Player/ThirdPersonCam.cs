@@ -25,6 +25,9 @@ public class ThirdPersonCam : MonoBehaviour
 
     private CameraStyle currentStyle;
 
+    private PlayerStateManager playerStateManager;
+    private PlayerStates currentState;
+
     private enum CameraStyle
     {
         Basic,
@@ -33,12 +36,15 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Start()
     {
+        playerStateManager = GetComponentInParent<PlayerStateManager>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     private void Update()
     {
+        currentState = playerStateManager.CurrentState;
+
         // switch styles
         if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchCameraStyle(CameraStyle.Basic);
         if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchCameraStyle(CameraStyle.Combat);
@@ -54,7 +60,7 @@ public class ThirdPersonCam : MonoBehaviour
             float verticalInput = Input.GetAxis("Vertical");
             Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-            if (inputDir != Vector3.zero)
+            if (inputDir != Vector3.zero && currentState <= PlayerStates.Falling)
                 playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
         }
 

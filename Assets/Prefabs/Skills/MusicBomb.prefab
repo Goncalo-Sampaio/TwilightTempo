@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db19c672d77087140876c9164e1e4b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicBomb
+  musicBombProjectile: {fileID: 5814675405232539316, guid: ebc3cd2f29102ae4495b1d119365d1dc, type: 3}

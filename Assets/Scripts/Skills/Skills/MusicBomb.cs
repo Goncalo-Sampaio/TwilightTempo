@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class MusicBomb : MonoBehaviour, ISkill
 {
+    [SerializeField]
+    private GameObject musicBombProjectile;
+
     public void Cast()
     {
-        Debug.Log("Music Bomb");
+        Instantiate(musicBombProjectile, transform.position, Quaternion.identity);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
