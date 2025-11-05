@@ -1,13 +1,5 @@
 fileFormatVersion: 2
 guid: 1cedfe906590f534882ae7293b1e1dd2
-ShaderImporter:
-  externalObjects: {}
-  defaultTextures: []
-  nonModifiableTextures: []
-  preprocessorOverride: 0
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 182586
@@ -15,3 +7,10 @@ AssetOrigin:
   packageVersion: 1.3.1
   assetPath: Assets/Nicrom/Shaders/Wind/Assets/Shaders/ASE/LPW_Vegetation_Transparent.shader
   uploadId: 744555
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

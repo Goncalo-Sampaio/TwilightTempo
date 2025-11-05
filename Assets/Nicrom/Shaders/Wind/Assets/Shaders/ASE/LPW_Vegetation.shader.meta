@@ -1,13 +1,5 @@
 fileFormatVersion: 2
 guid: aa39e15a9f5d0ed47aa0951572b2dc9e
-ShaderImporter:
-  externalObjects: {}
-  defaultTextures: []
-  nonModifiableTextures: []
-  preprocessorOverride: 0
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 182586
@@ -15,3 +7,10 @@ AssetOrigin:
   packageVersion: 1.3.1
   assetPath: Assets/Nicrom/Shaders/Wind/Assets/Shaders/ASE/LPW_Vegetation.shader
   uploadId: 744555
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
