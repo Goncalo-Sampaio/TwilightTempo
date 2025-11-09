@@ -35,10 +35,10 @@ public class PlayerCombat : MonoBehaviour
 
     private void Attack()
     {
-        if (Time.time - lastComboEnd > 0.5f && comboCounter < combo.Count)
+        if ((Time.time - lastComboEnd > 0.5f) && (comboCounter < combo.Count))
         {
             playerStateManager.SetCurrentState(PlayerStates.Attacking);
-            CancelInvoke("EndCombo");
+            CancelInvoke(nameof(EndCombo));
 
             if (Time.time - lastClickedTime >= 0.6f)
             {
@@ -62,7 +62,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
-            Invoke("EndCombo", 0.5f);
+            Invoke(nameof(EndCombo), 0.5f);
         }
     }
 

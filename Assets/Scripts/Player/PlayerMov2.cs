@@ -227,7 +227,8 @@ public class PlayerMov2 : MonoBehaviour
         {
             //airMaxVelocity = flatVel.magnitude;
 
-            if (rb.linearVelocity.x < .5f && rb.linearVelocity.x > -.5f)
+            if (Mathf.Abs(rb.linearVelocity.x) < .5f)
+            //if (rb.linearVelocity.x < .5f && rb.linearVelocity.x > -.5f)
             {
                 rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, rb.linearVelocity.z);
             }
