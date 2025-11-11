@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SkillSO
   skillName: Light Dash
   skillType: 0
-  skillAttunement: 2
+  skillAttunement: 3
   cooldown: 10
   icon: {fileID: 21300000, guid: a56f3334e84e92744a0ec3b35032a434, type: 3}
   skillObject: {fileID: 8373698818955695691, guid: 29124422e93d2b445902a2ef33b8ca4d, type: 3}

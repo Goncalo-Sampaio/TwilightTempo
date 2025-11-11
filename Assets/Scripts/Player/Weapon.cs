@@ -6,6 +6,8 @@ public class Weapon : MonoBehaviour
     private GameObject hitParticles;
     [SerializeField]
     private LayerMask enemyLayer;
+    [SerializeField]
+    private GaugeManager gaugeManager;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,6 +15,7 @@ public class Weapon : MonoBehaviour
         {
             Debug.Log("Hit");
             Instantiate(hitParticles, transform.position, Quaternion.identity);
+            gaugeManager.IncreaseGauge(10f, SkillAttunement.None);
         }
     }
 }

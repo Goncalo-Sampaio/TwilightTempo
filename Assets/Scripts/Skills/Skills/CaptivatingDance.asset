@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SkillSO
   skillName: Captivating Dance
   skillType: 0
-  skillAttunement: 1
+  skillAttunement: 2
   cooldown: 10
   icon: {fileID: 21300000, guid: ffd54883e33bb4a43a44fe566a9b1de6, type: 3}
   skillObject: {fileID: 7340338914526579840, guid: d5d1a76c5464c894b960f381f2c4abc0, type: 3}

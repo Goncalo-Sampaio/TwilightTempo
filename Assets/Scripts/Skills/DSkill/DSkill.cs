@@ -29,7 +29,7 @@ public class DSkill : ScriptableObject
         };
     }
 
-    public virtual bool Update(DSkillManager player, State state)
+    public virtual bool UpdateSkill(DSkillManager player, State state)
     {
         state.life -= Time.deltaTime;
 

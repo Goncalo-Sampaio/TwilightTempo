@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SkillSO
   skillName: Dancing Flowers
   skillType: 0
-  skillAttunement: 1
+  skillAttunement: 2
   cooldown: 10
   icon: {fileID: 21300000, guid: 97ae3e21bfc89ad40a8bd853c7877f96, type: 3}
   skillObject: {fileID: 8822688339191150562, guid: b7a56c2c1b5325941a9e22aeacc77558, type: 3}

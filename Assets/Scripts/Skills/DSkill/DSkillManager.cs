@@ -26,7 +26,7 @@ public class DSkillManager : MonoBehaviour
             }
             else
             {
-                if (!skills[i].Update(this, skillState[i]))
+                if (!skills[i].UpdateSkill(this, skillState[i]))
                 {
                     skillState[i] = null;
                 }

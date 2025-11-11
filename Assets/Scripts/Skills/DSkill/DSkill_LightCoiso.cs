@@ -29,9 +29,9 @@ public class DSkill_LightCoiso : DSkill
         return state;
     }
 
-    public override bool Update(DSkillManager player, State state)
+    public override bool UpdateSkill(DSkillManager player, State state)
     {
-        if (base.Update(player, state)) return false;
+        if (base.UpdateSkill(player, state)) return false;
 
         var s = state as LightCoisoState;
 
