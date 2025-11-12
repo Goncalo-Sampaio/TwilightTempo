@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,6 +11,12 @@ public class GaugeManager : MonoBehaviour
     private float currentGauge;
     [SerializeField]
     private UIManager uiManager;
+    [SerializeField]
+    private GameObject finisher;
+    [SerializeField]
+    private Animator animator;
+
+    private PlayerStateManager playerStateManager;
 
     Dictionary<SkillAttunement, float> attunementCharges = new Dictionary<SkillAttunement, float>();
 
@@ -17,6 +24,8 @@ public class GaugeManager : MonoBehaviour
 
     private void Start()
     {
+        playerStateManager = GetComponentInParent<PlayerStateManager>();
+
         attunementCharges.Add(SkillAttunement.None, 0f);
         attunementCharges.Add(SkillAttunement.Music, 0f);
         attunementCharges.Add(SkillAttunement.Dance, 0f);
@@ -36,6 +45,7 @@ public class GaugeManager : MonoBehaviour
             }
             uiManager.ActivateFinisher(finisherReady);
             uiManager.ChangeGauge(currentGauge);
+            StartCoroutine(ActivateFinisherCoroutine());
         }
     }
 
@@ -80,5 +90,25 @@ public class GaugeManager : MonoBehaviour
     private void ActivateForm(SkillAttunement attunement)
     {
 
+    }
+
+    private IEnumerator ActivateFinisherCoroutine()
+    {
+        playerStateManager.SetCurrentState(PlayerStates.Skill);
+        animator.CrossFadeInFixedTime("Finisher", 0.25f, 0, 0.0f, 0.0f);
+        yield return new WaitForSeconds(1.4f);
+
+        for (int i = 0; i < finisher.transform.childCount; i++)
+        {
+            finisher.transform.GetChild(i).gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+        }
+        playerStateManager.ResetState();
+
+        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < finisher.transform.childCount; i++)
+        {
+            finisher.transform.GetChild(i).gameObject.SetActive(false);
+        }
     }
 }
