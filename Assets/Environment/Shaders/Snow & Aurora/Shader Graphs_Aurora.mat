@@ -55,9 +55,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DissolvePower: 0.6
+    - _DissolvePower: -1.22
     - _Float: 0
-    - _MaskPower: 0.75
+    - _MaskPower: 0.93
     - _NoiseScale: 30
     - _QueueControl: 0
     - _QueueOffset: 0
