@@ -22,13 +22,13 @@ public class SkillSystem : MonoBehaviour
 
     private int currentlyActiveSlot = 0;
 
-    private PlayerStateManager playerStateManager;
+    private PlayerStateManagerPlayables playerStateManager;
     private PlayerStates state;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerStateManager = GetComponent<PlayerStateManager>();
+        playerStateManager = GetComponent<PlayerStateManagerPlayables>();
 
         currentlyActiveSlot = 0;
 

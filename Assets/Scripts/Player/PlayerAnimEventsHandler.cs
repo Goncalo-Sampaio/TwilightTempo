@@ -5,11 +5,11 @@ public class PlayerAnimEventsHandler : MonoBehaviour
     [SerializeField]
     private Collider playerDamageCollider;
 
-    private PlayerStateManager stateManager;
+    private PlayerStateManagerPlayables stateManagerPlayables;
 
     private void Start()
     {
-        stateManager = GetComponentInParent<PlayerStateManager>();
+        stateManagerPlayables = GetComponentInParent<PlayerStateManagerPlayables>();
     }
 
     public void ActivateWeapon()
@@ -24,6 +24,6 @@ public class PlayerAnimEventsHandler : MonoBehaviour
 
     public void ActivateMovement()
     {
-        stateManager.ResetState();
+        stateManagerPlayables.ResetState();
     }
 }
