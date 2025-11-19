@@ -39,6 +39,10 @@ public class AnimationSystem
         locomotionMixer.ConnectInput(1, walkPlayable, 0);
 
         playableGraph.Play();
+
+        //This is needed to stop the first animation from bugging (take a look at this problem and fix it later)
+        PlayOneShot(idleClip);
+        InterruptOneShot();
     }
 
     public void UpdateLocomotion(float velocity, float maxSpeed)
@@ -54,7 +58,6 @@ public class AnimationSystem
 
         InterruptOneShot();
         oneShotPlayable = AnimationClipPlayable.Create(playableGraph, oneShotClip);
-        oneShotPlayable.SetSpeed(1.5f);
         topLevelMixer.ConnectInput(1, oneShotPlayable, 0);
         topLevelMixer.SetInputWeight(1, 1f);
 

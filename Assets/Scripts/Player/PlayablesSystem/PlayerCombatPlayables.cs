@@ -8,12 +8,19 @@ public class PlayerCombatPlayables : MonoBehaviour
     private Animator animator;
     [SerializeField]
     private AnimationClip[] attacks;
-    private float lastClickedTime;
+    [SerializeField]
+    private float[] attackExitTimers;
     private float lastComboEnd;
     private int comboCounter;
 
     private PlayerStateManagerPlayables playerStateManagerPlayables;
     private PlayerStates currentState;
+
+    private bool canCombo = false;
+    private bool continueCombo = false;
+
+    private bool exitAttack = false;
+    private float exitAttackTimer = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,10 +34,35 @@ public class PlayerCombatPlayables : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1") && currentState <= PlayerStates.Attacking)
         {
-            Attack();
-        }
+            if (canCombo)
+            {
+                canCombo = false;
+                continueCombo = true;
+            }
 
-        ExitAttack();
+            if (comboCounter == 0)
+            {
+                Attack();
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        currentState = playerStateManagerPlayables.CurrentState;
+        exitAttackTimer -= Time.fixedDeltaTime;
+
+        if (exitAttackTimer <= 0f)
+        {
+            exitAttackTimer = 0f;
+
+            if (exitAttack)
+            {
+                Debug.Log("Exit attack");
+                exitAttack = false;
+                ExitAttack();
+            }
+        }
     }
 
     private void Attack()
@@ -38,36 +70,65 @@ public class PlayerCombatPlayables : MonoBehaviour
         if ((Time.time - lastComboEnd > 0.5f) && (comboCounter < attacks.Count()))
         {
             Debug.Log("Attack");
-            Debug.Log(currentState);
             playerStateManagerPlayables.SetCurrentState(PlayerStates.Attacking);
-            CancelInvoke(nameof(EndCombo));
 
-            if (Time.time - lastClickedTime >= 0.6f)
-            {
-                playerStateManagerPlayables.Attack(attacks[comboCounter]);
-                comboCounter++;
-                lastClickedTime = Time.time;
-
-                if (comboCounter >= attacks.Count())
-                {
-                    //comboCounter = 0;
-                }
-            }
+            playerStateManagerPlayables.Attack(attacks[comboCounter]);
+            StartAttack();
         }
     }
 
-    private void ExitAttack()
+    private void StartAttack()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f && animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        exitAttackTimer = attacks[comboCounter].length * attackExitTimers[comboCounter];
+        Debug.Log(exitAttackTimer);
+        exitAttack = true;
+        comboCounter++;
+    }
+
+    public void ExitAttack()
+    {
+        DisableCombo();
+
+        if (comboCounter == attacks.Length)
         {
-            Invoke(nameof(EndCombo), 0.5f);
+            continueCombo = false;
         }
+
+        if (continueCombo)
+        {
+            continueCombo = false;
+            ContinueCombo();
+        }
+        else
+        {
+            EndCombo();
+        }
+    }
+
+    private void ContinueCombo()
+    {
+        Debug.Log("ContinueCombo");
+        playerStateManagerPlayables.Attack(attacks[comboCounter]);
+        StartAttack();
     }
 
     private void EndCombo()
     {
+        Debug.Log("EndingCombo");
         comboCounter = 0;
         lastComboEnd = Time.time;
         playerStateManagerPlayables.ResetState();
+    }
+
+    public void EnableCombo()
+    {
+        Debug.Log("EnableCombo");
+        canCombo = true;
+    }
+
+    public void DisableCombo()
+    {
+        Debug.Log("DisableCombo");
+        canCombo = false;
     }
 }

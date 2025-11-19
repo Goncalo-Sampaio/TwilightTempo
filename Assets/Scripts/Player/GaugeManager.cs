@@ -16,7 +16,7 @@ public class GaugeManager : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
-    private PlayerStateManager playerStateManager;
+    private PlayerStateManagerPlayables playerStateManager;
 
     Dictionary<SkillAttunement, float> attunementCharges = new Dictionary<SkillAttunement, float>();
 
@@ -24,7 +24,7 @@ public class GaugeManager : MonoBehaviour
 
     private void Start()
     {
-        playerStateManager = GetComponentInParent<PlayerStateManager>();
+        playerStateManager = GetComponentInParent<PlayerStateManagerPlayables>();
 
         attunementCharges.Add(SkillAttunement.None, 0f);
         attunementCharges.Add(SkillAttunement.Music, 0f);

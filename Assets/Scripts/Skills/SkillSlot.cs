@@ -7,7 +7,7 @@ public class SkillSlot : MonoBehaviour
 {
     [SerializeField]
     private Animator animator;
-    private PlayerStateManager playerStateManager;
+    private PlayerStateManagerPlayables playerStateManager;
     private PlayerStates currentState;
 
     private SkillSO skillSO;
@@ -28,7 +28,7 @@ public class SkillSlot : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerStateManager = GetComponentInParent<PlayerStateManager>();
+        playerStateManager = GetComponentInParent<PlayerStateManagerPlayables>();
         currentState = playerStateManager.CurrentState;
     }
 

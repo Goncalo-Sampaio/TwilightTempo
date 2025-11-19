@@ -27,11 +27,12 @@ public class PlayerStateManagerPlayables : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(CurrentState);
+        //Debug.Log(CurrentState);
     }
 
     public void SetCurrentState(PlayerStates state)
     {
+        Debug.Log(state.ToString());
         if (state > CurrentState)
         {
             CurrentState = state;
@@ -50,6 +51,7 @@ public class PlayerStateManagerPlayables : MonoBehaviour
 
     public void ResetState()
     {
+        Debug.Log("State reset");
         CurrentState = PlayerStates.Idle;
         //playerAnimator.SetBool("Running", false);
     }

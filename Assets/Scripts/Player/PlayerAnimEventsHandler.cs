@@ -6,15 +6,18 @@ public class PlayerAnimEventsHandler : MonoBehaviour
     private Collider playerDamageCollider;
 
     private PlayerStateManagerPlayables stateManagerPlayables;
+    private PlayerCombatPlayables playerCombatPlayables;
 
     private void Start()
     {
         stateManagerPlayables = GetComponentInParent<PlayerStateManagerPlayables>();
+        playerCombatPlayables = GetComponentInParent<PlayerCombatPlayables>();
     }
 
     public void ActivateWeapon()
     {
         playerDamageCollider.enabled = true;
+        playerCombatPlayables.EnableCombo();
     }
 
     public void DeactivateWeapon()
@@ -25,5 +28,15 @@ public class PlayerAnimEventsHandler : MonoBehaviour
     public void ActivateMovement()
     {
         stateManagerPlayables.ResetState();
+    }
+
+    public void InitiateComboTime()
+    {
+
+    }
+
+    public void StopComboTime()
+    {
+
     }
 }

@@ -4632,10 +4632,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatPlayables
   animator: {fileID: 2266149895651774830}
   attacks:
-  - {fileID: 7400000, guid: 2857c7ef8ad36ce48bb9316fc9069547, type: 2}
-  - {fileID: 7400000, guid: 9200e9690aff39e4fb4672d0f1087ae7, type: 2}
-  - {fileID: 7400000, guid: f830354f1d695dd4b8db00b6546db95d, type: 2}
-  - {fileID: 7400000, guid: 9c12fb1da8419da4c97804bbcfb412b5, type: 2}
+  - {fileID: -4552515205397978273, guid: 3f737350a7eeb7c488b4ad5bc8109a97, type: 3}
+  - {fileID: -729247239487951332, guid: 3f737350a7eeb7c488b4ad5bc8109a97, type: 3}
+  - {fileID: 1679763308670167783, guid: 3f737350a7eeb7c488b4ad5bc8109a97, type: 3}
+  - {fileID: -203655887218126122, guid: 52d3abeea1386014e8bb5cb15b17246c, type: 3}
+  attackExitTimers:
+  - 0.98
+  - 0.98
+  - 0.98
+  - 0.83
 --- !u!1001 &1650639118
 PrefabInstance:
   m_ObjectHideFlags: 0

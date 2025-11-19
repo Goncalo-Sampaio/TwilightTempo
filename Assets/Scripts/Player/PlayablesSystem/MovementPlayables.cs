@@ -136,7 +136,7 @@ public class MovementPlayables : MonoBehaviour
             return;
         }
 
-        Debug.Log(currentPlayerState);
+        //Debug.Log(currentPlayerState);
 
         MovePlayer();
         SpeedControl();
@@ -261,7 +261,7 @@ public class MovementPlayables : MonoBehaviour
 
         if (rb.linearVelocity.magnitude < 0.5f)
         {
-            playerStateManagerPlayables.ResetState();
+            //playerStateManagerPlayables.ResetState();
         }
         else
         {

@@ -25,7 +25,7 @@ public class ThirdPersonCam : MonoBehaviour
 
     private CameraStyle currentStyle;
 
-    private PlayerStateManager playerStateManager;
+    private PlayerStateManagerPlayables playerStateManager;
     private PlayerStates currentState;
 
     private enum CameraStyle
@@ -36,7 +36,7 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Start()
     {
-        playerStateManager = GetComponentInParent<PlayerStateManager>();
+        playerStateManager = GetComponentInParent<PlayerStateManagerPlayables>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
