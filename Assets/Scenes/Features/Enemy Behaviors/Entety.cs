@@ -10,8 +10,8 @@ public class Entity : MonoBehaviour
     {
         dead = false;   
     }
-    public virtual void Attack(Entity target,float damage) => target.TakeDamage(damage);    
-    public virtual void TakeDamage(float damage)
+    protected virtual void Attack(Entity target,float damage) => target.TakeDamage(damage);    
+    protected virtual void TakeDamage(float damage)
     {
         if(!dead)
         {
