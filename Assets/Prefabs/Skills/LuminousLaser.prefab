@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697c8060c09fa5248a7c6664ef7152e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuminousLaser
+  laserObject: {fileID: 4080281603126310260, guid: 75e22bbe5247a6d45ac648df9317ba73, type: 3}
+  laserDelay: 1.5
+  castPosition: {x: 0.63, y: 0, z: 2.34}

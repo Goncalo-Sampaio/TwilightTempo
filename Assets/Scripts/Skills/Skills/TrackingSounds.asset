@@ -18,4 +18,4 @@ MonoBehaviour:
   cooldown: 10
   icon: {fileID: 21300000, guid: e0b6cc8a9927746438ebd0d78ad3370d, type: 3}
   skillObject: {fileID: 3962209284111943369, guid: 56b533d94b063a049b1ab534b5e4d07c, type: 3}
-  skillAnimatorOverride: {fileID: 22100000, guid: 40bca7bd590b0d444afbbc84e3bf9748, type: 2}
+  animation: {fileID: -203655887218126122, guid: eaecc668b1687b64396e099acd6075ad, type: 3}

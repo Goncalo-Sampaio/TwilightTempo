@@ -22,7 +22,7 @@ public class MusicBombProjectile : MonoBehaviour
     {
         if (moving)
         {
-            transform.position += Vector3.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * speed * Time.deltaTime;
         }
     }
 

@@ -29,14 +29,4 @@ public class PlayerAnimEventsHandler : MonoBehaviour
     {
         stateManagerPlayables.ResetState();
     }
-
-    public void InitiateComboTime()
-    {
-
-    }
-
-    public void StopComboTime()
-    {
-
-    }
 }

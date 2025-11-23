@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Skills/LuminousLaser - Laser.prefab.meta
+guid: 6f0def427936a754d81bc634a8e9c59a
+PrefabImporter:
+========
 guid: 6aa23f91d3c4e3145ac39616ed7f0f59
 DefaultImporter:
+>>>>>>>> bb17401f8910abe56e437399af6a71b3f9b69cbb:Assets/_Recovery/0 (2).unity.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

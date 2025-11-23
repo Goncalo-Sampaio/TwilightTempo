@@ -32,9 +32,9 @@ public class PlayerStateManagerPlayables : MonoBehaviour
 
     public void SetCurrentState(PlayerStates state)
     {
-        Debug.Log(state.ToString());
         if (state > CurrentState)
         {
+            Debug.Log(state.ToString());
             CurrentState = state;
 
             if (state == PlayerStates.Attacking)

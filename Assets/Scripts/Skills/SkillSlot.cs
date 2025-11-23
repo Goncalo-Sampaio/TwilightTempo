@@ -7,7 +7,9 @@ public class SkillSlot : MonoBehaviour
 {
     [SerializeField]
     private Animator animator;
-    private PlayerStateManagerPlayables playerStateManager;
+    [SerializeField]
+    private GameObject player;
+    private PlayerStateManagerPlayables playerStateManagerPlayables;
     private PlayerStates currentState;
 
     private SkillSO skillSO;
@@ -20,25 +22,43 @@ public class SkillSlot : MonoBehaviour
     private GameObject skillObject;
     private AnimatorOverrideController skillAOV;
     private ISkill skillScript;
+    private AnimationClip skillAnimation;
 
     private float skillTime;
     private float castTime;
     private float currentCooldown;
+    private float animationTimer;
+    private bool exitSkill = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerStateManager = GetComponentInParent<PlayerStateManagerPlayables>();
-        currentState = playerStateManager.CurrentState;
+        playerStateManagerPlayables = GetComponentInParent<PlayerStateManagerPlayables>();
+        currentState = playerStateManagerPlayables.CurrentState;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        currentCooldown -= Time.deltaTime;
+        currentState = playerStateManagerPlayables.CurrentState;
+
+        currentCooldown -= Time.fixedDeltaTime;
+        animationTimer -= Time.fixedDeltaTime;
 
         if (currentCooldown < 0)
         {
             currentCooldown = 0;
+        }
+
+        if (animationTimer < 0)
+        {
+            animationTimer = 0;
+
+            if (exitSkill && currentState == PlayerStates.Skill)
+            {
+                playerStateManagerPlayables.ResetState();
+            }
+
+            exitSkill = false;
         }
     }
 
@@ -50,12 +70,13 @@ public class SkillSlot : MonoBehaviour
         skillAttunement = skill.skillAttunement;
         cooldown = skill.cooldown;
         icon = skill.icon;
+        skillAnimation = skill.animation;
 
         skillObject = Instantiate(skill.skillObject, this.transform);
 
         skillScript = skillObject.GetComponent<ISkill>();
 
-        skillAOV = skill.skillAnimatorOverride;
+        //skillAOV = skill.skillAnimatorOverride;
     }
 
     public void ActivateSlot()
@@ -64,9 +85,19 @@ public class SkillSlot : MonoBehaviour
         {
             skillScript.Cast();
             currentCooldown = cooldown;
-            animator.runtimeAnimatorController = skillAOV;
+
+            //First attempt
             //animator.Play("Skill", 0, 0);
-            animator.CrossFadeInFixedTime("Skill", 0.25f, 0, 0.0f, 0.0f);
+
+            //Second attempo (Animator Override)
+            //animator.runtimeAnimatorController = skillAOV;
+            //animator.CrossFadeInFixedTime("Skill", 0.25f, 0, 0.0f, 0.0f);
+
+            //Playables
+            animationTimer = skillAnimation.length;
+            playerStateManagerPlayables.SetCurrentState(PlayerStates.Skill);
+            playerStateManagerPlayables.Attack(skillAnimation);
+            exitSkill = true;
         }
     }
 }

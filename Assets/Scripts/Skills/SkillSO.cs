@@ -9,5 +9,6 @@ public class SkillSO : ScriptableObject
     public float cooldown;
     public Sprite icon;
     public GameObject skillObject;
-    public AnimatorOverrideController skillAnimatorOverride;
+    //public AnimatorOverrideController skillAnimatorOverride;
+    public AnimationClip animation;
 }

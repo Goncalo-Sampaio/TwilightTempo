@@ -44,10 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 770de3b8708f59841a30db3e5ab184a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightDash
-  curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  duration: 0
+  lightDashObject: {fileID: 2503682672228104484, guid: cf012f35022c66a4eb28a62e58ae442a, type: 3}
+  castPosition: {x: 0, y: 0, z: 0.87}
+  dashDelay: 0.57
