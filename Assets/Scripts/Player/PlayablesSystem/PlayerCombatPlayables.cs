@@ -58,7 +58,6 @@ public class PlayerCombatPlayables : MonoBehaviour
 
             if (exitAttack)
             {
-                Debug.Log("Exit attack");
                 exitAttack = false;
                 ExitAttack();
             }
@@ -69,7 +68,6 @@ public class PlayerCombatPlayables : MonoBehaviour
     {
         if ((Time.time - lastComboEnd > 0.5f) && (comboCounter < attacks.Count()))
         {
-            Debug.Log("Attack");
             playerStateManagerPlayables.SetCurrentState(PlayerStates.Attacking);
 
             playerStateManagerPlayables.Attack(attacks[comboCounter]);
@@ -80,7 +78,6 @@ public class PlayerCombatPlayables : MonoBehaviour
     private void StartAttack()
     {
         exitAttackTimer = attacks[comboCounter].length * attackExitTimers[comboCounter];
-        Debug.Log(exitAttackTimer);
         exitAttack = true;
         comboCounter++;
     }
@@ -107,14 +104,12 @@ public class PlayerCombatPlayables : MonoBehaviour
 
     private void ContinueCombo()
     {
-        Debug.Log("ContinueCombo");
         playerStateManagerPlayables.Attack(attacks[comboCounter]);
         StartAttack();
     }
 
     private void EndCombo()
     {
-        Debug.Log("EndingCombo");
         comboCounter = 0;
         lastComboEnd = Time.time;
         playerStateManagerPlayables.ResetState();
@@ -122,13 +117,11 @@ public class PlayerCombatPlayables : MonoBehaviour
 
     public void EnableCombo()
     {
-        Debug.Log("EnableCombo");
         canCombo = true;
     }
 
     public void DisableCombo()
     {
-        Debug.Log("DisableCombo");
         canCombo = false;
     }
 }
