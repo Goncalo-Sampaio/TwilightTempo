@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 10x.unitypackage.meta
 guid: 2243c8b4e1ab6914995699133f67ab5a
+========
+guid: c72696d1e733c234eb48a28bae1799e6
+folderAsset: yes
+>>>>>>>> 11668ad512c8fa59f28501ac07546c0c2859e4ad:Assets/Scenes/EnvironmentScene.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
