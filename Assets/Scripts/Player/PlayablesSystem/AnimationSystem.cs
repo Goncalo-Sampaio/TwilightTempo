@@ -16,6 +16,8 @@ public class AnimationSystem
     CoroutineHandle blendInHandle;
     CoroutineHandle blendOutHandle;
 
+    private bool grounded = false;
+
     public AnimationSystem(Animator animator, AnimationClip idleClip, AnimationClip walkClip)
     {
         playableGraph = PlayableGraph.Create("AnimationSystem");
@@ -45,8 +47,9 @@ public class AnimationSystem
         InterruptOneShot();
     }
 
-    public void UpdateLocomotion(float velocity, float maxSpeed)
+    public void UpdateLocomotion(float velocity, float maxSpeed, bool grounded)
     {
+        this.grounded = grounded;
         float weight = Mathf.InverseLerp(0f, maxSpeed, velocity);
         locomotionMixer.SetInputWeight(0, 1f - weight);
         locomotionMixer.SetInputWeight(1, weight);
@@ -69,6 +72,25 @@ public class AnimationSystem
         BlendOut(blendDuration, oneShotClip.length - blendDuration);
     }
 
+    public void PlayJump(AnimationClip jumpClip)
+    {
+        if (oneShotPlayable.IsValid() && oneShotPlayable.GetAnimationClip() == jumpClip) return;
+
+        InterruptOneShot();
+        oneShotPlayable = AnimationClipPlayable.Create(playableGraph, jumpClip);
+        oneShotPlayable.GetAnimationClip().wrapMode = WrapMode.ClampForever;
+        topLevelMixer.ConnectInput(1, oneShotPlayable, 0);
+        topLevelMixer.SetInputWeight(1, 1f);
+
+        // Calculate blendDuration as 10% of clip length,
+        // but ensure that it's not less than 0.1f or more than half the clip length
+        float blendDuration = Mathf.Clamp(jumpClip.length * 0.1f, 0.1f, jumpClip.length * 0.5f);
+
+        BlendIn(blendDuration);
+
+        JumpBlendOut(blendDuration, jumpClip.length - blendDuration);
+    }
+
     void BlendIn(float duration)
     {
         blendInHandle = Timing.RunCoroutine(Blend(duration, blendTime => {
@@ -87,11 +109,44 @@ public class AnimationSystem
         }, delay, DisconnectOneShot));
     }
 
+    void JumpBlendOut(float duration, float delay)
+    {
+        blendOutHandle = Timing.RunCoroutine(JumpBlend(duration, blendTime => {
+            float weight = Mathf.Lerp(0f, 1f, blendTime);
+            topLevelMixer.SetInputWeight(0, weight);
+            topLevelMixer.SetInputWeight(1, 1f - weight);
+        }, delay, DisconnectOneShot));
+    }
+
     IEnumerator<float> Blend(float duration, Action<float> blendCallback, float delay = 0f, Action finishedCallback = null)
     {
         if (delay > 0f)
         {
             yield return Timing.WaitForSeconds(delay);
+        }
+
+        float blendTime = 0f;
+        while (blendTime < 1f)
+        {
+            blendTime += Time.deltaTime / duration;
+            blendCallback(blendTime);
+            yield return blendTime;
+        }
+
+        blendCallback(1f);
+
+        finishedCallback?.Invoke();
+    }
+    IEnumerator<float> JumpBlend(float duration, Action<float> blendCallback, float delay = 0f, Action finishedCallback = null)
+    {
+        if (delay > 0f)
+        {
+            yield return Timing.WaitForSeconds(delay);
+        }
+
+        while (!grounded)
+        {
+            yield return 0.01f;
         }
 
         float blendTime = 0f;

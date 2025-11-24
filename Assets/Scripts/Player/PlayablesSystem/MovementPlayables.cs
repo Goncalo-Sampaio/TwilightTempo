@@ -45,6 +45,8 @@ public class MovementPlayables : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField]
+    private AnimationClip jumpAnimation;
+    [SerializeField]
     private float gravity = 9.8f;
     [SerializeField]
     private float fallMultiplier = 2f;
@@ -96,6 +98,8 @@ public class MovementPlayables : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(grounded);
+
         if (canCheckForGround)
         {
             grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
@@ -129,7 +133,7 @@ public class MovementPlayables : MonoBehaviour
     private void FixedUpdate()
     {
         currentPlayerState = playerStateManagerPlayables.CurrentState;
-        playerStateManagerPlayables.SetVelocity(rb.linearVelocity.magnitude, 8f);
+        playerStateManagerPlayables.SetVelocity(rb.linearVelocity.magnitude, 8f, grounded);
 
         if (currentPlayerState > PlayerStates.Falling)
         {
@@ -269,7 +273,7 @@ public class MovementPlayables : MonoBehaviour
         }
 
         //change later when movement is refactored to use velocities instead of forces
-        playerStateManagerPlayables.SetVelocity(rb.linearVelocity.magnitude, 8f);
+        playerStateManagerPlayables.SetVelocity(rb.linearVelocity.magnitude, 8f, grounded);
     }
 
     private void Jump()
@@ -278,6 +282,7 @@ public class MovementPlayables : MonoBehaviour
         //reset y velocity
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
+        playerStateManagerPlayables.Jump(jumpAnimation);
         audioSource.PlayOneShot(jumpClip);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         airTimestamp = Time.time;
