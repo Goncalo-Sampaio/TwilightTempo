@@ -1,6 +1,15 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 14x.unitypackage.meta
+guid: 89f0b84148d149d4d96b838d7ef60e92
+=======
 <<<<<<<< HEAD:Assets/_Recovery/0 (8).unity.meta
+<<<<<<< HEAD
 guid: a0e03973e9f3371419bdb2cafe770b45
+=======
+guid: 411290ad97f25ce428104ed8639ece3d
+>>>>>>> 854a953b360ad69024fcab6dd30a0ce0050d5cd2
+>>>>>>> e949f107baef0e4930686d61b16ed971c2b29e13
 DefaultImporter:
 ========
 guid: 76876eec3c1bf6a43b70d9e153dd40fb
