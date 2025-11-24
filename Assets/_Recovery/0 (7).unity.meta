@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_Recovery/0 (7).unity.meta
 guid: 8337350118a1ff64fa77f80de49a39d3
 DefaultImporter:
+========
+guid: 78ac00fd0198c9c498769fff9dcf5bf7
+PrefabImporter:
+>>>>>>>> 11668ad512c8fa59f28501ac07546c0c2859e4ad:Assets/Prefabs/BendedTree.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
