@@ -17,7 +17,7 @@ public class LightDashObject : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        player = GetComponentInParent<PlayerMov2>().gameObject;
+        player = GetComponentInParent<MovementPlayables>().gameObject;
         playerModel = FindAnyObjectByType<PlayerAnimEventsHandler>().gameObject;
     }
 

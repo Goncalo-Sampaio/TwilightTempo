@@ -45,3 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicBomb
   musicBombProjectile: {fileID: 5814675405232539316, guid: ebc3cd2f29102ae4495b1d119365d1dc, type: 3}
+  delay: 0.33
+  castPosition: {x: 0, y: 0.25, z: 1}
