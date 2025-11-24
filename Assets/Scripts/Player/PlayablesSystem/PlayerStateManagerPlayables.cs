@@ -56,14 +56,19 @@ public class PlayerStateManagerPlayables : MonoBehaviour
         //playerAnimator.SetBool("Running", false);
     }
 
-    public void SetVelocity(float velocity, float maxSpeed)
+    public void SetVelocity(float velocity, float maxSpeed, bool grounded)
     {
         //playerAnimator.SetFloat("Velocity", velocity);
-        animationSystem.UpdateLocomotion(velocity, maxSpeed);
+        animationSystem.UpdateLocomotion(velocity, maxSpeed, grounded);
     }
 
     public void Attack(AnimationClip attackClip)
     {
         animationSystem.PlayOneShot(attackClip);
+    }
+
+    public void Jump(AnimationClip jumpClip)
+    {
+        animationSystem.PlayJump(jumpClip);
     }
 }

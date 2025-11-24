@@ -3,7 +3,9 @@ using UnityEngine;
 public class PlayerAnimEventsHandler : MonoBehaviour
 {
     [SerializeField]
-    private Collider playerDamageCollider;
+    private Collider playerWeaponCollider;
+    [SerializeField]
+    private Collider playerWeaponCollider2;
 
     private PlayerStateManagerPlayables stateManagerPlayables;
     private PlayerCombatPlayables playerCombatPlayables;
@@ -14,15 +16,40 @@ public class PlayerAnimEventsHandler : MonoBehaviour
         playerCombatPlayables = GetComponentInParent<PlayerCombatPlayables>();
     }
 
-    public void ActivateWeapon()
+    public void ActivateWeapon(int weapon)
     {
-        playerDamageCollider.enabled = true;
+        if (weapon == 0)
+        {
+            playerWeaponCollider.enabled = true;
+        }
+        else if (weapon == 1)
+        {
+            playerWeaponCollider2.enabled = true;
+        }
+        else if (weapon == 2)
+        {
+            playerWeaponCollider.enabled = true;
+            playerWeaponCollider2.enabled = true;
+        }
+
         playerCombatPlayables.EnableCombo();
     }
 
-    public void DeactivateWeapon()
+    public void DeactivateWeapon(int weapon)
     {
-        playerDamageCollider.enabled = false;
+        if (weapon == 0)
+        {
+            playerWeaponCollider.enabled = false;
+        }
+        else if (weapon == 1)
+        {
+            playerWeaponCollider2.enabled = false;
+        }
+        else if (weapon == 2)
+        {
+            playerWeaponCollider.enabled = false;
+            playerWeaponCollider2.enabled = false;
+        }
     }
 
     public void ActivateMovement()

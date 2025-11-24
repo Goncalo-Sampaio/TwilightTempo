@@ -9,6 +9,8 @@ public class PlayerCombatPlayables : MonoBehaviour
     [SerializeField]
     private AnimationClip[] attacks;
     [SerializeField]
+    private ParticleSystem[] attackVFX;
+    [SerializeField]
     private float[] attackExitTimers;
     private float lastComboEnd;
     private int comboCounter;
@@ -117,11 +119,29 @@ public class PlayerCombatPlayables : MonoBehaviour
 
     public void EnableCombo()
     {
+        PlayVFX(comboCounter - 1);
         canCombo = true;
     }
 
     public void DisableCombo()
     {
         canCombo = false;
+    }
+
+    private void PlayVFX(int counter)
+    {
+        if (counter  == 0)
+        {
+            attackVFX[0].Play();
+        }
+        else if (counter == 1)
+        {
+            attackVFX[1].Play();
+        }
+        else if (counter == 2)
+        {
+            attackVFX[2].Play();
+            attackVFX[3].Play();
+        }
     }
 }
