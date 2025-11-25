@@ -7,7 +7,7 @@ public class Tower : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Handles.Label(transform.position + Vector3.up * (radius +.2f), $"radius = {radius}");
+        //Handles.Label(transform.position + Vector3.up * (radius +.2f), $"radius = {radius}");
         Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

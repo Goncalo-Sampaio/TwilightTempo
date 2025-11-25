@@ -44,7 +44,7 @@ public class PlayerDebbuger : MonoBehaviour
         if (!displayText) return;
         else
         {
-            Handles.Label(orientation.transform.position
+            /*Handles.Label(orientation.transform.position
                 + orientation.transform.forward * orientLineLenght / 2
                 + Vector3.up * orientLineHeightOffset
                 + Vector3.up * .2f
@@ -53,7 +53,7 @@ public class PlayerDebbuger : MonoBehaviour
                 + player.transform.forward * playerLineLenght / 2
                 + Vector3.up * playerLineHeightOffset
                 + Vector3.up * .2f
-                , $"PLAYER");
+                , $"PLAYER");*/
 
 
         }

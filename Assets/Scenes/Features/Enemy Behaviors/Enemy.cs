@@ -296,7 +296,7 @@ public class Enemy : Entity
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Handles.Label(transform.position + Vector3.up * (chaseTriggerDistance + .2f), $"Trigger Distance = {chaseTriggerDistance}");
+        //Handles.Label(transform.position + Vector3.up * (chaseTriggerDistance + .2f), $"Trigger Distance = {chaseTriggerDistance}");
         Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, chaseTriggerDistance);
         Gizmos.color = Color.orange;
         Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, stoppingDistance);
