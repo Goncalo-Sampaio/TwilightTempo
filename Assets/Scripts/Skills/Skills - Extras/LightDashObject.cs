@@ -14,6 +14,16 @@ public class LightDashObject : MonoBehaviour
 
     private float horizontalInput;
 
+    [SerializeField]
+    private LayerMask enemyLayer;
+
+    private GaugeManager gaugeManager;
+
+    private void Awake()
+    {
+        gaugeManager = FindAnyObjectByType<GaugeManager>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,6 +49,15 @@ public class LightDashObject : MonoBehaviour
         if (timeToDie < 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if ((enemyLayer.value & (1 << other.transform.gameObject.layer)) > 0)
+        {
+            Debug.Log("Hit");
+            gaugeManager.IncreaseGauge(10f, SkillAttunement.Light);
         }
     }
 }

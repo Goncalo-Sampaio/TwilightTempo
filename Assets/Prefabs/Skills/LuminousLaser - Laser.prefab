@@ -71,6 +71,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LuminousLaserLaser
   timeToDie: 1.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!95 &4037086033212246696
 Animator:
   serializedVersion: 7

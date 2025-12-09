@@ -10,5 +10,6 @@ public enum PlayerStates
     Dashing,
     Skill,
     Hit,
-    Knockback
+    Knockback,
+    Finisher
 }

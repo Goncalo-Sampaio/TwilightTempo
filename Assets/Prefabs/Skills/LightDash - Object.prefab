@@ -166,6 +166,9 @@ MonoBehaviour:
   velocity: 20
   rotationSpeed: 100
   timeToDie: 1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!135 &-5162298270933920504
 SphereCollider:
   m_ObjectHideFlags: 0

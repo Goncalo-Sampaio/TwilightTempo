@@ -15,8 +15,13 @@ public class GaugeManager : MonoBehaviour
     private GameObject finisher;
     [SerializeField]
     private Animator animator;
+    [SerializeField]
+    private AnimationClip finisherAnimation;
+    [SerializeField]
+    private PlayerCinematics playerCinematics;
 
     private PlayerStateManagerPlayables playerStateManager;
+
 
     Dictionary<SkillAttunement, float> attunementCharges = new Dictionary<SkillAttunement, float>();
 
@@ -37,14 +42,7 @@ public class GaugeManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R) && finisherReady)
         {
-            finisherReady = false;
-            currentGauge = 0;
-            foreach (var item in attunementCharges.Keys.ToList())
-            {
-                attunementCharges[item] = 0;
-            }
-            uiManager.ActivateFinisher(finisherReady);
-            uiManager.ChangeGauge(currentGauge);
+            ResetGauge();
             StartCoroutine(ActivateFinisherCoroutine());
         }
     }
@@ -89,13 +87,15 @@ public class GaugeManager : MonoBehaviour
 
     private void ActivateForm(SkillAttunement attunement)
     {
-
+        ResetGauge();
+        Debug.LogWarning("Light Form Active");
     }
 
     private IEnumerator ActivateFinisherCoroutine()
     {
-        playerStateManager.SetCurrentState(PlayerStates.Skill);
-        animator.CrossFadeInFixedTime("Finisher", 0.25f, 0, 0.0f, 0.0f);
+        playerStateManager.SetCurrentState(PlayerStates.Finisher);
+        playerStateManager.Attack(finisherAnimation);
+        playerCinematics.ActivateFinisher();
         yield return new WaitForSeconds(1.4f);
 
         for (int i = 0; i < finisher.transform.childCount; i++)
@@ -110,5 +110,17 @@ public class GaugeManager : MonoBehaviour
         {
             finisher.transform.GetChild(i).gameObject.SetActive(false);
         }
+    }
+
+    private void ResetGauge()
+    {
+        finisherReady = false;
+        currentGauge = 0;
+        foreach (var item in attunementCharges.Keys.ToList())
+        {
+            attunementCharges[item] = 0;
+        }
+        uiManager.ActivateFinisher(finisherReady);
+        uiManager.ChangeGauge(currentGauge);
     }
 }

@@ -10,6 +10,12 @@ public class MusicBombProjectile : MonoBehaviour
     private LayerMask enemyLayer;
 
     private bool moving = true;
+    private GaugeManager gaugeManager;
+
+    private void Awake()
+    {
+        gaugeManager = FindAnyObjectByType<GaugeManager>();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,6 +49,7 @@ public class MusicBombProjectile : MonoBehaviour
         {
             Debug.Log("Hit");
             Explosion();
+            gaugeManager.IncreaseGauge(10f, SkillAttunement.None);
         }
     }
 }
