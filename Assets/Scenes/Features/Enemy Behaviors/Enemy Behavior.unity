@@ -2433,6 +2433,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2483641907826158213, guid: 08a7a91c46ebf644e80d62a831a09c71, type: 3}
   m_PrefabInstance: {fileID: 1281461711}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &453267506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 453267508}
+  - component: {fileID: 453267507}
+  m_Layer: 0
+  m_Name: Wandering Area
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &453267507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453267506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f35ad777f89d624792526dfd3690d6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Area
+  radius: 10
+--- !u!4 &453267508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453267506}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.26, y: 2.89939, z: -7.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &458332078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2483641907826158213, guid: 08a7a91c46ebf644e80d62a831a09c71, type: 3}
@@ -7906,6 +7951,7 @@ GameObject:
   - component: {fileID: 1688913557}
   - component: {fileID: 1688913556}
   - component: {fileID: 1688913561}
+  - component: {fileID: 1688913564}
   - component: {fileID: 1688913555}
   - component: {fileID: 1688913562}
   m_Layer: 0
@@ -8148,6 +8194,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyReferences
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
+--- !u!114 &1688913564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688913553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51b85298cb4329447be33113a1b3db43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyNavigation
+  arrivedDistance: 0.1
+  area: {fileID: 453267507}
+  maxWanderTimer: 10
+  randomWaitTimes: 1
+  maxWaitTime: 5
+  waitTimerRange: {x: 4.159292, y: 6.371682}
 --- !u!1001 &1689065623
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10563,3 +10627,4 @@ SceneRoots:
   - {fileID: 522718798}
   - {fileID: 110608228}
   - {fileID: 275231788}
+  - {fileID: 453267508}
