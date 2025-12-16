@@ -162,6 +162,11 @@ public class MovementPlayables : MonoBehaviour
             falling = true;
         }
 
+        if (currentPlayerState > PlayerStates.Falling)
+        {
+            return;
+        }
+
         //when to jump
         if (Input.GetKeyDown(KeyCode.Space) && readyToJump && grounded)
         {

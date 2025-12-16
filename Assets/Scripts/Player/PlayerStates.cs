@@ -11,5 +11,6 @@ public enum PlayerStates
     Skill,
     Hit,
     Knockback,
-    Finisher
+    Finisher,
+    Teleporting
 }
