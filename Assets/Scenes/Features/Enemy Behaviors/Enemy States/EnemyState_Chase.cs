@@ -3,32 +3,52 @@ using UnityEngine;
 public class EnemyState_Chase : IState
 {
     private EnemyReferences enemyReferences;
-    public EnemyState_Chase(EnemyReferences enemyReferences)
+    private EnemyNavigation enemyNav;
+
+    private Transform playerRef;
+
+    private float chaseUpdateFrequency; // via a scriptable object
+    private float chaseTimer;
+    public EnemyState_Chase(EnemyReferences enemyReferences,Transform player,float chaseUpdateFrequency)
     {
         this.enemyReferences = enemyReferences;
+        enemyNav = enemyReferences.enemyNavigation;
+        playerRef = player;        
+        this.chaseUpdateFrequency = chaseUpdateFrequency;
     }
     public void OnEnter()
     {
         Debug.Log("Chase OnEnter");
+        chaseTimer = chaseUpdateFrequency;
+    }
+    public void Tick()
+    {
+        Debug.Log($"Chase Tick. Remaining distance: {enemyNav.NavMeshDistanceFromTarget()}");
+        
+        if (ChaseUpdate()) enemyNav.MoveTo(playerRef.position);
     }
 
     public void OnExit()
     {
         Debug.Log("Chase OnExit");
+        chaseTimer = chaseUpdateFrequency;
     }
 
-    public void Tick()
-    {
-        Debug.Log("Chase Tick");
-    }
+    
     public Color GizmoColor()
     {
         return Color.purple;
     }
-    //go trough Navigation Class for this. Not directly
-    public bool HasArrivedAtTarget()
+    public bool Arrived(float minDistance) => enemyReferences.enemyNavigation.HasArrivedAtTarget(minDistance);
+    private bool ChaseUpdate()
     {
-        return enemyReferences.navMeshAgent.remainingDistance < 0.1f; //switch this out with editable variable
+        chaseTimer -= Time.deltaTime;
+        if (chaseTimer <= 0f)
+        {
+            chaseTimer = chaseUpdateFrequency;
+            return true;
+        }
+        else return false;
     }
 
 }

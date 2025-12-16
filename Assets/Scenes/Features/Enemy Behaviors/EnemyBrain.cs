@@ -6,9 +6,22 @@ public class EnemyBrain : MonoBehaviour
 {
     //Handles high level logic. and calls subcomponent methods    
     //Pools data from other subcomponents to execute desicions
+    [HideInInspector]public bool engaged = false;
+    public float forgetTimmer = 5f;
+    private float forgetTimmerCountdown;
+    [Header("CHASE params")]
+    [SerializeField] private Transform player;
+    [SerializeField] private float chaseUpdateFrequency = 0.2f;
 
+    private bool playerInsideTrigger = false;
+
+    [Header("COMBAT params")]
+    [SerializeField] private float attackUpdateFrequency = 0.2f;
+    [SerializeField] private float attackRange = 2f;
     //References
     private EnemyReferences enemyReferences;
+
+    //Difference between IDDLE TO CHASE VS COMBAT TO CHASE is if the enemy was previously engaged or not. Or rather if they were "RECENTLY" ATTACKED. we need a new bool
     //Still needs:
     //PATHING CLASS
     //ANIMATOR CLASS
@@ -19,19 +32,21 @@ public class EnemyBrain : MonoBehaviour
     
     private void Start()
     {
+        forgetTimmerCountdown = forgetTimmer;
         enemyReferences = GetComponent<EnemyReferences>();
         stateMachine = new StateMachine();
 
         //STATES
         var idle = new EnemyState_Idle(enemyReferences);
-        var chase = new EnemyState_Chase(enemyReferences);
-        var combat = new EnemyState_Combat(enemyReferences); 
+        var chase = new EnemyState_Chase(enemyReferences, player, chaseUpdateFrequency);
+        var combat = new EnemyState_Combat(enemyReferences, player, attackUpdateFrequency); 
         var delay = new EnemyState_Delay(2f);
 
         //TRANSITIONS
-        At(idle, chase, () => OnPlayerDetected);
-        At(chase, idle, () => !OnPlayerDetected);
-
+        At(idle, chase, () => PlayerDetected()); //This will update inside an enumerator. Ideally checked inside a fixedUpdate
+        At(chase, idle, () => !playerInsideTrigger && !engaged);
+        At(chase, combat, () => CloseEnoughToAttack()); //is within attackDistance
+        At(combat, chase, () => !CloseEnoughToAttack() && engaged); //Outside attack range but still within line of sight
         //START STATE
         stateMachine.SetState(idle);
 
@@ -40,13 +55,52 @@ public class EnemyBrain : MonoBehaviour
         void Any(IState to,Func<bool> condition) => stateMachine.AddAnyTransition(to, condition);
     }
 
+    
+    /// <summary>
+    /// Player is inside enemie's trigger distance AND has line of sight
+    /// </summary>
+    /// <returns></returns>
+    private bool PlayerDetected()
+    {        
+        if (playerInsideTrigger) return enemyReferences.enemyNavigation.HasLineOfSight(player.position);
+        else return false;
+    }
+    private bool CloseEnoughToAttack()
+    {
+        return enemyReferences.enemyNavigation.LinearDistanceFromTarget(player.position) <= attackRange;
+    }
+    
+    
     private void Update()
     {
         stateMachine.Tick();
+        ShortTermMemory();
+
+
     }
     private void FixedUpdate()
     {
-        OnPlayerDetected = OnPlayerClose();
+        //OnPlayerDetected = OnPlayerVisible();
+        playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideChaseDistance();
+
+
+    }
+    private void ShortTermMemory()
+    {
+        
+        //Reset timer
+        if (PlayerDetected())
+        {
+            engaged = true;
+            forgetTimmerCountdown = forgetTimmer;
+        }
+        else
+        {
+            forgetTimmerCountdown -= Time.deltaTime;
+        }
+        if (forgetTimmerCountdown <= 0f) engaged = false;
+        Debug.Log($"Forget me timer: {forgetTimmerCountdown}");
+
     }
 
     private void OnDrawGizmos()
@@ -57,56 +111,11 @@ public class EnemyBrain : MonoBehaviour
             Gizmos.DrawSphere(transform.position + Vector3.up * 3, 0.4f);
         }
     }
-    //Move this to its own component and then add a ref to the EnemyReferences.class
-    private bool playerInsideTrigger = false;
-    [SerializeField] private LayerMask layerMask;
-    private Transform detectedPlayer;
-    public bool OnPlayerDetected { get; private set; } = false;
-    public bool OnPlayerClose()
-    {
-        if (!playerInsideTrigger) return false;
-        else
-        {
-            //Make sure to also include line of sight mwaybe? Using the dotP
-            RaycastHit hit;
-            //This could be just one check:
-            //if hits anything
-            if (Physics.Raycast(transform.position, (detectedPlayer.position - transform.position).normalized, out hit, Mathf.Infinity) && (hit.transform.gameObject.tag == "Player"))
-            {
-                //if hits object tagged with "Player"
-                if (hit.transform.gameObject.tag == "Player")
-                {
-                    Debug.DrawRay(transform.position, (detectedPlayer.position - transform.position).normalized * hit.distance, Color.yellow);
-                    Debug.Log("Player Hit");
-                    return true;
-                }
-            }
-            //if hit nothing:
-            
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
-            Debug.Log("No line of sight");            
-            return false;
+    
 
 
-        }
-        
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            detectedPlayer = other.transform;
-            playerInsideTrigger = true;
-        }
+   
 
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            //detectedPlayer = null; //Not sure if im optimizing anything by removing the reference
-            playerInsideTrigger = false;
-        }
-    }
+
 
 }

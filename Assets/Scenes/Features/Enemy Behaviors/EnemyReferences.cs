@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[DisallowMultipleComponent]
 public class EnemyReferences : MonoBehaviour
 {
-    [HideInInspector] public NavMeshAgent navMeshAgent;
-    [HideInInspector] public Animator animator;
-
+    //[HideInInspector] public NavMeshAgent navMeshAgent;
+    //[SerializeField] public Animator animator; //Activate this when we get an animator   
+    [HideInInspector] public EnemyAttack enemeyAttack;
+    [HideInInspector] public EnemyNavigation enemyNavigation;
+    
     private void Awake()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        enemyNavigation = GetComponent<EnemyNavigation>();
+        enemeyAttack = GetComponent<EnemyAttack>();
+        //navMeshAgent = GetComponent<NavMeshAgent>();
         //animator = GetComponent<Animator>();
     }
 }

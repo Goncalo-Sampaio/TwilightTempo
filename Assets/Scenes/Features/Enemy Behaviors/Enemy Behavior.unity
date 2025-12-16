@@ -182,10 +182,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1081260657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 5, y: -1}
+  m_SizeDelta: {x: 10, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &24212140
 MonoBehaviour:
@@ -1228,10 +1228,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1081260657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 5, y: 3}
+  m_SizeDelta: {x: 10, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &178162929
 MonoBehaviour:
@@ -3713,6 +3713,8 @@ MonoBehaviour:
   uiManager: {fileID: 0}
   finisher: {fileID: 1682528278}
   animator: {fileID: 1468531972}
+  finisherAnimation: {fileID: 0}
+  playerCinematics: {fileID: 0}
 --- !u!1 &608982133
 GameObject:
   m_ObjectHideFlags: 0
@@ -5376,7 +5378,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1199109360
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7947,10 +7949,11 @@ GameObject:
   - component: {fileID: 1688913560}
   - component: {fileID: 1688913559}
   - component: {fileID: 1688913558}
-  - component: {fileID: 1688913563}
   - component: {fileID: 1688913557}
   - component: {fileID: 1688913556}
+  - component: {fileID: 1688913563}
   - component: {fileID: 1688913561}
+  - component: {fileID: 1688913565}
   - component: {fileID: 1688913564}
   - component: {fileID: 1688913555}
   - component: {fileID: 1688913562}
@@ -8156,9 +8159,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfe14d07d337e24fa89427968a7d728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 8
+  engaged: 0
+  forgetTimmer: 5
+  player: {fileID: 534304908}
+  chaseUpdateFrequency: 0.2
+  attackUpdateFrequency: 0.2
+  attackRange: 2
 --- !u!135 &1688913562
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -8192,8 +8198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1938ac5dde0133249b19bdc15116c21c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyReferences
-  navMeshAgent: {fileID: 0}
-  animator: {fileID: 0}
+  enemeyAttack: {fileID: 0}
+  enemyNavigation: {fileID: 0}
 --- !u!114 &1688913564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8206,12 +8212,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51b85298cb4329447be33113a1b3db43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyNavigation
+  debuger: 1
   arrivedDistance: 0.1
-  area: {fileID: 453267507}
-  maxWanderTimer: 10
-  randomWaitTimes: 1
-  maxWaitTime: 5
-  waitTimerRange: {x: 4.159292, y: 6.371682}
+--- !u!114 &1688913565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688913553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c54440859c49d4e8219608d3bab913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
+  attackAnimator: {fileID: 1595537640}
 --- !u!1001 &1689065623
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9054,10 +9069,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1081260657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 5, y: 1}
+  m_SizeDelta: {x: 10, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1932216070
 MonoBehaviour:
