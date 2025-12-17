@@ -11,7 +11,7 @@ public class EnemyReferences : MonoBehaviour
     private void Awake()
     {
         enemyNavigation = GetComponent<EnemyNavigation>();
-        enemeyAttack = GetComponent<EnemyAttack>();
+        enemeyAttack = GetComponentInChildren<EnemyAttack>();
         //navMeshAgent = GetComponent<NavMeshAgent>();
         //animator = GetComponent<Animator>();
     }

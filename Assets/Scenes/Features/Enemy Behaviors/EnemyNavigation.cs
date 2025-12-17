@@ -7,9 +7,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyNavigation : MonoBehaviour
 {
-    [SerializeField] private bool debuger = true;
-    private NavMeshAgent agent;
-    private Transform playerRef;
+    [SerializeField] private bool debugger = true;
+    private NavMeshAgent agent;    
     private bool playerInsideTrigger = false;
     //[HideInInspector]public bool hasLineOfSight = false;
     [Tooltip("Minimum distance from destination that the agent is considered as \"having arrived\"")]
@@ -74,11 +73,12 @@ public class EnemyNavigation : MonoBehaviour
     public void LookAtTarget(Vector3 target) => transform.LookAt(target);
     
     public float NavMeshDistanceFromTarget() => agent.remainingDistance;
-    
+
     public float LinearDistanceFromTarget(Vector3 target) => Vector3.Distance(transform.position, target);
 
     //Only call this if "playerInsideTrigger" is true
     //This has to update a bool inside a FixedUpdate
+    //
     public bool HasLineOfSight(Vector3 targetPos, string targetTag = "Player")
     {
         Debug.Log("HasLineOfSight Called");
@@ -91,12 +91,12 @@ public class EnemyNavigation : MonoBehaviour
                 //if hits object tagged with "Player"
                 if (hit.transform.gameObject.tag == targetTag)
                 {
-                    if (debuger) DebugLineOfSight(true, targetPos, hit);
+                    if (debugger) DebugLineOfSight(true, targetPos, hit);
                     return true;
                 }
             }
             //if hit nothing:
-            if (debuger) DebugLineOfSight(false, targetPos, hit);
+            if (debugger) DebugLineOfSight(false, targetPos, hit);
 
             
             return false;

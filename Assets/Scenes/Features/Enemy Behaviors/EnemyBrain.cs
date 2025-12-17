@@ -21,7 +21,7 @@ public class EnemyBrain : MonoBehaviour
     //References
     private EnemyReferences enemyReferences;
 
-    //Difference between IDDLE TO CHASE VS COMBAT TO CHASE is if the enemy was previously engaged or not. Or rather if they were "RECENTLY" ATTACKED. we need a new bool
+    //Difference between IDLE TO CHASE VS COMBAT TO CHASE is if the enemy was previously engaged or not. Or rather if they were "RECENTLY" ATTACKED. we need a new bool
     //Still needs:
     //PATHING CLASS
     //ANIMATOR CLASS
