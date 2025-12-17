@@ -7,9 +7,10 @@ public class EnemyReferences : MonoBehaviour
     //[SerializeField] public Animator animator; //Activate this when we get an animator   
     [HideInInspector] public EnemyAttack enemeyAttack;
     [HideInInspector] public EnemyNavigation enemyNavigation;
-    
+    [HideInInspector] public EnemyHealth enemyHealth;
     private void Awake()
     {
+        enemyHealth = GetComponent<EnemyHealth>();
         enemyNavigation = GetComponent<EnemyNavigation>();
         enemeyAttack = GetComponentInChildren<EnemyAttack>();
         //navMeshAgent = GetComponent<NavMeshAgent>();

@@ -25,9 +25,11 @@ public class EnemyAttack : MonoBehaviour
         
         else
         {   
+            //use layer overrides to exclude self from detection
             //if player hit     
             if (collision.gameObject.tag == collisionTag)
             {
+                collision.gameObject.GetComponent<PlayerHealth>().Damage();
                 //call .TakeDamage() on its "Health" component
                 
             }

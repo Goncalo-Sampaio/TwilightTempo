@@ -47,6 +47,7 @@ public class EnemyBrain : MonoBehaviour
         At(chase, idle, () => !playerInsideTrigger && !engaged);
         At(chase, combat, () => CloseEnoughToAttack()); //is within attackDistance
         At(combat, chase, () => !CloseEnoughToAttack() && engaged); //Outside attack range but still within line of sight
+        //(delay,() => enemyReferences.enemyHealth.dead);
         //START STATE
         stateMachine.SetState(idle);
 
