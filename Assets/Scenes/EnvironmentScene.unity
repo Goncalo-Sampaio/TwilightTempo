@@ -5160,6 +5160,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lantern
       objectReference: {fileID: 0}
+    - target: {fileID: 5376614378096899329, guid: 016dbc2bf0234754fa4ba3cdad20d8e8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d61dc4803f0c871469577877b7eb37df, type: 2}
+    - target: {fileID: 8828193597049168286, guid: 016dbc2bf0234754fa4ba3cdad20d8e8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d61dc4803f0c871469577877b7eb37df, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
