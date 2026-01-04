@@ -50,8 +50,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 797931027582207176, guid: 4084cc9a9242cb94b9c8fbca559265e6, type: 3}
       propertyPath: m_Name
-      value: Lantern Variant
+      value: lantern_w_light
       objectReference: {fileID: 0}
+    - target: {fileID: 8041254077314508687, guid: 4084cc9a9242cb94b9c8fbca559265e6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8c91ccbf8f0d19b448416ae6bccf68dd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -83,7 +87,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5743489203244645439, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_Intensity
-      value: 5.25
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7460435263427437900, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_LocalScale.x
@@ -99,15 +103,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7460435263427437900, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.022387067
+      value: 0.72
       objectReference: {fileID: 0}
     - target: {fileID: 7460435263427437900, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.6341422
+      value: 2.487
       objectReference: {fileID: 0}
     - target: {fileID: 7460435263427437900, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.04925691
+      value: -0.32
       objectReference: {fileID: 0}
     - target: {fileID: 7460435263427437900, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_LocalRotation.w
