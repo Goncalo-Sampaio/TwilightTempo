@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7191431841232977309}
   - component: {fileID: 6341045373820515951}
   m_Layer: 0
-  m_Name: Crystal
+  m_Name: crystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
