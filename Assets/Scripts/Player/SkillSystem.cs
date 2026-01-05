@@ -85,6 +85,12 @@ public class SkillSystem : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2") && state < PlayerStates.Skill)
         {
+            //HARDCODED for now
+            if (currentlyActiveSlot == 1 ||  currentlyActiveSlot == 2 || currentlyActiveSlot == 3)
+            {
+                return;
+            }
+
             skillSlots[currentlyActiveSlot].ActivateSlot();
         }
     }

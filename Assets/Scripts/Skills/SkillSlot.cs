@@ -1,3 +1,6 @@
+using System;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SkillSlot : MonoBehaviour
@@ -6,6 +9,9 @@ public class SkillSlot : MonoBehaviour
     private Animator animator;
     [SerializeField]
     private GameObject player;
+    [SerializeField]
+    private GameObject skillTimer;
+    private TextMeshProUGUI skillTimerText;
     private PlayerStateManagerPlayables playerStateManagerPlayables;
     private PlayerStates currentState;
 
@@ -32,6 +38,7 @@ public class SkillSlot : MonoBehaviour
     {
         playerStateManagerPlayables = GetComponentInParent<PlayerStateManagerPlayables>();
         currentState = playerStateManagerPlayables.CurrentState;
+        skillTimerText = skillTimer.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void FixedUpdate()
@@ -44,6 +51,14 @@ public class SkillSlot : MonoBehaviour
         if (currentCooldown < 0)
         {
             currentCooldown = 0;
+            skillTimer.gameObject.SetActive(false);
+            skillTimerText.gameObject.SetActive(false);
+        }
+        else
+        {
+            skillTimerText.text = TimeSpan.FromSeconds(currentCooldown).ToString("ss").TrimStart('0');
+            skillTimer.gameObject.SetActive(true);
+            skillTimerText.gameObject.SetActive(true);
         }
 
         if (animationTimer < 0)

@@ -35,6 +35,25 @@ public class EnemyAttack : MonoBehaviour
             }
         }
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //if player already being hit ignore.
+        // if not then detect player
+        if (playerHit) return;
+
+        else
+        {
+            //use layer overrides to exclude self from detection
+            //if player hit     
+            if (other.gameObject.tag == collisionTag)
+            {
+                other.gameObject.GetComponentInParent<PlayerHealth>().Damage();
+                //call .TakeDamage() on its "Health" component
+                Debug.Log("Hit");
+            }
+        }
+    }
+
 
 }

@@ -96,7 +96,7 @@ public class Enemy : Entity
         navMeshAgent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         _defaultEnemyCol = _enemyRenderer.material.color;        
-        FightManager.Instance.Enemies.Add(this); //Register this Enemy in fight manager. This should happen dinamicly and not at awake
+        //FightManager.Instance.Enemies.Add(this); //Register this Enemy in fight manager. This should happen dinamicly and not at awake
 
     }
     private void Start()

@@ -66,7 +66,7 @@ public class GaugeManager : MonoBehaviour
 
     private void CheckFormToActivate()
     {
-        if (attunementCharges[SkillAttunement.Music] > maxGauge / 2)
+        /*if (attunementCharges[SkillAttunement.Music] > maxGauge / 2)
         {
             ActivateForm(SkillAttunement.Music);
         }
@@ -82,7 +82,10 @@ public class GaugeManager : MonoBehaviour
         {
             finisherReady = true;
             uiManager.ActivateFinisher(finisherReady);
-        }
+        }*/
+
+        finisherReady = true;
+        uiManager.ActivateFinisher(finisherReady);
     }
 
     private void ActivateForm(SkillAttunement attunement)

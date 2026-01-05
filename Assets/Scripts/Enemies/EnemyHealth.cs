@@ -45,10 +45,10 @@ public class EnemyHealth : MonoBehaviour
         {
             Debug.Log("PlayerDamage");
 
-            Damage(10f);
-            
+            Damage(10f);      
         }
     }
+
     public void Damage(float damage)
     {
         currentHealth -= damage;

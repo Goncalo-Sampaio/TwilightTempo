@@ -639,7 +639,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbad0bb3bbaf8c74e8cad63e0d7f759a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 100
+  playerDamageLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  maxHealth: 50
   currentHealth: 0
   dead: 0
   progressionBlocker: {fileID: 0}
@@ -802,7 +805,7 @@ MonoBehaviour:
   forgetTimmer: 5
   player: {fileID: 0}
   chaseUpdateFrequency: 0.2
-  attackUpdateFrequency: 0.2
+  attackUpdateFrequency: 3
   attackRange: 2
 --- !u!114 &4658501540959810515
 MonoBehaviour:
@@ -1215,7 +1218,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
