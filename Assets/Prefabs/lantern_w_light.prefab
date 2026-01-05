@@ -81,13 +81,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: PointLight
       objectReference: {fileID: 0}
+    - target: {fileID: 4299114264868627611, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5743489203244645439, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_Range
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5743489203244645439, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_Intensity
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7460435263427437900, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_LocalScale.x
