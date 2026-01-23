@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using NaughtyAttributes;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -13,8 +14,11 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField]
     private ProgressionBlocker progressionBlocker;
 
+    private EnemyBrain brain;
+    public Transform player;
     void Start()
     {
+        brain = GetComponent<EnemyBrain>();
         dead = false;
         currentHealth = maxHealth;
 
@@ -44,8 +48,8 @@ public class EnemyHealth : MonoBehaviour
         if ((playerDamageLayer.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             Debug.Log("PlayerDamage");
-
-            Damage(10f);      
+            brain.KnockTest((transform.position - player.position +transform.up * .4f).normalized * 100f);
+            Damage(1f);      
         }
     }
 

@@ -293,18 +293,18 @@ public class Enemy : Entity
         Debug.Log($"{enemyName} died");
     }
     //Debugging:
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        //Handles.Label(transform.position + Vector3.up * (chaseTriggerDistance + .2f), $"Trigger Distance = {chaseTriggerDistance}");
-        Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, chaseTriggerDistance);
-        Gizmos.color = Color.orange;
-        Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, stoppingDistance);
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, attackrange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(attackPoint.position, attackPoint.position + debbugAttackDir * 2);
-    }
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    //Handles.Label(transform.position + Vector3.up * (chaseTriggerDistance + .2f), $"Trigger Distance = {chaseTriggerDistance}");
+    //    Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, chaseTriggerDistance);
+    //    Gizmos.color = Color.orange;
+    //    Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, stoppingDistance);
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, attackrange);
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawLine(attackPoint.position, attackPoint.position + debbugAttackDir * 2);
+    //}
 
 }
 

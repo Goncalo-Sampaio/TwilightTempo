@@ -65,10 +65,13 @@ public class EnemyNavigation : MonoBehaviour
     //[EnableIf("randomWaitTimes")][MinMaxSlider(0.0f, 10.0f)][SerializeField] private Vector2 waitTimerRange;
 
     public void ToggleAgentStart(bool toggle) => agent.isStopped = toggle;   
+    public void ToggleEnableAgent(bool toggle) => agent.enabled = toggle;
     public void MoveTo(Vector3 destination)
     {
         agent.SetDestination(destination);
     }
+
+    public void Warp(Vector3 position) => agent.Warp(position);
     
     public void LookAtTarget(Vector3 target) => transform.LookAt(target);
     
