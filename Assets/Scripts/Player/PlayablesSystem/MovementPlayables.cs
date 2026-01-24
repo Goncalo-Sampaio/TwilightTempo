@@ -98,7 +98,7 @@ public class MovementPlayables : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(grounded);
+        //Debug.Log(grounded);
 
         if (canCheckForGround)
         {

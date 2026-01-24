@@ -168,20 +168,20 @@ public class EnemyBrain : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        //Handles.Label(transform.position + Vector3.up * (chaseTriggerDistance + .2f), $"Trigger Distance = {chaseTriggerDistance}");
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    //Handles.Label(transform.position + Vector3.up * (chaseTriggerDistance + .2f), $"Trigger Distance = {chaseTriggerDistance}");
         
-        Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, triggerColliderRadius);
+    //    Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, triggerColliderRadius);
         
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, attackRange - attackRangeTolerance);
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, attackRange + attackRangeTolerance);
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawLine(attackPoint.position, attackPoint.position + debbugAttackDir * 2);
-    }
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, attackRange - attackRangeTolerance);
+    //    Gizmos.color = Color.cyan;
+    //    Gizmos.DrawWireSphere(transform.position + Vector3.up * -groundOffset, attackRange + attackRangeTolerance);
+    //    //Gizmos.color = Color.yellow;
+    //    //Gizmos.DrawLine(attackPoint.position, attackPoint.position + debbugAttackDir * 2);
+    //}
 
 
 

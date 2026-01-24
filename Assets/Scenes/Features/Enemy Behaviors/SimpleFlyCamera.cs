@@ -41,7 +41,7 @@ public class SimpleFlyCamera : MonoBehaviour
     {
         foreach (GameObject agent in agents)
         {
-            agent.GetComponent<NavigationTesting>().MoveTo(target.position);
+            agent.GetComponent<NavigationTesting>().SetPlayer(target);
             agent.GetComponent<NavMeshPathRuntime>().target = target;
         }
     }

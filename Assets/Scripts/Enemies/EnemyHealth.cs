@@ -47,7 +47,6 @@ public class EnemyHealth : MonoBehaviour
     {
         if ((playerDamageLayer.value & (1 << other.transform.gameObject.layer)) > 0)
         {
-            Debug.Log("PlayerDamage");
             brain.KnockTest((transform.position - player.position +transform.up * .4f).normalized * 100f);
             Damage(1f);      
         }
