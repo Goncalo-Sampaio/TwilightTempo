@@ -21,7 +21,7 @@ internal class ReturnToStockpile : IState
 
     public void OnEnter()
     {
-        _gatherer.StockPile = Object.FindObjectOfType<StockPile>();
+        _gatherer.StockPile = Object.FindFirstObjectByType<StockPile>();
         _navMeshAgent.enabled = true;
         _navMeshAgent.SetDestination(_gatherer.StockPile.transform.position);
         _animator.SetFloat(Speed, 1f);

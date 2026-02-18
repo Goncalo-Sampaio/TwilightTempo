@@ -81,7 +81,7 @@ public class Gatherer : MonoBehaviour
     {
         if (_gathered > 0)
         {
-            FindObjectOfType<WoodDropper>().Drop(_gathered, transform.position);
+            FindFirstObjectByType<WoodDropper>().Drop(_gathered, transform.position);
             _gathered = 0;
             OnGatheredChanged?.Invoke(_gathered);
         }

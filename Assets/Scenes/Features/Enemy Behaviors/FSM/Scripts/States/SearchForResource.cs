@@ -16,7 +16,7 @@ public class SearchForResource : IState
 
     private GatherableResource ChooseOneOfTheNearestResources(int pickFromNearest)
     {
-         return Object.FindObjectsOfType<GatherableResource>()
+         return Object.FindObjectsByType<GatherableResource>(FindObjectsSortMode.None)
              .OrderBy(t=> Vector3.Distance(_gatherer.transform.position, t.transform.position))
              .Where(t=> t.IsDepleted == false)
              .Take(pickFromNearest)

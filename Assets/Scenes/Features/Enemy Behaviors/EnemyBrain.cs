@@ -42,7 +42,7 @@ public class EnemyBrain : MonoBehaviour
     private void OnValidate()
     {
         groundOffset = GetComponent<CapsuleCollider>().height / 2;
-        triggerColliderRadius = GetComponent<SphereCollider>().radius;
+        //triggerColliderRadius = GetComponent<SphereCollider>().radius;
     }
     private void Start()
     {
