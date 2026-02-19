@@ -807,7 +807,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   player: {fileID: 0}
-  detectionDistance: 10.81
+  detectionDistance: 100
+  desiredVelocity: 0
+  steeringTarget: 0
 --- !u!114 &196003486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,7 +823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavMeshPathRuntime
   target: {fileID: 0}
-  lineWidth: 0.1
+  lineWidth: 0.05
   refreshRate: 0.1
 --- !u!120 &196003487
 LineRenderer:
@@ -1087,7 +1089,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   player: {fileID: 0}
-  detectionDistance: 10.81
+  detectionDistance: 100
+  desiredVelocity: 0
+  steeringTarget: 0
 --- !u!114 &259004051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1101,7 +1105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavMeshPathRuntime
   target: {fileID: 0}
-  lineWidth: 0.1
+  lineWidth: 0.05
   refreshRate: 0.1
 --- !u!120 &259004052
 LineRenderer:
@@ -2822,7 +2826,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   player: {fileID: 0}
-  detectionDistance: 10.81
+  detectionDistance: 100
+  desiredVelocity: 0
+  steeringTarget: 0
 --- !u!114 &1048163328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2836,7 +2842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavMeshPathRuntime
   target: {fileID: 0}
-  lineWidth: 0.1
+  lineWidth: 0.05
   refreshRate: 0.1
 --- !u!120 &1048163329
 LineRenderer:
@@ -3167,7 +3173,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   player: {fileID: 0}
-  detectionDistance: 10.81
+  detectionDistance: 100
+  desiredVelocity: 0
+  steeringTarget: 0
 --- !u!114 &1180929038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3181,7 +3189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavMeshPathRuntime
   target: {fileID: 0}
-  lineWidth: 0.1
+  lineWidth: 0.05
   refreshRate: 0.1
 --- !u!120 &1180929039
 LineRenderer:
@@ -3636,7 +3644,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   player: {fileID: 0}
-  detectionDistance: 10.81
+  detectionDistance: 100
+  desiredVelocity: 0
+  steeringTarget: 0
 --- !u!114 &1480803184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3650,7 +3660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavMeshPathRuntime
   target: {fileID: 0}
-  lineWidth: 0.1
+  lineWidth: 0.05
   refreshRate: 0.1
 --- !u!120 &1480803185
 LineRenderer:
@@ -4960,7 +4970,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   player: {fileID: 0}
-  detectionDistance: 10.81
+  detectionDistance: 100
+  desiredVelocity: 0
+  steeringTarget: 0
 --- !u!114 &1947293038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4974,7 +4986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavMeshPathRuntime
   target: {fileID: 0}
-  lineWidth: 0.1
+  lineWidth: 0.05
   refreshRate: 0.1
 --- !u!120 &1947293039
 LineRenderer:
@@ -5113,7 +5125,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   player: {fileID: 0}
-  detectionDistance: 10.81
+  detectionDistance: 100
+  desiredVelocity: 0
+  steeringTarget: 0
 --- !u!114 &1991195926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5127,7 +5141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavMeshPathRuntime
   target: {fileID: 0}
-  lineWidth: 0.1
+  lineWidth: 0.05
   refreshRate: 0.1
 --- !u!120 &1991195927
 LineRenderer:
@@ -5599,6 +5613,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1892119660}
     m_Modifications:
     - target: {fileID: 1629511759533500540, guid: b02c0047c18621442aa4c3478236b181, type: 3}
+      propertyPath: lineWidth
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1629511759533500540, guid: b02c0047c18621442aa4c3478236b181, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -5608,11 +5626,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8228773951894004202, guid: b02c0047c18621442aa4c3478236b181, type: 3}
       propertyPath: detectionDistance
-      value: 10.81
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8561990453156850636, guid: b02c0047c18621442aa4c3478236b181, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.74768
+      value: 7.31
       objectReference: {fileID: 0}
     - target: {fileID: 8561990453156850636, guid: b02c0047c18621442aa4c3478236b181, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5620,7 +5638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8561990453156850636, guid: b02c0047c18621442aa4c3478236b181, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.04412
+      value: 3.8
       objectReference: {fileID: 0}
     - target: {fileID: 8561990453156850636, guid: b02c0047c18621442aa4c3478236b181, type: 3}
       propertyPath: m_LocalRotation.w

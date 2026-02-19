@@ -68,5 +68,6 @@ public class NavMeshPathRuntime : MonoBehaviour
         line.positionCount = path.corners.Length;
         line.SetPositions(path.corners);
     }
+
 }
 

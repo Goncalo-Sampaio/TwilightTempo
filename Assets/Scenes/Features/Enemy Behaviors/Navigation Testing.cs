@@ -17,6 +17,9 @@ public class NavigationTesting : MonoBehaviour
     [SerializeField] private LayerMask playerDamageLayer;
     [SerializeField] private Transform player;
     [SerializeField] private float detectionDistance = 5f;
+    [Header("Debugg Gizmos")]
+    [SerializeField] private bool desiredVelocity;
+    [SerializeField] private bool steeringTarget;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -131,7 +134,7 @@ public class NavigationTesting : MonoBehaviour
         if ((playerDamageLayer.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             gotHit = true;
-            TakeDamage(10f,( transform.position - player.position + transform.up * .4f).normalized * 200f);
+            TakeDamage(10f,( transform.position - player.position + transform.up * .4f).normalized * 10f);
         }
     }
     //This should be called on player's weapon script not here
@@ -141,8 +144,18 @@ public class NavigationTesting : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, transform.position + agent.desiredVelocity.normalized * 5);
+        if (desiredVelocity)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, transform.position + (agent.desiredVelocity));
+
+        }
+        if(steeringTarget)
+        {
+            Gizmos.color = Color.purple;
+            Gizmos.DrawLine(transform.position, (agent.steeringTarget));
+        }
+        
     }
-    
+
 }
