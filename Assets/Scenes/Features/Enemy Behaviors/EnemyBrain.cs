@@ -1,3 +1,4 @@
+using DG.Tweening;
 using NaughtyAttributes;
 using System;
 using System.Collections;
@@ -38,18 +39,24 @@ public class EnemyBrain : MonoBehaviour
     private bool gettingKnockBacked = false;
     private float triggerColliderRadius;
     private float groundOffset;
-    
+
+    public string state;
     private void OnValidate()
     {
-        groundOffset = GetComponent<CapsuleCollider>().height / 2;
+        
         //triggerColliderRadius = GetComponent<SphereCollider>().radius;
     }
     private void Start()
     {
+        groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
         forgetTimmerCountdown = forgetTimmer;
         enemyReferences = GetComponent<EnemyReferences>();
         stateMachine = new StateMachine();
 
+        if (enemyReferences != null)
+        {
+            Debug.Log("enemyReferences not null");
+        }
         //STATES
         var idle = new EnemyState_Idle(enemyReferences);
         var chase = new EnemyState_Chase(enemyReferences, player, chaseUpdateFrequency);
@@ -64,31 +71,38 @@ public class EnemyBrain : MonoBehaviour
         //(delay,() => enemyReferences.enemyHealth.dead);
         //Make a knockedback STATE
         Any(delay, () => gettingKnockBacked);
+        At(delay, chase, () => PlayerDetected() && !gettingKnockBacked);
         //START STATE
         stateMachine.SetState(idle);
+        //delay needs exit condition
+
 
         //FUNCTIONS & CONDITIONS
         void At(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
         void Any(IState to,Func<bool> condition) => stateMachine.AddAnyTransition(to, condition);
     }
     [Button]
-    public void KnockTest() => KnockTest(200f * -transform.forward);
+    public void KnockTest() => KnockTest(25f * -transform.forward + transform.up);
     public void KnockTest(Vector3 force) => StartCoroutine("ApplyKnockBack", force);
     private IEnumerator ApplyKnockBack(Vector3 force)
     {
         gettingKnockBacked = true;
 
         yield return null; //wait one frame to make sure all courotines are stopped
-        enemyReferences.enemyNavigation.ToggleEnableAgent(false);
+        enemyReferences.enemyNavigation.ToggleAgentStopped(true); //stop agent navmesh
+        enemyReferences.enemyNavigation.ToggleEnableAgent(false); //disable agent
+        
         enemyReferences.GetComponent<Rigidbody>().useGravity = true;
         enemyReferences.GetComponent<Rigidbody>().isKinematic = false;
         enemyReferences.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
 
+        
         //only exit after the fixedUpdate frame is passed. To make sure the force is applied
         yield return new WaitForFixedUpdate();
-        float knockBackTime = Time.time; 
+        float knockBackTime = Time.time;
+        
         yield return new WaitUntil(() => enemyReferences.GetComponent<Rigidbody>().linearVelocity.magnitude < 0.05f || Time.time > knockBackTime + maxKnockBackTime); //wait until it stops moving.
-
+        
         yield return new WaitForSeconds(0.25f); //stun frames //consider adding a flash here
 
         //now reset:
@@ -101,7 +115,8 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.enemyNavigation.Warp(transform.position);
         //THEN AND ONLY THEN
         //enable the agent
-        enemyReferences.enemyNavigation.ToggleEnableAgent(true);
+        enemyReferences.enemyNavigation.ToggleEnableAgent(true); //enable agent
+        enemyReferences.enemyNavigation.ToggleAgentStopped(false); //start agent navmesh
 
         gettingKnockBacked = false;
     }
@@ -138,6 +153,8 @@ public class EnemyBrain : MonoBehaviour
     {
         //OnPlayerDetected = OnPlayerVisible();
         playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideChaseDistance();
+        
+
 
 
     }
@@ -155,7 +172,7 @@ public class EnemyBrain : MonoBehaviour
             forgetTimmerCountdown -= Time.deltaTime;
         }
         if (forgetTimmerCountdown <= 0f) engaged = false;
-        Debug.Log($"Forget me timer: {forgetTimmerCountdown}");
+        //Debug.Log($"Forget me timer: {forgetTimmerCountdown}");
 
     }
 

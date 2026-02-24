@@ -86,10 +86,7 @@ public class Enemy : Entity
     public StateChangeEvent OnStateChange;
 
     
-    private void OnValidate()
-    {
-        groundOffset = GetComponent<CapsuleCollider>().height / 2;
-    }
+    
 
     private void Awake()
     {
@@ -101,6 +98,7 @@ public class Enemy : Entity
     }
     private void Start()
     {
+        groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
         Debug.Log($"{enemyName} spawned");
         health = enemyHealth;
         timeTillDestroy = enemyTimeTillDestroy;

@@ -57,6 +57,7 @@ public class LightDashObject : MonoBehaviour
         if ((enemyLayer.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             Debug.Log("Hit");
+            other.GetComponentInParent<EnemyHealth>().Damage(35f);
             gaugeManager.IncreaseGauge(10f, SkillAttunement.Light);
         }
     }

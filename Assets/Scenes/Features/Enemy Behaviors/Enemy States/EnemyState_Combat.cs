@@ -23,7 +23,7 @@ public class EnemyState_Combat : IState
         Debug.Log("Combat");
         attackTimer = attackUpdateFrequency;
         //disable navigation
-        enemyReferences.enemyNavigation.ToggleAgentStart(true);
+        enemyReferences.enemyNavigation.ToggleAgentStopped(true);
     }
     public void Tick()
     {
@@ -39,7 +39,7 @@ public class EnemyState_Combat : IState
     {
         attackTimer = attackUpdateFrequency;
         //enable navigation:
-        enemyReferences.enemyNavigation.ToggleAgentStart(false);
+        enemyReferences.enemyNavigation.ToggleAgentStopped(false);
 
     }
     public Color GizmoColor()

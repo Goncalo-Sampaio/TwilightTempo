@@ -64,7 +64,7 @@ public class EnemyNavigation : MonoBehaviour
     //[DisableIf("randomWaitTimes")][SerializeField] private float maxWaitTime = 2f;
     //[EnableIf("randomWaitTimes")][MinMaxSlider(0.0f, 10.0f)][SerializeField] private Vector2 waitTimerRange;
 
-    public void ToggleAgentStart(bool toggle) => agent.isStopped = toggle;   
+    public void ToggleAgentStopped(bool toggle) => agent.isStopped = toggle;   
     public void ToggleEnableAgent(bool toggle) => agent.enabled = toggle;
     public void MoveTo(Vector3 destination)
     {

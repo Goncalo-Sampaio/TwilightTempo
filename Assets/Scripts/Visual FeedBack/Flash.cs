@@ -8,8 +8,8 @@ public class Flash : MonoBehaviour
 
     [SerializeField] private int flashIterations = 1;
     [SerializeField] private float maxFlashTime = 3f;
-    [SerializeField] private float flashSpeedMultiplier = 20f;
-    [SerializeField] private float flashFadeOutSpeed = 5f;
+    [SerializeField] private float flashSpeedMultiplier = 30f;
+    [SerializeField] private float flashFadeOutSpeed = 10f;
     
     [SerializeField] private float flashCurveMod = 1f;
 

@@ -12,6 +12,7 @@ public class EnemyState_Delay : IState
 
     public void OnEnter()
     {
+        Debug.Log("EnemyState_Delay.OnEnter()");
         deadLine = Time.time + waitForSeconds;
     }
 
@@ -22,7 +23,7 @@ public class EnemyState_Delay : IState
 
     public void Tick()
     {
-
+        Debug.Log("EnemyState_Delay.Tick()");
     }
     public Color GizmoColor()
     {

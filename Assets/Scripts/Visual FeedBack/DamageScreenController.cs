@@ -6,14 +6,22 @@ public class DamageScreenController : MonoBehaviour
 {
     [SerializeField]private CinemachineImpulseSource _impulseSource;
     [SerializeField]private Material screenDamageMat;
-    [SerializeField] private float impactLerpSpeed = 6f;//a good value
+    [SerializeField] private float impactLerpSpeed = 8f;//a good value
     private Coroutine screenDamageRoutine;
+    [Header("Vignette Radius")]
+    [SerializeField] private Vector2 fromMinFromMax = new Vector2(.85f,1f);
+    [SerializeField] private Vector2 toMinToMax = new Vector2(0.4f, -0.15f);
+    
 
     //Make this a static singleton so other objects can call the DamageEffect easier
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1)) ScreenDamageEffect(Random.Range(.1f, 1f));
+        //if (Input.GetMouseButtonDown(1)) ScreenDamageEffect(Random.Range(.1f, 1f));
+    }
+    public void ScreenDamageEffect(float intensity, Vector3 force)
+    {
+
     }
     public void ScreenDamageEffect(float intensity)
     {
@@ -21,18 +29,19 @@ public class DamageScreenController : MonoBehaviour
         {
             StopCoroutine(screenDamageRoutine);
         }
-        screenDamageRoutine = StartCoroutine(ScreenDamageRot(intensity));
+        Vector3 force = new Vector3(0f, -0.5f, -1f);
+        screenDamageRoutine = StartCoroutine(ScreenDamageRot(intensity, force));
     }
-    private IEnumerator ScreenDamageRot(float intensity)
+    private IEnumerator ScreenDamageRot(float intensity,Vector3 force)
     {
         //Camera Shake:
-        var velocity = new Vector3(0f, -0.5f, -1f);
-        velocity.Normalize();
-        _impulseSource.GenerateImpulse(velocity * intensity * 0.4f);
+        force.Normalize();
+        _impulseSource.GenerateImpulse(force * intensity * 0.4f);
+
         //Screen Effect:
-        float targetRadius = Remap(intensity, 0f, 1f, 0.4f, -0.15f);
+        float targetRadius = Remap(intensity, fromMinFromMax.x, fromMinFromMax.y, toMinToMax.x, toMinToMax.y);
         float currentRadius = 1; //No damage
-        //This section might need to be added with higher speed or just instant. Right now it takes too long to kick in. Lagging behind the camera shake:
+        
         for(float t = 0;currentRadius != targetRadius ;t += Time.deltaTime * impactLerpSpeed)
         {
             currentRadius = Mathf.Lerp(1, targetRadius, t);

@@ -49,6 +49,7 @@ public class MusicBombProjectile : MonoBehaviour
         {
             Debug.Log("Hit");
             Explosion();
+            other.GetComponentInParent<EnemyHealth>().Damage(35f);
             gaugeManager.IncreaseGauge(10f, SkillAttunement.None);
         }
     }

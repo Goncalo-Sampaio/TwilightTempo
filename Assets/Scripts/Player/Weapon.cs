@@ -14,6 +14,7 @@ public class Weapon : MonoBehaviour
         if ((enemyLayer.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             Debug.Log("Hit");
+            other.GetComponentInParent<EnemyHealth>().Damage(35f);
             Instantiate(hitParticles, transform.position, Quaternion.identity);
             gaugeManager.IncreaseGauge(10f, SkillAttunement.None);
         }
