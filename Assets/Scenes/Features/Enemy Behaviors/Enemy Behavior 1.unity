@@ -6809,6 +6809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DamageScreenController
   _impulseSource: {fileID: 1625749450}
   screenDamageMat: {fileID: 2100000, guid: 5b072a1b1ba81bd4e91e21a3dff959df, type: 2}
+  impactLerpSpeed: 6
 --- !u!4 &1625749449
 Transform:
   m_ObjectHideFlags: 0
