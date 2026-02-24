@@ -68,7 +68,7 @@ public class EnemyHealth : MonoBehaviour
         //Flash once
         flash.FlashForXIterations(1);
         brain.KnockTest((transform.position - player.position +transform.up * .4f).normalized * 10f);
-        transform.DOShakePosition(0.2f, 0.25f, 10);
+        transform.DOShakePosition(0.2f, 0.1f, 10);
 
     }
     public void Die()
