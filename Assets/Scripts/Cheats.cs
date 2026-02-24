@@ -7,11 +7,12 @@ public class Cheats : MonoBehaviour
     private GameObject player;
     [SerializeField]
     private Transform cheatTeleport;
+    [SerializeField] private bool pressEscapeToGoToMenu = true;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && pressEscapeToGoToMenu)
         {
             SceneManager.LoadScene(0);
         }
