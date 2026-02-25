@@ -56,24 +56,35 @@ public class EnemyBrain : MonoBehaviour
     public string state;
     private void OnValidate()
     {
-        
+
         //triggerColliderRadius = GetComponent<SphereCollider>().radius;
     }
 
-    
+    private void Awake()
+    {
+        stateMachine = new StateMachine();
+        enemyReferences = GetComponent<EnemyReferences>();
+    }
+
 
     private void Start()
     {
+        //Set the riggidbody to kinematic | set gravity to null on start
+        enemyReferences.rb.useGravity = false;
+        enemyReferences.rb.isKinematic = true;
+
         player = FindAnyObjectByType<PlayerHealth>().transform;
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
         forgetTimmerCountdown = forgetTimmer;
-        enemyReferences = GetComponent<EnemyReferences>();
-        stateMachine = new StateMachine();
+        
+        
 
+        /*
         if (enemyReferences != null)
         {
             Debug.Log("enemyReferences not null");
         }
+        */
         //STATES
         var idle = new EnemyState_Idle(enemyReferences);
         var chase = new EnemyState_Chase(enemyReferences, player, chaseUpdateFrequency);
@@ -109,9 +120,9 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.enemyNavigation.ToggleAgentStopped(true); //stop agent navmesh
         enemyReferences.enemyNavigation.ToggleEnableAgent(false); //disable agent
         
-        enemyReferences.GetComponent<Rigidbody>().useGravity = true;
-        enemyReferences.GetComponent<Rigidbody>().isKinematic = false;
-        enemyReferences.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+        enemyReferences.rb.useGravity = true;
+        enemyReferences.rb.isKinematic = false;
+        enemyReferences.rb.AddForce(force, ForceMode.Impulse);
 
         
         //only exit after the fixedUpdate frame is passed. To make sure the force is applied
@@ -123,10 +134,10 @@ public class EnemyBrain : MonoBehaviour
         yield return new WaitForSeconds(0.25f); //stun frames //consider adding a flash here
 
         //now reset:
-        enemyReferences.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-        enemyReferences.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        enemyReferences.GetComponent<Rigidbody>().useGravity = false;
-        enemyReferences.GetComponent<Rigidbody>().isKinematic = true;
+        enemyReferences.rb.linearVelocity = Vector3.zero;
+        enemyReferences.rb.angularVelocity = Vector3.zero;
+        enemyReferences.rb.useGravity = false;
+        enemyReferences.rb.isKinematic = true;
 
         //snap agent back to navmesh
         enemyReferences.enemyNavigation.Warp(transform.position);
