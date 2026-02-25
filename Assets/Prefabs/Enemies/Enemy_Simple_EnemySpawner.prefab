@@ -730,8 +730,9 @@ MonoBehaviour:
   playerDamageLayer:
     serializedVersion: 2
     m_Bits: 512
-  maxHealth: 100
+  maxHealth: 300
   currentHealth: 0
+  knockBackTaken: 5
   dead: 0
   progressionBlocker: {fileID: 0}
   player: {fileID: 0}
@@ -866,6 +867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ca52bca123102458c47c1c01048777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnerOnDestroyEnemy
+  enemySpawner: {fileID: 0}
 --- !u!1 &6149916904475749988
 GameObject:
   m_ObjectHideFlags: 0
