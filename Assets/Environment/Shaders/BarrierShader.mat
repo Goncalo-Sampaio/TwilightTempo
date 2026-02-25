@@ -45,6 +45,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 2
@@ -77,6 +78,7 @@ Material:
     - _Color_A: {r: 1, g: 0, b: 0, a: 0}
     - _NoiseSpeed: {r: 0, g: -2.58, b: 0, a: 0}
     - _Texture_1_Color: {r: 1, g: 0.9999779, b: 0, a: 0}
+    - _UVTiling: {r: 1.56, g: 1, b: 0, a: 0}
     - _WaveTilling: {r: 8, g: 8, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
