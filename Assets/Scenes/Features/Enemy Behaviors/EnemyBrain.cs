@@ -35,7 +35,7 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private float attackUpdateFrequency = 0.2f;
     [SerializeField] private float attackRange = 2f;
     [SerializeField] private float attackRangeTolerance = .3f;
-    [SerializeField] private float maxKnockBackTime = .5f;
+    [SerializeField] private float maxKnockBackTime = 3f;
     //References
     private EnemyReferences enemyReferences;
 
@@ -77,14 +77,6 @@ public class EnemyBrain : MonoBehaviour
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
         forgetTimmerCountdown = forgetTimmer;
         
-        
-
-        /*
-        if (enemyReferences != null)
-        {
-            Debug.Log("enemyReferences not null");
-        }
-        */
         //STATES
         var idle = new EnemyState_Idle(enemyReferences);
         var chase = new EnemyState_Chase(enemyReferences, player, chaseUpdateFrequency);
@@ -110,7 +102,7 @@ public class EnemyBrain : MonoBehaviour
         void Any(IState to,Func<bool> condition) => stateMachine.AddAnyTransition(to, condition);
     }
     [Button]
-    public void KnockTest() => KnockTest(25f * -transform.forward + transform.up);
+    public void KnockTest() => KnockTest(10f * -transform.forward + transform.up);
     public void KnockTest(Vector3 force) => StartCoroutine("ApplyKnockBack", force);
     private IEnumerator ApplyKnockBack(Vector3 force)
     {
@@ -129,7 +121,7 @@ public class EnemyBrain : MonoBehaviour
         yield return new WaitForFixedUpdate();
         float knockBackTime = Time.time;
         
-        yield return new WaitUntil(() => enemyReferences.GetComponent<Rigidbody>().linearVelocity.magnitude < 0.05f || Time.time > knockBackTime + maxKnockBackTime); //wait until it stops moving.
+        yield return new WaitUntil(() => enemyReferences.rb.linearVelocity.magnitude < 0.05f || Time.time > knockBackTime + maxKnockBackTime); //wait until it stops moving.
         
         yield return new WaitForSeconds(0.25f); //stun frames //consider adding a flash here
 

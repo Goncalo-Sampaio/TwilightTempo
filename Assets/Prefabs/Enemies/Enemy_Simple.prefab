@@ -764,7 +764,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4338016489413906979}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDamping: 0.2
   m_AngularDamping: 0.1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -819,6 +819,7 @@ MonoBehaviour:
   attackRange: 2
   attackRangeTolerance: 0.3
   maxKnockBackTime: 0.5
+  state: 
 --- !u!114 &4658501540959810515
 MonoBehaviour:
   m_ObjectHideFlags: 0

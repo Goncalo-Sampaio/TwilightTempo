@@ -12,6 +12,7 @@ public class EnemyHealth : MonoBehaviour
     private LayerMask playerDamageLayer;
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float currentHealth;
+    [SerializeField] private float knockBackTaken = 5f;
     public bool dead;
 
     [SerializeField]
@@ -67,7 +68,7 @@ public class EnemyHealth : MonoBehaviour
         //VISUAL FEEDBACK:
         //Flash once
         flash.FlashForXIterations(1);
-        brain.KnockTest((transform.position - player.position +transform.up * .4f).normalized * 10f);
+        brain.KnockTest((transform.position - player.position +transform.up * .4f).normalized * knockBackTaken);
         //transform.DOShakePosition(0.2f, 0.1f, 10);
 
     }
