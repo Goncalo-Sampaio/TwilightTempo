@@ -22,6 +22,10 @@ public class MovementPlayables : MonoBehaviour
     private float jumpCooldown;
     [SerializeField]
     private float airMultiplier;
+    [SerializeField]
+    private float attackBoost = 3f;
+    [SerializeField]
+    private GameObject playerModel;
 
     private bool readyToJump = true;
 
@@ -367,5 +371,10 @@ public class MovementPlayables : MonoBehaviour
     public void RestorePlayerHolder()
     {
         gameObject.transform.parent = playerHolder.transform;
+    }
+
+    public void AttackBoost()
+    {
+        rb.AddForce(playerModel.transform.forward.normalized * moveSpeed * attackBoost, ForceMode.Force);
     }
 }

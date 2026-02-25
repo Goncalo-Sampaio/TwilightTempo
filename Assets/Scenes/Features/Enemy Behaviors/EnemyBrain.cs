@@ -14,6 +14,19 @@ public class EnemyBrain : MonoBehaviour
     private float forgetTimmerCountdown;
     [Header("CHASE params")]
     [SerializeField] private Transform player;
+
+    public Transform Player
+    {
+        get
+        {
+            return player;
+        }
+        set
+        {
+            player = value;
+        }
+    }
+
     [SerializeField] private float chaseUpdateFrequency = 0.2f;
 
     private bool playerInsideTrigger = false;
@@ -46,8 +59,12 @@ public class EnemyBrain : MonoBehaviour
         
         //triggerColliderRadius = GetComponent<SphereCollider>().radius;
     }
+
+    
+
     private void Start()
     {
+        player = FindAnyObjectByType<PlayerHealth>().transform;
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
         forgetTimmerCountdown = forgetTimmer;
         enemyReferences = GetComponent<EnemyReferences>();

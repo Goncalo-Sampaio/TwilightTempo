@@ -55,12 +55,13 @@ public class AnimationSystem
         locomotionMixer.SetInputWeight(1, weight);
     }
 
-    public void PlayOneShot(AnimationClip oneShotClip)
+    public void PlayOneShot(AnimationClip oneShotClip, float animationSpeed = 1)
     {
         if (oneShotPlayable.IsValid() && oneShotPlayable.GetAnimationClip() == oneShotClip) return;
 
         InterruptOneShot();
         oneShotPlayable = AnimationClipPlayable.Create(playableGraph, oneShotClip);
+        oneShotPlayable.SetSpeed(animationSpeed);
         topLevelMixer.ConnectInput(1, oneShotPlayable, 0);
         topLevelMixer.SetInputWeight(1, 1f);
 

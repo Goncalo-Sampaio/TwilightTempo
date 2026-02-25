@@ -62,9 +62,9 @@ public class PlayerStateManagerPlayables : MonoBehaviour
         animationSystem.UpdateLocomotion(velocity, maxSpeed, grounded);
     }
 
-    public void Attack(AnimationClip attackClip)
+    public void Attack(AnimationClip attackClip, float animationSpeed = 1)
     {
-        animationSystem.PlayOneShot(attackClip);
+        animationSystem.PlayOneShot(attackClip, animationSpeed);
     }
 
     public void Jump(AnimationClip jumpClip)

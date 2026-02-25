@@ -8,6 +8,8 @@ public class PlayerCombatPlayables : MonoBehaviour
     [SerializeField]
     private AnimationClip[] attacks;
     [SerializeField]
+    private float attackSpeed = 2;
+    [SerializeField]
     private ParticleSystem[] attackVFX;
     [SerializeField]
     private float[] attackExitTimers;
@@ -15,6 +17,7 @@ public class PlayerCombatPlayables : MonoBehaviour
     private int comboCounter;
 
     private PlayerStateManagerPlayables playerStateManagerPlayables;
+    private MovementPlayables movementPlayables;
     private PlayerStates currentState;
 
     private bool canCombo = false;
@@ -27,6 +30,7 @@ public class PlayerCombatPlayables : MonoBehaviour
     void Start()
     {
         playerStateManagerPlayables = GetComponent<PlayerStateManagerPlayables>();
+        movementPlayables = GetComponent<MovementPlayables>();
         currentState = playerStateManagerPlayables.CurrentState;
     }
 
@@ -67,18 +71,19 @@ public class PlayerCombatPlayables : MonoBehaviour
 
     private void Attack()
     {
-        if ((Time.time - lastComboEnd > 0.5f) && (comboCounter < attacks.Count()))
+        if ((Time.time - lastComboEnd > 0.1f) && (comboCounter < attacks.Count()))
         {
             playerStateManagerPlayables.SetCurrentState(PlayerStates.Attacking);
 
-            playerStateManagerPlayables.Attack(attacks[comboCounter]);
+            playerStateManagerPlayables.Attack(attacks[comboCounter], attackSpeed);
+            movementPlayables.AttackBoost();
             StartAttack();
         }
     }
 
     private void StartAttack()
     {
-        exitAttackTimer = attacks[comboCounter].length * attackExitTimers[comboCounter];
+        exitAttackTimer = attacks[comboCounter].length / attackSpeed * attackExitTimers[comboCounter];
         exitAttack = true;
         comboCounter++;
     }
@@ -105,7 +110,8 @@ public class PlayerCombatPlayables : MonoBehaviour
 
     private void ContinueCombo()
     {
-        playerStateManagerPlayables.Attack(attacks[comboCounter]);
+        playerStateManagerPlayables.Attack(attacks[comboCounter], attackSpeed);
+        movementPlayables.AttackBoost();
         StartAttack();
     }
 

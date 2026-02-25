@@ -5,6 +5,8 @@ public class PlayerDodge : MonoBehaviour
     [SerializeField]
     private float velocity;
     [SerializeField]
+    private float dodgeSpeedMultiplier = 1;
+    [SerializeField]
     private float cooldown;
     [SerializeField]
     private AnimationClip dodgeAnimation;
@@ -31,12 +33,12 @@ public class PlayerDodge : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDodge)
         {
-            dodgeTimer = dodgeAnimation.length;
+            dodgeTimer = dodgeAnimation.length / dodgeSpeedMultiplier;
             canDodge = false;
             dodging = true;
             resetState = true;
             playerStateManagerPlayables.SetCurrentState(PlayerStates.Dashing);
-            playerStateManagerPlayables.Attack(dodgeAnimation);
+            playerStateManagerPlayables.Attack(dodgeAnimation, dodgeSpeedMultiplier);
         }
     }
 
