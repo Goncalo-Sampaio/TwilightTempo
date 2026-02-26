@@ -13,18 +13,21 @@ public class PlayerCombatPlayables : MonoBehaviour
     private ParticleSystem[] attackVFX;
     [SerializeField]
     private float[] attackExitTimers;
-    private float lastComboEnd;
-    private int comboCounter;
+    [SerializeField]
+    private float comboWindowTime = 0.4f;
+    public float comboTimer;
+    public float lastComboEnd;
+    public int comboCounter;
 
     private PlayerStateManagerPlayables playerStateManagerPlayables;
     private MovementPlayables movementPlayables;
-    private PlayerStates currentState;
+    public PlayerStates currentState;
 
-    private bool canCombo = false;
-    private bool continueCombo = false;
+    public bool canCombo = false;
+    public bool continueCombo = false;
 
-    private bool exitAttack = false;
-    private float exitAttackTimer = 0f;
+    public bool exitAttack = false;
+    public float exitAttackTimer = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,13 +42,7 @@ public class PlayerCombatPlayables : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1") && currentState <= PlayerStates.Attacking)
         {
-            if (canCombo)
-            {
-                canCombo = false;
-                continueCombo = true;
-            }
-
-            if (comboCounter == 0)
+            if (comboCounter == 0 || continueCombo)
             {
                 Attack();
             }
@@ -67,11 +64,32 @@ public class PlayerCombatPlayables : MonoBehaviour
                 ExitAttack();
             }
         }
+
+        comboTimer -= Time.fixedDeltaTime;
+
+        if (comboTimer <= 0f)
+        {
+            comboTimer = 0f;
+
+            if (canCombo)
+            {
+                canCombo = false;
+                continueCombo = false;
+                comboCounter = 0;
+            }
+        }
     }
 
     private void Attack()
     {
-        if ((Time.time - lastComboEnd > 0.1f) && (comboCounter < attacks.Count()))
+        if (continueCombo)
+        {
+            continueCombo = false;
+            playerStateManagerPlayables.SetCurrentState(PlayerStates.Attacking);
+
+            ContinueCombo();
+        }
+        else if ((Time.time - lastComboEnd > 0.1f) && (comboCounter < attacks.Count()))
         {
             playerStateManagerPlayables.SetCurrentState(PlayerStates.Attacking);
 
@@ -79,10 +97,12 @@ public class PlayerCombatPlayables : MonoBehaviour
             movementPlayables.AttackBoost();
             StartAttack();
         }
+
     }
 
     private void StartAttack()
     {
+        comboTimer = comboWindowTime + attacks[comboCounter].length / attackSpeed;
         exitAttackTimer = attacks[comboCounter].length / attackSpeed * attackExitTimers[comboCounter];
         exitAttack = true;
         comboCounter++;
@@ -90,22 +110,24 @@ public class PlayerCombatPlayables : MonoBehaviour
 
     public void ExitAttack()
     {
-        DisableCombo();
-
         if (comboCounter == attacks.Length)
         {
-            continueCombo = false;
-        }
-
-        if (continueCombo)
-        {
-            continueCombo = false;
-            ContinueCombo();
+            DisableCombo();
         }
         else
         {
-            EndCombo();
+            canCombo = true;
+            continueCombo = true;
         }
+
+        playerStateManagerPlayables.ResetState();
+
+        lastComboEnd = Time.time;
+    }
+
+    private void ExitCombo()
+    {
+        DisableCombo();
     }
 
     private void ContinueCombo()
@@ -119,18 +141,17 @@ public class PlayerCombatPlayables : MonoBehaviour
     {
         comboCounter = 0;
         lastComboEnd = Time.time;
-        playerStateManagerPlayables.ResetState();
     }
 
     public void EnableCombo()
     {
         PlayVFX(comboCounter - 1);
-        canCombo = true;
     }
 
     public void DisableCombo()
     {
         canCombo = false;
+        comboCounter = 0;
     }
 
     private void PlayVFX(int counter)
