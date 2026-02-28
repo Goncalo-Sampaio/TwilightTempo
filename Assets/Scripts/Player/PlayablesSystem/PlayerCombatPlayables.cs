@@ -6,6 +6,11 @@ public class PlayerCombatPlayables : MonoBehaviour
     [SerializeField]
     private Animator animator;
     [SerializeField]
+    private AudioClip attackWhooshSFX;
+    [SerializeField]
+    private AudioClip sparklesSFX;
+
+    [SerializeField]
     private AnimationClip[] attacks;
     [SerializeField]
     private float attackSpeed = 2;
@@ -15,19 +20,20 @@ public class PlayerCombatPlayables : MonoBehaviour
     private float[] attackExitTimers;
     [SerializeField]
     private float comboWindowTime = 0.4f;
-    public float comboTimer;
-    public float lastComboEnd;
-    public int comboCounter;
+    private float comboTimer;
+    private float lastComboEnd;
+    private int comboCounter;
 
     private PlayerStateManagerPlayables playerStateManagerPlayables;
     private MovementPlayables movementPlayables;
-    public PlayerStates currentState;
+    private PlayerStates currentState;
+    private AudioSource audioSource;
 
-    public bool canCombo = false;
-    public bool continueCombo = false;
+    private bool canCombo = false;
+    private bool continueCombo = false;
 
-    public bool exitAttack = false;
-    public float exitAttackTimer = 0f;
+    private bool exitAttack = false;
+    private float exitAttackTimer = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,6 +41,7 @@ public class PlayerCombatPlayables : MonoBehaviour
         playerStateManagerPlayables = GetComponent<PlayerStateManagerPlayables>();
         movementPlayables = GetComponent<MovementPlayables>();
         currentState = playerStateManagerPlayables.CurrentState;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -102,6 +109,10 @@ public class PlayerCombatPlayables : MonoBehaviour
 
     private void StartAttack()
     {
+        audioSource.pitch = Random.Range(0.7f, 0.9f);
+        audioSource.PlayOneShot(attackWhooshSFX);
+        audioSource.pitch = Random.Range(0.98f, 1.02f);
+        audioSource.PlayOneShot(sparklesSFX);
         comboTimer = comboWindowTime + attacks[comboCounter].length / attackSpeed;
         exitAttackTimer = attacks[comboCounter].length / attackSpeed * attackExitTimers[comboCounter];
         exitAttack = true;

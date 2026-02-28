@@ -3,6 +3,7 @@ using DG.Tweening.Core.Easing;
 using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Rendering.PostProcessing;
 
 public class EnemyHealth : MonoBehaviour
@@ -17,9 +18,14 @@ public class EnemyHealth : MonoBehaviour
 
     [SerializeField]
     private ProgressionBlocker progressionBlocker;
+    [SerializeField]
+    private AudioClip hitSFX;
+    [SerializeField]
+    private AudioClip magicHitSFX;
 
     private EnemyBrain brain;
     public Transform player;
+    private AudioSource audioSource;
 
     private Flash flash;
 
@@ -34,6 +40,8 @@ public class EnemyHealth : MonoBehaviour
         {
             progressionBlocker.RegisterEnemy(this);
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
     [Button]
 
@@ -53,6 +61,10 @@ public class EnemyHealth : MonoBehaviour
 
     public void Damage(float damage)
     {
+        audioSource.pitch = Random.Range(0.95f, 1.05f);
+        audioSource.PlayOneShot(hitSFX);
+        audioSource.pitch = Random.Range(0.95f, 1.05f);
+        audioSource.PlayOneShot(magicHitSFX);
         currentHealth -= damage;
 
         if (currentHealth <= 0)
