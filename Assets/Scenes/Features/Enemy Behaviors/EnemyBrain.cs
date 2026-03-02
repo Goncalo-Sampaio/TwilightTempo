@@ -109,7 +109,25 @@ public class EnemyBrain : MonoBehaviour
         gettingKnockBacked = true;
 
         yield return null; //wait one frame to make sure all courotines are stopped
-        enemyReferences.enemyNavigation.ToggleAgentStopped(true); //stop agent navmesh
+        //Only call agent.Stop if:
+        //  agent is active
+        //  agent is on NavMesh;
+        //  agent isint' already stopped
+
+        if ( enemyReferences.enemyNavigation.IsAgentActive())
+        {
+            if (enemyReferences.enemyNavigation.IsAgentOnNavmesh())
+            {
+                //Prevent error:
+                //The agent.isStopped getter can only be called if the agent.active == true && agent.IsOnNavmesh == true:
+                if (!enemyReferences.enemyNavigation.IsAgentStopped())
+                {
+                    enemyReferences.enemyNavigation.ToggleAgentStopped(true);//stop agent navmesh
+                }
+            }
+        }               
+            
+            
         enemyReferences.enemyNavigation.ToggleEnableAgent(false); //disable agent
         
         enemyReferences.rb.useGravity = true;
@@ -140,6 +158,7 @@ public class EnemyBrain : MonoBehaviour
 
         gettingKnockBacked = false;
     }
+
 
     /// <summary>
     /// Player is inside enemie's trigger distance AND has line of sight
