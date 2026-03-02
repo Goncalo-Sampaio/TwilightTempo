@@ -237,22 +237,6 @@ public class MovementPlayables : MonoBehaviour
 
         //airMaxVelocity = moveSpeed / 5;
 
-        if (grounded)
-        {
-            //airMaxVelocity = flatVel.magnitude;
-
-            if (Mathf.Abs(rb.linearVelocity.x) < .5f)
-            //if (rb.linearVelocity.x < .5f && rb.linearVelocity.x > -.5f)
-            {
-                rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, rb.linearVelocity.z);
-            }
-
-            if (rb.linearVelocity.z < .5f && rb.linearVelocity.z > -.5f)
-            {
-                rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, 0f);
-            }
-        }
-
         //limit velocity if needed
         if (flatVel.magnitude > moveSpeed && grounded)
         {
@@ -292,7 +276,7 @@ public class MovementPlayables : MonoBehaviour
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
         playerStateManagerPlayables.Jump(jumpAnimation);
-        audioSource.PlayOneShot(jumpClip);
+        //audioSource.PlayOneShot(jumpClip);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         airTimestamp = Time.time;
     }
