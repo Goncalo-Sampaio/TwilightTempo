@@ -35,7 +35,10 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private float attackUpdateFrequency = 0.2f;
     [SerializeField] private float attackRange = 2f;
     [SerializeField] private float attackRangeTolerance = .3f;
+    [Tooltip("How the attack's collider is active for:")]
+    [SerializeField] private float attackWindow = 1f;
     [SerializeField] private float maxKnockBackTime = 3f;
+    [SerializeField] private float staggerTimmer = .75f;
     //References
     private EnemyReferences enemyReferences;
 
@@ -54,6 +57,8 @@ public class EnemyBrain : MonoBehaviour
     private float groundOffset;
 
     public string state;
+    public bool wasHit;
+    public bool dead;
     private void OnValidate()
     {
 
@@ -73,6 +78,8 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.rb.useGravity = false;
         enemyReferences.rb.isKinematic = true;
 
+        enemyReferences.enemeyAttack.SetAttackWindow(attackWindow);
+
         player = FindAnyObjectByType<PlayerHealth>().transform;
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
         forgetTimmerCountdown = forgetTimmer;
@@ -80,18 +87,25 @@ public class EnemyBrain : MonoBehaviour
         //STATES
         var idle = new EnemyState_Idle(enemyReferences);
         var chase = new EnemyState_Chase(enemyReferences, player, chaseUpdateFrequency);
-        var combat = new EnemyState_Combat(enemyReferences, player, attackUpdateFrequency); 
-        var delay = new EnemyState_Delay(2f);
+        var combat = new EnemyState_Combat(enemyReferences, player, attackUpdateFrequency);
+        var gotHit = new EnemyState_GotHit(enemyReferences);
+        var death = new EnemyState_Death();
+        //var delay = new EnemyState_Delay(2f);
 
         //TRANSITIONS
-        At(idle, chase, () => PlayerDetected() && !gettingKnockBacked); //This will update inside an enumerator. Ideally checked inside a fixedUpdate
-        At(chase, idle, () => !playerInsideTrigger && !engaged && !gettingKnockBacked);
-        At(chase, combat, () => CloseEnoughToAttack() && !gettingKnockBacked); //is within attackDistance
-        At(combat, chase, () => !CloseEnoughToAttack() && engaged && !gettingKnockBacked); //Outside attack range but still within line of sight
+        At(idle, chase, () => PlayerDetected() && !dead); //This will update inside an enumerator. Ideally checked inside a fixedUpdate
+        At(chase, idle, () => !playerInsideTrigger && !engaged && !dead);
+        At(chase, combat, () => CloseEnoughToAttack() && !dead); //is within attackDistance
+        At(combat, chase, () => !CloseEnoughToAttack() && engaged && !dead); //Outside attack range but still within line of sight
         //(delay,() => enemyReferences.enemyHealth.dead);
         //Make a knockedback STATE
-        Any(delay, () => gettingKnockBacked);
-        At(delay, chase, () => PlayerDetected() && !gettingKnockBacked);
+        //Any(delay, () => gettingKnockBacked);
+        Any(gotHit, () => wasHit && !dead);
+        Any(death, () => dead);
+        //Transition from got hit to the rest of the states:
+        At(gotHit, chase, ()=> !wasHit && PlayerDetected() && !dead);
+        At(gotHit, combat, () => !wasHit && CloseEnoughToAttack() && !dead);
+        //At(delay, chase, () => PlayerDetected() );
         //START STATE
         stateMachine.SetState(idle);
         //delay needs exit condition
@@ -101,10 +115,21 @@ public class EnemyBrain : MonoBehaviour
         void At(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
         void Any(IState to,Func<bool> condition) => stateMachine.AddAnyTransition(to, condition);
     }
+    public void GotHit()
+    {
+        if(!wasHit) StartCoroutine(GotHitRot());
+    }
+    private IEnumerator GotHitRot()
+    {
+        wasHit = true;
+        yield return new WaitForSeconds(staggerTimmer);
+        wasHit = false;
+    }
+
     [Button]
     public void KnockTest() => KnockTest(10f * -transform.forward + transform.up);
-    public void KnockTest(Vector3 force) => StartCoroutine("ApplyKnockBack", force);
-    private IEnumerator ApplyKnockBack(Vector3 force)
+    public void KnockTest(Vector3 force) => StartCoroutine("ApplyKnockBackRot", force);
+    private IEnumerator ApplyKnockBackRot(Vector3 force)
     {
         gettingKnockBacked = true;
 
@@ -114,20 +139,9 @@ public class EnemyBrain : MonoBehaviour
         //  agent is on NavMesh;
         //  agent isint' already stopped
 
-        if ( enemyReferences.enemyNavigation.IsAgentActive())
-        {
-            if (enemyReferences.enemyNavigation.IsAgentOnNavmesh())
-            {
-                //Prevent error:
-                //The agent.isStopped getter can only be called if the agent.active == true && agent.IsOnNavmesh == true:
-                if (!enemyReferences.enemyNavigation.IsAgentStopped())
-                {
-                    enemyReferences.enemyNavigation.ToggleAgentStopped(true);//stop agent navmesh
-                }
-            }
-        }               
-            
-            
+        enemyReferences.enemyNavigation.StopNow(true);
+
+
         enemyReferences.enemyNavigation.ToggleEnableAgent(false); //disable agent
         
         enemyReferences.rb.useGravity = true;
@@ -191,12 +205,11 @@ public class EnemyBrain : MonoBehaviour
     private void FixedUpdate()
     {
         //OnPlayerDetected = OnPlayerVisible();
-        playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideChaseDistance();
+        playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideChaseDistance();        
         
 
-
-
     }
+    
     private void ShortTermMemory()
     {
         

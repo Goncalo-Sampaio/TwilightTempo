@@ -21,9 +21,11 @@ public class EnemyState_Combat : IState
     public void OnEnter()
     {
         Debug.Log("Combat");
-        attackTimer = attackUpdateFrequency;
+        //The first attack happens almost emediatly
+        attackTimer = attackUpdateFrequency / 4f;
         //disable navigation
-        enemyReferences.enemyNavigation.ToggleAgentStopped(true);
+        enemyReferences.enemyNavigation.StopNow(true);
+
     }
     public void Tick()
     {
@@ -31,6 +33,11 @@ public class EnemyState_Combat : IState
         if (AttackUpdate())
         {
             enemyReferences.enemeyAttack.AttackPlayer();
+            if (enemyReferences.enemyAnimator != null)
+            {
+                enemyReferences.enemyNavigation.SnapToTarget(playerRef.position);
+                enemyReferences.enemyAnimator.Attack1();
+            }
         }
         Debug.Log(enemyReferences.enemyNavigation.LinearDistanceFromTarget(playerRef.position));
     }
@@ -39,7 +46,7 @@ public class EnemyState_Combat : IState
     {
         attackTimer = attackUpdateFrequency;
         //enable navigation:
-        enemyReferences.enemyNavigation.ToggleAgentStopped(false);
+        enemyReferences.enemyNavigation.StopNow(false);
 
     }
     public Color GizmoColor()

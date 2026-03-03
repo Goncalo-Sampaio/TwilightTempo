@@ -1,6 +1,7 @@
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
 using NaughtyAttributes;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -26,11 +27,13 @@ public class EnemyHealth : MonoBehaviour
     private EnemyBrain brain;
     public Transform player;
     private AudioSource audioSource;
+    private EnemyReferences enemyReferences;
 
     private Flash flash;
 
     void Start()
     {
+        enemyReferences = GetComponent<EnemyReferences>();
         brain = GetComponent<EnemyBrain>();
         flash = gameObject.GetComponent<Flash>();
         dead = false;
@@ -67,6 +70,8 @@ public class EnemyHealth : MonoBehaviour
         audioSource.PlayOneShot(magicHitSFX);
         currentHealth -= damage;
 
+        if (currentHealth - damage <= 0 ) brain.KnockTest((transform.position - player.position + transform.up * .4f).normalized * knockBackTaken);
+
         if (currentHealth <= 0)
         {
             if (progressionBlocker != null)
@@ -74,19 +79,31 @@ public class EnemyHealth : MonoBehaviour
                 progressionBlocker.RemoveEnemy(this);
             }
 
-            Destroy(gameObject);
+            if (!dead)
+            {
+                StartCoroutine(DeathRot());
+                brain.dead = true;
+            }
             
         }
         //VISUAL FEEDBACK:
         //Flash once
-        flash.FlashForXIterations(1);
-        brain.KnockTest((transform.position - player.position +transform.up * .4f).normalized * knockBackTaken);
+        brain.GotHit();
+        //flash.FlashForXIterations(1);
+        
         //transform.DOShakePosition(0.2f, 0.1f, 10);
 
     }
-    public void Die()
+
+    private IEnumerator DeathRot()
     {
         dead = true;
-        Invoke("Destroy",3f);
+        enemyReferences.enemyNavigation.StopNow(true);
+        enemyReferences.enemyAnimator.Die();
+        yield return new WaitForSeconds(3);        
+        Destroy(this.gameObject);
+
     }
+
+
 }

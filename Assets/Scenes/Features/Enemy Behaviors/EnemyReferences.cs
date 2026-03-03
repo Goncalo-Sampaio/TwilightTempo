@@ -9,12 +9,16 @@ public class EnemyReferences : MonoBehaviour
     [HideInInspector] public EnemyNavigation enemyNavigation;
     [HideInInspector] public EnemyHealth enemyHealth;
     [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public EnemyAnimator enemyAnimator;
+    [HideInInspector] public Flash flash;
     private void Awake()
     {
         enemyHealth = GetComponent<EnemyHealth>();
         enemyNavigation = GetComponent<EnemyNavigation>();
         enemeyAttack = GetComponentInChildren<EnemyAttack>();
         rb = GetComponentInChildren<Rigidbody>();
+        enemyAnimator = GetComponentInChildren<EnemyAnimator>();
+        flash = GetComponentInChildren<Flash>();
         //navMeshAgent = GetComponent<NavMeshAgent>();
         //animator = GetComponent<Animator>();
     }

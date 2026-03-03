@@ -67,7 +67,12 @@ public class EnemyNavigation : MonoBehaviour
     public bool IsAgentOnNavmesh() => agent.isOnNavMesh;
     public bool IsAgentStopped() => agent.isStopped;
     public bool IsAgentActive() => agent.enabled;
-    public void ToggleAgentStopped(bool toggle) => agent.isStopped = toggle;   
+    public void ToggleAgentStopped(bool toggle)
+    {
+        if(true) agent.velocity = Vector3.zero;
+        agent.isStopped = toggle;
+
+    }
     public void ToggleEnableAgent(bool toggle) => agent.enabled = toggle;
     public void MoveTo(Vector3 destination)
     {
@@ -75,12 +80,17 @@ public class EnemyNavigation : MonoBehaviour
     }
 
     public void Warp(Vector3 position) => agent.Warp(position);
-    
-    public void LookAtTarget(Vector3 target) => transform.LookAt(target);
-    
+
+    public void LookAtTarget(Vector3 target)
+    {
+        var q = Quaternion.LookRotation(target - transform.position);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 35f * Time.deltaTime);
+    }
+    public void SnapToTarget(Vector3 target) => transform.LookAt(target);
+
     public float NavMeshDistanceFromTarget() => agent.remainingDistance;
 
-    public float LinearDistanceFromTarget(Vector3 target) => Vector3.Distance(transform.position, target);
+    public float LinearDistanceFromTarget(Vector3 target) => Vector3.Distance(new Vector3(transform.position.x,0, transform.position.z), new Vector3(target.x,0,target.z));
 
     //Only call this if "playerInsideTrigger" is true
     //This has to update a bool inside a FixedUpdate
@@ -109,6 +119,19 @@ public class EnemyNavigation : MonoBehaviour
 
 
         
+    }
+    public void StopNow(bool stop)
+    {
+        if (IsAgentActive())
+        {
+            if (IsAgentOnNavmesh())
+            {
+                //Prevent error:
+                //The agent.isStopped getter can only be called if the agent.active == true && agent.IsOnNavmesh == true:
+                ToggleAgentStopped(stop);//stop agent navmesh
+                Debug.Log("ToggleAgentStopped called!");
+            }
+        }
     }
     public bool PlayerInsideChaseDistance() => playerInsideTrigger;
     

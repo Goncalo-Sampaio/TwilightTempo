@@ -15,16 +15,17 @@ public class EnemyState_Delay : IState
         Debug.Log("EnemyState_Delay.OnEnter()");
         deadLine = Time.time + waitForSeconds;
     }
+    public void Tick()
+    {
+        Debug.Log("EnemyState_Delay.Tick()");
+    }
 
     public void OnExit()
     {
         Debug.Log("EnemyState_Delay.OnExit()");
     }
 
-    public void Tick()
-    {
-        Debug.Log("EnemyState_Delay.Tick()");
-    }
+    
     public Color GizmoColor()
     {
         return Color.white;

@@ -18,6 +18,11 @@ public class EnemyState_Chase : IState
     }
     public void OnEnter()
     {
+        enemyReferences.enemyNavigation.StopNow(false);
+        if (enemyReferences.enemyAnimator != null)
+        {
+            enemyReferences.enemyAnimator.StartRunning();
+        }
         Debug.Log("Chase OnEnter");
         chaseTimer = chaseUpdateFrequency;
     }
@@ -30,6 +35,11 @@ public class EnemyState_Chase : IState
 
     public void OnExit()
     {
+        if (enemyReferences.enemyAnimator != null)
+        {
+            enemyReferences.enemyAnimator.StopRunning();
+        }
+        enemyReferences.enemyNavigation.StopNow(true);
         Debug.Log("Chase OnExit");
         chaseTimer = chaseUpdateFrequency;
     }

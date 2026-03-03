@@ -14,37 +14,19 @@ public class SimpleFlyCamera : MonoBehaviour
     float pitch;
     bool cameraActive = true;
 
-    [SerializeField] private GameObject goHereOBJ;
-    [SerializeField] private GameObject agentContainer;
-    private List<GameObject> agents;
+    
     private void Awake()
     {
-        agents = new List<GameObject>();
+        
         LockCursor(true);
     }
     void Start()
     {
         
-        goHereOBJ.SetActive(false);
         
-        GetAgentsInContainer();
     }
     
-    private void GetAgentsInContainer()
-    {
-        for (int i = 0; i < agentContainer.transform.childCount; i++)
-        {
-            agents.Add(agentContainer.transform.GetChild(i).gameObject);
-        } 
-    }
-    private void AttemptMoveAllAgents(Transform target)
-    {
-        foreach (GameObject agent in agents)
-        {
-            agent.GetComponent<NavigationTesting>().SetPlayer(target);
-            agent.GetComponent<NavMeshPathRuntime>().target = target;
-        }
-    }
+    
 
     void Update()
     {
@@ -103,10 +85,8 @@ public class SimpleFlyCamera : MonoBehaviour
             {
                 if(hit.transform.GetComponent<MeshRenderer>() != null)
                 {
-                    goHereOBJ.SetActive(true);
-                    goHereOBJ.transform.position = hit.point;
+
                     
-                    AttemptMoveAllAgents(goHereOBJ.transform);
 
 
                     Debug.Log("Hit: " + hit.collider.name);
