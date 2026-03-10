@@ -8,6 +8,8 @@ using UnityEngine.AI;
 public class EnemyNavigation : MonoBehaviour
 {
     [SerializeField] private bool debugger = true;
+    [SerializeField] private Transform rayCastOrigin;
+    [SerializeField] private float maxRayDistance = 100f;
     private NavMeshAgent agent;    
     private bool playerInsideTrigger = false;
     //[HideInInspector]public bool hasLineOfSight = false;
@@ -88,37 +90,32 @@ public class EnemyNavigation : MonoBehaviour
     }
     public void SnapToTarget(Vector3 target) => transform.LookAt(target);
 
-    public float NavMeshDistanceFromTarget() => agent.remainingDistance;
+    public float NavMeshDistanceToDestination() => agent.remainingDistance;
 
+    //this should only be valid if there's no obstruction == line of sight = true;
     public float LinearDistanceFromTarget(Vector3 target) => Vector3.Distance(new Vector3(transform.position.x,0, transform.position.z), new Vector3(target.x,0,target.z));
 
-    //Only call this if "playerInsideTrigger" is true
-    //This has to update a bool inside a FixedUpdate
-    //
+    //Only call this if "playerInsideTrigger" is true    
+    //Can look for other things besides player
     public bool HasLineOfSight(Vector3 targetPos, string targetTag = "Player")
     {
-        Debug.Log("HasLineOfSight Called");
-            //Make sure to also include line of sight mwaybe? Using the dotP
-            RaycastHit hit;
-            
-            //if hits anything
-            if (Physics.Raycast(transform.position, (targetPos - transform.position).normalized, out hit, Mathf.Infinity) && (hit.transform.gameObject.tag == targetTag))
-            {
-                //if hits object tagged with "Player"
-                if (hit.transform.gameObject.tag == targetTag)
-                {
-                    if (debugger) DebugLineOfSight(true, targetPos, hit);
-                    return true;
-                }
-            }
-            //if hit nothing:
-            if (debugger) DebugLineOfSight(false, targetPos, hit);
+        Vector3 targetDirection = (targetPos - rayCastOrigin.position).normalized;
 
-            
-            return false;
-
-
+        //Only try casting if target is infront
+        if (Vector3.Dot(rayCastOrigin.forward, targetDirection) < 0f) return false;
         
+        //Make sure to also include line of sight mwaybe? Using the dotP
+        RaycastHit hit;
+        //if hits anything
+        if (Physics.Raycast(rayCastOrigin.position, targetDirection, out hit, maxRayDistance))
+        {
+            //if hits object tagged with "targetTag"
+            if (hit.transform.gameObject.tag == targetTag) return true;
+        }
+
+        //if hit nothing:            
+        return false;
+
     }
     public void StopNow(bool stop)
     {
@@ -133,11 +130,11 @@ public class EnemyNavigation : MonoBehaviour
             }
         }
     }
-    public bool PlayerInsideChaseDistance() => playerInsideTrigger;
+    public bool PlayerInsideTriggerDistance() => playerInsideTrigger;
     
     public bool HasArrivedAtTarget(float minDistance = 0.1f)
     {
-        return NavMeshDistanceFromTarget() < minDistance;
+        return NavMeshDistanceToDestination() < minDistance;
     }
 
     #region Trigger Events

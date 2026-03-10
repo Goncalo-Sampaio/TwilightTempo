@@ -28,7 +28,7 @@ public class EnemyState_Chase : IState
     }
     public void Tick()
     {
-        Debug.Log($"Chase Tick. Remaining distance: {enemyNav.NavMeshDistanceFromTarget()}");
+        Debug.Log($"Chase Tick. Remaining distance: {enemyNav.NavMeshDistanceToDestination()}");
         
         if (ChaseUpdate()) enemyNav.MoveTo(playerRef.position);
     }

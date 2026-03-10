@@ -38,8 +38,16 @@ public class EnemyBrain : MonoBehaviour
     public bool dead;
     public string state;
 
+    private bool playerInsideTriggerRadius, playerWithinLineOfSight, withinAttackRange;
+    private bool playerWasSpoted;
+
+    [SerializeField] private float forgetTimmer = 5f;
+    private float forgetTimmerCountdown;
+
+
     private void Awake()
     {
+        playerWasSpoted = false;
         stateMachine = new StateMachine();
         enemyReferences = GetComponent<EnemyReferences>();
     }
@@ -64,15 +72,16 @@ public class EnemyBrain : MonoBehaviour
         //var delay = new EnemyState_Delay(2f);
 
         //TRANSITIONS
-        At(idle, chase, () => PlayerDetected() && !dead); //This will update inside an enumerator. Ideally checked inside a fixedUpdate
-        At(chase, idle, () => !playerInsideTrigger && !engaged && !dead);
-        At(chase, combat, () => CloseEnoughToAttack() && !dead); //is within attackDistance
-        At(combat, chase, () => !CloseEnoughToAttack() && engaged && !dead); //Outside attack range but still within line of sight
+        At(idle, chase, () => engaged); //This will update inside an enumerator. Ideally checked inside a fixedUpdate
+        At(chase, idle, () => !engaged);
+        
+        At(combat, chase, () => engaged && !withinAttackRange); //Outside attack range but still within line of sight
         //(delay,() => enemyReferences.enemyHealth.dead);
         //Make a knockedback STATE
         //Any(delay, () => gettingKnockBacked);
-        Any(gotHit, () => wasHit && !dead);
+        Any(gotHit, () => wasHit);
         Any(death, () => dead);
+        Any(combat, () => withinAttackRange && engaged);
         //Transition from got hit to the rest of the states:
         At(gotHit, chase, ()=> !wasHit && PlayerDetected() && !dead);
         At(gotHit, combat, () => !wasHit && CloseEnoughToAttack() && !dead);
@@ -104,15 +113,43 @@ public class EnemyBrain : MonoBehaviour
         return isInsideRange;
     }
 
+    //player detection
+    private void ProbeSurroundings ()
+    {
+        playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideTriggerDistance();
+        if (playerInsideTrigger || engaged )
+        {
+            //Only probe line of sight if:
+            //  Player is inside sphere trigger
+            //  This Enemy is activly engaged with the player (Meaning it spotted them and is either chasing or attacking the player)
+            //reminder that the check is only done here:
+            playerWithinLineOfSight = enemyReferences.enemyNavigation.HasLineOfSight(enemyReferences.playerRef.position, "Player");
+            if (playerWithinLineOfSight )
+            {
+                //Enemy spots the player
+                engaged = true;
+                forgetTimmerCountdown = forgetTimmer;
+            }
+        }
+        if(engaged && !playerWithinLineOfSight)
+        {
+            forgetTimmerCountdown -= Time.deltaTime;
+            if(forgetTimmerCountdown <= 0f) engaged = false;
+        }     
+        
+        
 
+        withinAttackRange = enemyReferences.enemyNavigation.LinearDistanceFromTarget(enemyReferences.playerRef.position) <= attackRange;
+    }
+    
 
     private void Update()
     {
         stateMachine.Tick();
     }
     private void FixedUpdate()
-    {        
-        playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideChaseDistance();    
+    {
+        ProbeSurroundings();
     }
     
     //private void ShortTermMemory()

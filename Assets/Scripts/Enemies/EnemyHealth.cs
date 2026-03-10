@@ -10,6 +10,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class EnemyHealth : MonoBehaviour
 {
+    //change this to signaling
     //Make a base health class so i can stop copying code around 
     [SerializeField] private LayerMask playerDamageLayer;
     [SerializeField] private float maxHealth = 100f;
