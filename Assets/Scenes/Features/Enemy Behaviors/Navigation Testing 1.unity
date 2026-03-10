@@ -168,6 +168,7 @@ MonoBehaviour:
   currentHealth: 0
   healthUI: {fileID: 0}
   screenShakeIntensityTestin: 0.6
+  LinkToHealthUi: 0
 --- !u!1 &115083678
 GameObject:
   m_ObjectHideFlags: 0
@@ -5697,6 +5698,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7019767393199814816, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: playerRef
+      value: 
+      objectReference: {fileID: 86666231}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

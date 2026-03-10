@@ -11,9 +11,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField]
     private GameObject enemyPrefab;
-    [SerializeField]
-    private Transform player;
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,9 +39,7 @@ public class EnemySpawner : MonoBehaviour
         foreach (Transform t in spawnPositions)
         {
             GameObject enemy = Instantiate(enemyPrefab, t.transform.position, Quaternion.identity);
-            enemyPrefab.GetComponent<EnemySpawnerOnDestroyEnemy>().enemySpawner = this;
-            enemyPrefab.GetComponent<EnemyBrain>().Player = player;
-            enemyPrefab.GetComponent<EnemyHealth>().player = player;
+            enemyPrefab.GetComponent<EnemySpawnerOnDestroyEnemy>().enemySpawner = this;            
             enemies.Add(enemy);
         }
     }
