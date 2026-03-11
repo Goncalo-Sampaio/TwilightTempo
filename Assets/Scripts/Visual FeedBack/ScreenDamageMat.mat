@@ -39,7 +39,7 @@ Material:
     m_Floats:
     - _Noise_Scale: 4.92
     - _Vignette_Darkening: 1
-    - _Vignette_Radius: 1.75
+    - _Vignette_Radius: 0.68
     - _Vignette_Softness: 1.2
     m_Colors:
     - _Tint_Colour: {r: 0.986, g: 0, b: 0, a: 1}
