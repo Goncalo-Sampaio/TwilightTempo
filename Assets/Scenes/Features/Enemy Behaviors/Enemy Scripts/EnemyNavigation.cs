@@ -8,13 +8,14 @@ using UnityEngine.AI;
 public class EnemyNavigation : MonoBehaviour
 {
     [SerializeField] private bool debugger = true;
-    [SerializeField] private Transform rayCastOrigin;
     [SerializeField] private float maxRayDistance = 100f;
     private NavMeshAgent agent;    
     private bool playerInsideTrigger = false;
     //[HideInInspector]public bool hasLineOfSight = false;
+    [SerializeField] private Transform rayCastOrigin;
     [Tooltip("Minimum distance from destination that the agent is considered as \"having arrived\"")]
     [SerializeField] private float arrivedDistance = 1f;
+    private float berserkSpeedIncrease = .5f;
     private bool HasArrived()
     {
         return agent.remainingDistance <= arrivedDistance;
@@ -66,6 +67,10 @@ public class EnemyNavigation : MonoBehaviour
     //[DisableIf("randomWaitTimes")][SerializeField] private float maxWaitTime = 2f;
     //[EnableIf("randomWaitTimes")][MinMaxSlider(0.0f, 10.0f)][SerializeField] private Vector2 waitTimerRange;
 
+    public void Berserk()
+    {
+        agent.speed += agent.speed * berserkSpeedIncrease;
+    }
     public bool IsAgentOnNavmesh() => agent.isOnNavMesh;
     public bool IsAgentStopped() => agent.isStopped;
     public bool IsAgentActive() => agent.enabled;
@@ -142,7 +147,12 @@ public class EnemyNavigation : MonoBehaviour
     //Detection Sphere Trigger:
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player") playerInsideTrigger = true;
+        Debug.Log(other.name);
+        Debug.Log(other.gameObject.tag);
+        if (other.gameObject.tag == "Player")
+        {
+            playerInsideTrigger = true;            
+        }
 
     }
     private void OnTriggerExit(Collider other)

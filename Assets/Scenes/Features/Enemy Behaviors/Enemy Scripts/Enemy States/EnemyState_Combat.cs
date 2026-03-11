@@ -5,7 +5,7 @@ public class EnemyState_Combat : IState
     private EnemyReferences enemyReferences;
 
     private Transform playerRef;
-
+    private float storedUpdateFrequency;
     private float attackUpdateFrequency; // via a scriptable object
     private float attackTimer;
 
@@ -14,17 +14,17 @@ public class EnemyState_Combat : IState
     {
         this.enemyReferences = enemyReferences;
         playerRef = enemyReferences.playerRef.transform;
-        this.attackUpdateFrequency = attackUpdateFrequency;        
+        this.attackUpdateFrequency = attackUpdateFrequency;
+        storedUpdateFrequency = attackUpdateFrequency;
 
         //create the combat substate machine
     }
     public void OnEnter()
     {
+        if (enemyReferences.enemyBrain.isBerserk) BerserkMode();
         Debug.Log("Combat");
-        //The first attack happens almost emediatly
-        attackTimer = attackUpdateFrequency / 4f;
-        //disable navigation
-        enemyReferences.enemyNavigation.StopNow(true);
+        //The first attack happens emediatly
+        attackTimer = attackUpdateFrequency/4f;
 
     }
     public void Tick()
@@ -39,7 +39,6 @@ public class EnemyState_Combat : IState
                 enemyReferences.enemyAnimator.Attack1();
             }
         }
-        Debug.Log(enemyReferences.enemyNavigation.LinearDistanceFromTarget(playerRef.position));
     }
     //Make sure the state values Reset when leaving.
     public void OnExit()
@@ -49,15 +48,7 @@ public class EnemyState_Combat : IState
         enemyReferences.enemyNavigation.StopNow(false);
 
     }
-    public Color GizmoColor()
-    {
-        return Color.orange;
-    }
-    
-    public bool OutsideAttackRange(float attackRange) => enemyReferences.enemyNavigation.LinearDistanceFromTarget(playerRef.position) > attackRange;
-    public bool HasLineOfSight (Vector3 target) => enemyReferences.enemyNavigation.HasLineOfSight(target);
-
-
+    private void BerserkMode() => attackUpdateFrequency = storedUpdateFrequency / 2f;
     private bool AttackUpdate()
     {
         attackTimer -= Time.deltaTime;
@@ -68,6 +59,11 @@ public class EnemyState_Combat : IState
         }
         else return false;
     }
+    public Color GizmoColor()
+    {
+        return Color.orange;
+    }
+    
 
 
 

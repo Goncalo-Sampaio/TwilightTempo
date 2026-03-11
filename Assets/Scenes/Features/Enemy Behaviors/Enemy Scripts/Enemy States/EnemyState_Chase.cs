@@ -22,14 +22,11 @@ public class EnemyState_Chase : IState
         if (enemyReferences.enemyAnimator != null)
         {
             enemyReferences.enemyAnimator.StartRunning();
-        }
-        Debug.Log("Chase OnEnter");
-        chaseTimer = chaseUpdateFrequency;
+        }        
+        chaseTimer = 0f;
     }
     public void Tick()
     {
-        Debug.Log($"Chase Tick. Remaining distance: {enemyNav.NavMeshDistanceToDestination()}");
-        
         if (ChaseUpdate()) enemyNav.MoveTo(playerRef.position);
     }
 
@@ -40,16 +37,8 @@ public class EnemyState_Chase : IState
             enemyReferences.enemyAnimator.StopRunning();
         }
         enemyReferences.enemyNavigation.StopNow(true);
-        Debug.Log("Chase OnExit");
         chaseTimer = chaseUpdateFrequency;
     }
-
-    
-    public Color GizmoColor()
-    {
-        return Color.purple;
-    }
-    public bool Arrived(float minDistance) => enemyReferences.enemyNavigation.HasArrivedAtTarget(minDistance);
     private bool ChaseUpdate()
     {
         chaseTimer -= Time.deltaTime;
@@ -60,5 +49,14 @@ public class EnemyState_Chase : IState
         }
         else return false;
     }
+    
+
+
+    public Color GizmoColor()
+    {
+        return Color.purple;
+    }
+    
+    
 
 }

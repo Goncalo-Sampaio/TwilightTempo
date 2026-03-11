@@ -30,4 +30,6 @@ public class EnemyAnimator : MonoBehaviour
     public void StartRunning() => _animator.SetBool("Running", true);
     [Button]
     public void StopRunning() => _animator.SetBool("Running", false);
+    public void WarCry() => _animator.SetTrigger("WarCry");
+    public void Berserk() => _animator.speed = 1.5f;
 }

@@ -2,9 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyReferences : MonoBehaviour
-{
-    //[HideInInspector] public NavMeshAgent navMeshAgent;
-    //[SerializeField] public Animator animator; //Activate this when we get an animator   
+{    
     [HideInInspector] public EnemyAttack enemeyAttack;
     [HideInInspector] public EnemyNavigation enemyNavigation;
     [HideInInspector] public EnemyHealth enemyHealth;
@@ -12,9 +10,12 @@ public class EnemyReferences : MonoBehaviour
     [HideInInspector] public EnemyAnimator enemyAnimator;
     [HideInInspector] public Flash flash;
     [HideInInspector] public EnemyBrain enemyBrain;
+    [HideInInspector] public ParticleSystem berserkParticles;
+    
     public Transform playerRef;
     private void Awake()
     {
+
         enemyBrain = GetComponent<EnemyBrain>();
         enemyHealth = GetComponent<EnemyHealth>();
         enemyNavigation = GetComponent<EnemyNavigation>();
@@ -22,8 +23,6 @@ public class EnemyReferences : MonoBehaviour
         rb = GetComponentInChildren<Rigidbody>();
         enemyAnimator = GetComponentInChildren<EnemyAnimator>();
         flash = GetComponentInChildren<Flash>();
-        //navMeshAgent = GetComponent<NavMeshAgent>();
-        //animator = GetComponent<Animator>();
+        berserkParticles = GetComponentInChildren<ParticleSystem>();
     }
-    
 }

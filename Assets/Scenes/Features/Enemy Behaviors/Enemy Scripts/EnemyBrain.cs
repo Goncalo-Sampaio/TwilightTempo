@@ -9,10 +9,9 @@ public class EnemyBrain : MonoBehaviour
 {
     //Handles high level logic. and calls subcomponent methods    
     //Pools data from other subcomponents to execute desicions
-    [HideInInspector]public bool engaged = false;
     
-    [Header("CHASE params")]    
-
+    
+    [Header("CHASE params")]
     [SerializeField] private float chaseUpdateFrequency = 0.2f;
 
     private bool playerInsideTrigger = false;
@@ -32,15 +31,16 @@ public class EnemyBrain : MonoBehaviour
 
     //Local vars
     private bool gettingKnockBacked = false; //set from EnemyHealth
-    private float triggerColliderRadius;
+    
     private float groundOffset;
     public bool wasHit;
     public bool dead;
     public string state;
+    public bool isBerserk;
 
-    private bool playerInsideTriggerRadius, playerWithinLineOfSight, withinAttackRange;
+    private bool playerWithinLineOfSight, withinAttackRange;
     private bool playerWasSpoted;
-
+    [HideInInspector] public bool engaged = false;
     [SerializeField] private float forgetTimmer = 5f;
     private float forgetTimmerCountdown;
 
@@ -52,7 +52,6 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences = GetComponent<EnemyReferences>();
     }
 
-
     private void Start()
     {
         //Set the riggidbody to kinematic | set gravity to null on start
@@ -60,8 +59,7 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.rb.isKinematic = true;
 
         enemyReferences.enemeyAttack.SetAttackWindow(attackWindow);
-        groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
-        
+        groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;        
         
         //STATES
         var idle = new EnemyState_Idle(enemyReferences);
@@ -69,48 +67,26 @@ public class EnemyBrain : MonoBehaviour
         var combat = new EnemyState_Combat(enemyReferences, attackUpdateFrequency);
         var gotHit = new EnemyState_GotHit(enemyReferences);
         var death = new EnemyState_Death();
-        //var delay = new EnemyState_Delay(2f);
-
+        var berserk = new EnemyState_Berserk(enemyReferences);
         //TRANSITIONS
-        At(idle, chase, () => engaged); //This will update inside an enumerator. Ideally checked inside a fixedUpdate
-        At(chase, idle, () => !engaged);
-        
-        At(combat, chase, () => engaged && !withinAttackRange); //Outside attack range but still within line of sight
-        //(delay,() => enemyReferences.enemyHealth.dead);
-        //Make a knockedback STATE
-        //Any(delay, () => gettingKnockBacked);
+        At(idle, chase, () => engaged); 
+        At(chase, idle, () => !engaged && !berserkLag);        
+        At(combat, chase, () => engaged && !withinAttackRange);         
         Any(gotHit, () => wasHit);
         Any(death, () => dead);
         Any(combat, () => withinAttackRange && engaged);
-        //Transition from got hit to the rest of the states:
-        At(gotHit, chase, ()=> !wasHit && PlayerDetected() && !dead);
-        At(gotHit, combat, () => !wasHit && CloseEnoughToAttack() && !dead);
-        //At(delay, chase, () => PlayerDetected() );
+
+        At(gotHit, chase, ()=> !wasHit && engaged);
+        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged);
+        Any(berserk, () => berserkLag);
+        At(berserk, chase, () => !berserkLag && engaged);
+        At(berserk, combat, () => !berserkLag && !wasHit && withinAttackRange && engaged);
         //START STATE
-
-
         stateMachine.SetState(idle);
-        //delay needs exit condition
-
 
         //FUNCTIONS & CONDITIONS
         void At(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
         void Any(IState to,Func<bool> condition) => stateMachine.AddAnyTransition(to, condition);
-    }
-    
-    private bool PlayerDetected()
-    {        
-        if (playerInsideTrigger) return enemyReferences.enemyNavigation.HasLineOfSight(enemyReferences.playerRef.position);
-        else return false;
-    }
-    private bool CloseEnoughToAttack()
-    {
-        float distanceToPlayer = enemyReferences.enemyNavigation.LinearDistanceFromTarget(enemyReferences.playerRef.position);
-
-        bool isInsideRange = distanceToPlayer < attackRange + attackRangeTolerance && distanceToPlayer > attackRange - attackRangeTolerance;
-        Debug.Log($"Min = {attackRange - attackRangeTolerance} Current = {distanceToPlayer}, Max = {attackRange + attackRangeTolerance}, Is inside range = {isInsideRange}, engaged = {engaged} ");
-
-        return isInsideRange;
     }
 
     //player detection
@@ -137,9 +113,24 @@ public class EnemyBrain : MonoBehaviour
             if(forgetTimmerCountdown <= 0f) engaged = false;
         }     
         
-        
-
         withinAttackRange = enemyReferences.enemyNavigation.LinearDistanceFromTarget(enemyReferences.playerRef.position) <= attackRange;
+    }
+    private bool berserkLag =false;
+    public void Berserk() => StartCoroutine(BerserkOn());
+    private IEnumerator BerserkOn()
+    {
+        isBerserk = true;
+        yield return null;
+        berserkLag = true;
+        enemyReferences.enemyAnimator.WarCry();        
+        enemyReferences.berserkParticles.Play();
+        yield return new WaitForSeconds(2f);
+        enemyReferences.enemyAnimator.Berserk();
+        enemyReferences.enemyNavigation.Berserk();
+        enemyReferences.enemyNavigation.StopNow(false);
+        berserkLag = false;
+        yield return null;
+
     }
     
 
@@ -151,25 +142,6 @@ public class EnemyBrain : MonoBehaviour
     {
         ProbeSurroundings();
     }
-    
-    //private void ShortTermMemory()
-    //{
-        
-    //    //Reset timer
-    //    if (PlayerDetected())
-    //    {
-    //        engaged = true;
-    //        forgetTimmerCountdown = forgetTimmer;
-    //    }
-    //    else
-    //    {
-    //        forgetTimmerCountdown -= Time.deltaTime;
-    //    }
-    //    if (forgetTimmerCountdown <= 0f) engaged = false;
-    //    //Debug.Log($"Forget me timer: {forgetTimmerCountdown}");
-
-    //}
-
     private void OnDrawGizmos()
     {
         if (stateMachine != null)

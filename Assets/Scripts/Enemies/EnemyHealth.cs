@@ -55,6 +55,10 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damage;        
         
 
+        if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
+        {
+            enemyReferences.enemyBrain.Berserk();
+        }
         if (currentHealth <= 0)
         {
             if (progressionBlocker != null)
@@ -80,6 +84,10 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damage;
         Vector3 forceAfterKnockBackNegation = force - (force * knockBackResistance / 100 );
         if (currentHealth - damage <= 0 ) ApllyKnockBack(forceAfterKnockBackNegation);
+        if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
+        {
+            enemyReferences.enemyBrain.Berserk();
+        }
 
         if (currentHealth <= 0)
         {
@@ -135,7 +143,7 @@ public class EnemyHealth : MonoBehaviour
 
         yield return new WaitUntil(() => enemyReferences.rb.linearVelocity.magnitude < 0.05f || Time.time > knockBackTime + maxKnockBackTime); //wait until it stops moving.
 
-        //
+        
         yield return new WaitForSeconds(0.25f); //stun frames //consider adding a flash here
 
         //now reset:
@@ -156,8 +164,10 @@ public class EnemyHealth : MonoBehaviour
     private IEnumerator GotHitRot()
     {
         wasHit = true;
+        enemyReferences.enemyBrain.wasHit = true;
         yield return new WaitForSeconds(staggerTimmer);
         wasHit = false;
+        enemyReferences.enemyBrain.wasHit = false;
     }
     private IEnumerator DeathRot()
     {
