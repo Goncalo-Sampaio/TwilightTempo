@@ -6,23 +6,18 @@ public class DamageScreenController : MonoBehaviour
 {
     [SerializeField]private CinemachineImpulseSource _impulseSource;
     [SerializeField]private Material screenDamageMat;
-    [SerializeField] private float impactLerpSpeed = 8f;//a good value
+    [SerializeField][Tooltip("How fast the getting hit effect should be applied")] private float impactLerpSpeed = 20f;//a good value
     private Coroutine screenDamageRoutine;
     [Header("Vignette Radius")]
     [SerializeField] private Vector2 fromMinFromMax = new Vector2(.85f,1f);
     [SerializeField] private Vector2 toMinToMax = new Vector2(0.4f, -0.15f);
-    
+
 
     //Make this a static singleton so other objects can call the DamageEffect easier
-
-    private void Update()
+    private void Awake()
     {
-        //if (Input.GetMouseButtonDown(1)) ScreenDamageEffect(Random.Range(.1f, 1f));
-    }
-    public void ScreenDamageEffect(float intensity, Vector3 force)
-    {
-
-    }
+        screenDamageMat.SetFloat("_Vignette_Radius", 1.75f);
+    }    
     public void ScreenDamageEffect(float intensity)
     {
         if(screenDamageRoutine != null)

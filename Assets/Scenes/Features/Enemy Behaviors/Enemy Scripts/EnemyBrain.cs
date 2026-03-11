@@ -22,7 +22,8 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private float attackRangeTolerance = .3f;
     [Tooltip("How the attack's collider is active for:")]
     [SerializeField] private float attackWindow = 1f;
-    
+    [SerializeField] private float staggerTimmer = .75f;
+
     //References
     private EnemyReferences enemyReferences;
 
@@ -33,23 +34,23 @@ public class EnemyBrain : MonoBehaviour
     private bool gettingKnockBacked = false; //set from EnemyHealth
     
     private float groundOffset;
-    public bool wasHit;
-    public bool dead;
-    public string state;
-    public bool isBerserk;
+    [HideInInspector] public bool wasHit;
+    [HideInInspector] public bool dead;
+    [HideInInspector] public bool isBerserk;
 
     private bool playerWithinLineOfSight, withinAttackRange;
     private bool playerWasSpoted;
     [HideInInspector] public bool engaged = false;
     [SerializeField] private float forgetTimmer = 5f;
     private float forgetTimmerCountdown;
-
+    private Collider[] colliders;
 
     private void Awake()
     {
         playerWasSpoted = false;
         stateMachine = new StateMachine();
         enemyReferences = GetComponent<EnemyReferences>();
+        colliders = GetComponentsInChildren<Collider>();
     }
 
     private void Start()
@@ -58,7 +59,6 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.rb.useGravity = false;
         enemyReferences.rb.isKinematic = true;
 
-        enemyReferences.enemeyAttack.SetAttackWindow(attackWindow);
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;        
         
         //STATES
@@ -69,18 +69,18 @@ public class EnemyBrain : MonoBehaviour
         var death = new EnemyState_Death();
         var berserk = new EnemyState_Berserk(enemyReferences);
         //TRANSITIONS
-        At(idle, chase, () => engaged); 
-        At(chase, idle, () => !engaged && !berserkLag);        
-        At(combat, chase, () => engaged && !withinAttackRange);         
-        Any(gotHit, () => wasHit);
+        At(idle, chase, () => engaged && !dead); 
+        At(chase, idle, () => !engaged && !berserkLag && !dead);        
+        At(combat, chase, () => engaged && !withinAttackRange && !dead);         
+        Any(gotHit, () => wasHit && !dead);
         Any(death, () => dead);
-        Any(combat, () => withinAttackRange && engaged);
+        Any(combat, () => withinAttackRange && engaged && !dead);
 
-        At(gotHit, chase, ()=> !wasHit && engaged);
-        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged);
-        Any(berserk, () => berserkLag);
-        At(berserk, chase, () => !berserkLag && engaged);
-        At(berserk, combat, () => !berserkLag && !wasHit && withinAttackRange && engaged);
+        At(gotHit, chase, ()=> !wasHit && engaged && !dead);
+        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged && !dead);
+        Any(berserk, () => berserkLag && !dead);
+        At(berserk, chase, () => !berserkLag && engaged && !dead);
+        At(berserk, combat, () => !berserkLag && !wasHit && withinAttackRange && engaged && !dead);
         //START STATE
         stateMachine.SetState(idle);
 
@@ -107,11 +107,18 @@ public class EnemyBrain : MonoBehaviour
                 forgetTimmerCountdown = forgetTimmer;
             }
         }
+        //forgetting player after loosing sight:
         if(engaged && !playerWithinLineOfSight)
         {
             forgetTimmerCountdown -= Time.deltaTime;
             if(forgetTimmerCountdown <= 0f) engaged = false;
-        }     
+        } 
+        //if within attack range or if was hit 
+        if(withinAttackRange || (!engaged && wasHit))
+        {
+            engaged = true;
+            forgetTimmerCountdown = forgetTimmer;
+        }
         
         withinAttackRange = enemyReferences.enemyNavigation.LinearDistanceFromTarget(enemyReferences.playerRef.position) <= attackRange;
     }
@@ -122,18 +129,50 @@ public class EnemyBrain : MonoBehaviour
         isBerserk = true;
         yield return null;
         berserkLag = true;
-        enemyReferences.enemyAnimator.WarCry();        
+        enemyReferences.enemyAnimator.WarCry();
+        DisableColliders();
         enemyReferences.berserkParticles.Play();
         yield return new WaitForSeconds(2f);
-        enemyReferences.enemyAnimator.Berserk();
+        enemyReferences.enemyAnimator.Berserk(1.2f);
         enemyReferences.enemyNavigation.Berserk();
         enemyReferences.enemyNavigation.StopNow(false);
+        EnableColliders();
         berserkLag = false;
         yield return null;
 
     }
-    
+    public void Die()
+    {
+        dead = true;
+        DisableColliders();
+        StopRiggidbodyMovement();
+    }
+    public void GotHit()
+    {
+        if (!wasHit) StartCoroutine(GotHitRot());
+    }
+    private IEnumerator GotHitRot()
+    {
+        wasHit = true;
+        engaged = true;
+        yield return new WaitForSeconds(staggerTimmer);
+        wasHit = false;
+    }
 
+
+    private void DisableColliders()
+    {
+        foreach (Collider col in colliders) col.enabled = false;
+    }
+    private void EnableColliders()
+    {
+        foreach (Collider col in colliders) col.enabled = true;
+    }
+    private void StopRiggidbodyMovement()
+    {
+        enemyReferences.rb.angularVelocity = Vector3.zero;
+        enemyReferences.rb.linearVelocity = Vector3.zero;
+    }
     private void Update()
     {
         stateMachine.Tick();

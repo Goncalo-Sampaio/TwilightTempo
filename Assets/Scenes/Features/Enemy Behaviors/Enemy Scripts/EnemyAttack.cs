@@ -4,43 +4,43 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    private Animator attackAnimator;
+    [SerializeField] private Animator attackAnimator;
     private bool playerHit;
+    private bool attacking = false;
     public string collisionTag = "Player";
     [SerializeField] private GameObject sphereCollider;
-    private WaitForSeconds attackerWindow;
-    private WaitForSeconds startDelay;
+    [SerializeField] private float attackWindowStart = 0.45f;
+    [SerializeField] private float attackWindowEnd = 0.65f;
     //reference to player health.
+    private int attack01AnimHash = Animator.StringToHash("Base Layer.Attack01");
 
     //Honestly this whole ass class doesnt need to exist
     void Awake()
     {
-        attackAnimator = GetComponent<Animator>();
-        //Set default
-        startDelay = new WaitForSeconds(.35f);
         sphereCollider = GetComponentInChildren<Collider>().transform.gameObject;
-        SetAttackWindow(1f);
-        
     }
     private void Start()
     {
         sphereCollider.SetActive(false);
     }
-    public void SetAttackWindow(float attackWindow) => attackerWindow = new WaitForSeconds(attackWindow);
-    public void AttackPlayer()
+    private void FixedUpdate()
     {
-        if (attackAnimator != null) attackAnimator.SetTrigger("Attack");
-        if (!sphereCollider.activeSelf) StartCoroutine(AttackRot());
-        //Also check for collisions and call TakeDamage() on player if contact
-
-    }
+        if (!attacking) return;
+        if (CurrentAnimationCompletion() >= attackWindowStart && CurrentAnimationCompletion() <= attackWindowEnd) sphereCollider.SetActive(true);
+        else sphereCollider.SetActive(false);
+    }    
+    public void Attacking() => attacking = true;
+    public void StopAttacking() => attacking = false;
     
-    private IEnumerator AttackRot()
+    private float CurrentAnimationCompletion()
     {
-        yield return startDelay;
-        sphereCollider.SetActive(true);
-        yield return attackerWindow;
-        sphereCollider.SetActive(false);
+        AnimatorStateInfo stateInfo = attackAnimator.GetCurrentAnimatorStateInfo(0);
+        //if animation clip is currently "Attack01"
+        if (attack01AnimHash == stateInfo.fullPathHash)
+        {
+            return stateInfo.normalizedTime;
+        }
+        else return -1;      
     }
     //The collider here is the box that's being animated
     void OnCollisionEnter(Collision collision)
@@ -75,8 +75,7 @@ public class EnemyAttack : MonoBehaviour
             if (other.gameObject.tag == collisionTag)
             {
                 other.gameObject.GetComponentInParent<PlayerHealth>().Damage();
-                //call .TakeDamage() on its "Health" component
-                Debug.Log("Hit");
+                //call .TakeDamage() on its "Health" component                
             }
         }
     }

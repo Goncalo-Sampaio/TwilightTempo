@@ -28,13 +28,12 @@ public class EnemyHealth : MonoBehaviour
     private AudioSource audioSource;
     private EnemyReferences enemyReferences;
     private ProgressionBlocker progressionBlocker;
-    private Flash flash;
-    private bool wasHit;
-    private bool wasMiss;
+    private Flash flash;    
     private bool gettingKnockBacked = false;
+    [SerializeField][Tooltip("x out 10 chance of berserking after next hit when bellow 30% health")] private int chanceOfBerserking = 2; 
     [SerializeField] private float maxKnockBackTime = 3f;
-    [SerializeField] private float staggerTimmer = .75f;    
-    
+    [SerializeField] private float AfterDeathLingerTime = 5f;
+
     public void SetProgressionBlocker(ProgressionBlocker progressionBlocker) => this.progressionBlocker = progressionBlocker;
     void Start()
     {
@@ -52,12 +51,15 @@ public class EnemyHealth : MonoBehaviour
     {
         PlayGettingHitSounds();
 
-        currentHealth -= damage;        
-        
+        currentHealth -= damage;
 
-        if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
+
+        if (RollTheDice())
         {
-            enemyReferences.enemyBrain.Berserk();
+            if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
+            {
+                enemyReferences.enemyBrain.Berserk();
+            }
         }
         if (currentHealth <= 0)
         {
@@ -74,8 +76,8 @@ public class EnemyHealth : MonoBehaviour
         }
         //VISUAL FEEDBACK:
         //Flash once
-        GotHit();
-        
+        enemyReferences.enemyBrain.GotHit();
+
     }
     //With KnockBack
     public void Damage(float damage,Vector3 force)
@@ -84,9 +86,12 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damage;
         Vector3 forceAfterKnockBackNegation = force - (force * knockBackResistance / 100 );
         if (currentHealth - damage <= 0 ) ApllyKnockBack(forceAfterKnockBackNegation);
-        if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
+        if(RollTheDice())
         {
-            enemyReferences.enemyBrain.Berserk();
+            if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
+            {
+                enemyReferences.enemyBrain.Berserk();
+            }
         }
 
         if (currentHealth <= 0)
@@ -105,16 +110,12 @@ public class EnemyHealth : MonoBehaviour
         }
         //VISUAL FEEDBACK:
         //Flash once
-        GotHit();
+        enemyReferences.enemyBrain.GotHit();
         //flash.FlashForXIterations(1);
         
         //transform.DOShakePosition(0.2f, 0.1f, 10);
 
-    }
-    public void GotHit()
-    {
-        if (!wasHit) StartCoroutine(GotHitRot());
-    }
+    }    
     
     [Button]
     public void ApllyKnockBack() => ApllyKnockBack(10f * -transform.forward + transform.up);
@@ -161,21 +162,14 @@ public class EnemyHealth : MonoBehaviour
 
         gettingKnockBacked = false;
     }
-    private IEnumerator GotHitRot()
-    {
-        wasHit = true;
-        enemyReferences.enemyBrain.wasHit = true;
-        yield return new WaitForSeconds(staggerTimmer);
-        wasHit = false;
-        enemyReferences.enemyBrain.wasHit = false;
-    }
+    
     private IEnumerator DeathRot()
     {
         dead = true;
         enemyReferences.enemyNavigation.StopNow(true);
         enemyReferences.enemyAnimator.Die();
-        enemyReferences.enemyBrain.dead = true;
-        yield return new WaitForSeconds(3);        
+        enemyReferences.enemyBrain.Die();
+        yield return new WaitForSeconds(AfterDeathLingerTime);        
         Destroy(this.gameObject);
 
     }
@@ -185,6 +179,10 @@ public class EnemyHealth : MonoBehaviour
         audioSource.PlayOneShot(hitSFX);
         audioSource.pitch = Random.Range(0.95f, 1.05f);
         audioSource.PlayOneShot(magicHitSFX);
+    }
+    private bool RollTheDice()
+    {
+        return (chanceOfBerserking >= Random.Range(0, 10)) ;
     }
 
 }

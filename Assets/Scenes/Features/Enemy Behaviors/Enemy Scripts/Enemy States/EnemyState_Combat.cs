@@ -32,7 +32,7 @@ public class EnemyState_Combat : IState
         enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
         if (AttackUpdate())
         {
-            enemyReferences.enemeyAttack.AttackPlayer();
+            enemyReferences.enemeyAttack.Attacking();
             if (enemyReferences.enemyAnimator != null)
             {
                 enemyReferences.enemyNavigation.SnapToTarget(playerRef.position);
@@ -46,6 +46,7 @@ public class EnemyState_Combat : IState
         attackTimer = attackUpdateFrequency;
         //enable navigation:
         enemyReferences.enemyNavigation.StopNow(false);
+        enemyReferences.enemeyAttack.StopAttacking();
 
     }
     private void BerserkMode() => attackUpdateFrequency = storedUpdateFrequency / 2f;

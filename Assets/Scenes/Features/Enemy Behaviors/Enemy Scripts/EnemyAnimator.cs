@@ -31,5 +31,5 @@ public class EnemyAnimator : MonoBehaviour
     [Button]
     public void StopRunning() => _animator.SetBool("Running", false);
     public void WarCry() => _animator.SetTrigger("WarCry");
-    public void Berserk() => _animator.speed = 1.5f;
+    public void Berserk(float berserskAnimationSpeed = 1.5f) => _animator.speed = berserskAnimationSpeed;
 }
