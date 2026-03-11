@@ -76,7 +76,11 @@ public class EnemyHealth : MonoBehaviour
         }
         //VISUAL FEEDBACK:
         //Flash once
-        enemyReferences.enemyBrain.GotHit();
+        if (!dead)
+        {
+            enemyReferences.enemyAnimator.HitStop(10);
+            enemyReferences.enemyBrain.GotHit();
+        }
 
     }
     //With KnockBack
@@ -104,15 +108,19 @@ public class EnemyHealth : MonoBehaviour
             if (!dead)
             {
                 StartCoroutine(DeathRot());
-                brain.dead = true;
+                
             }
             
         }
         //VISUAL FEEDBACK:
         //Flash once
-        enemyReferences.enemyBrain.GotHit();
+        if (!dead)
+        {
+            enemyReferences.enemyAnimator.HitStop(10);
+            enemyReferences.enemyBrain.GotHit();
+        }
         //flash.FlashForXIterations(1);
-        
+
         //transform.DOShakePosition(0.2f, 0.1f, 10);
 
     }    
@@ -166,8 +174,7 @@ public class EnemyHealth : MonoBehaviour
     private IEnumerator DeathRot()
     {
         dead = true;
-        enemyReferences.enemyNavigation.StopNow(true);
-        enemyReferences.enemyAnimator.Die();
+        enemyReferences.enemyNavigation.StopNow(true);        
         enemyReferences.enemyBrain.Die();
         yield return new WaitForSeconds(AfterDeathLingerTime);        
         Destroy(this.gameObject);

@@ -127,16 +127,20 @@ public class EnemyBrain : MonoBehaviour
     private IEnumerator BerserkOn()
     {
         isBerserk = true;
-        yield return null;
         berserkLag = true;
-        enemyReferences.enemyAnimator.WarCry();
+        enemyReferences.enemyNavigation.StopNow(true);
+        yield return null;
         DisableColliders();
+        yield return new WaitForFixedUpdate();
+        enemyReferences.enemyAnimator.WarCry();
+        
         enemyReferences.berserkParticles.Play();
         yield return new WaitForSeconds(2f);
         enemyReferences.enemyAnimator.Berserk(1.2f);
         enemyReferences.enemyNavigation.Berserk();
         enemyReferences.enemyNavigation.StopNow(false);
         EnableColliders();
+        yield return new WaitForFixedUpdate();
         berserkLag = false;
         yield return null;
 
@@ -144,7 +148,9 @@ public class EnemyBrain : MonoBehaviour
     public void Die()
     {
         dead = true;
-        DisableColliders();
+        StopAllCoroutines();
+        enemyReferences.enemyAnimator.Die();
+        DisableColliders();        
         StopRiggidbodyMovement();
     }
     public void GotHit()
