@@ -58,7 +58,7 @@ public class EnemyHealth : MonoBehaviour
         {
             if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
             {
-                enemyReferences.enemyBrain.Berserk();
+                if (!enemyReferences.isCaster) enemyReferences.enemyBrain.Berserk();
             }
         }
         if (currentHealth <= 0)
@@ -94,7 +94,7 @@ public class EnemyHealth : MonoBehaviour
         {
             if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
             {
-                enemyReferences.enemyBrain.Berserk();
+                if (!enemyReferences.isCaster) enemyReferences.enemyBrain.Berserk();
             }
         }
 

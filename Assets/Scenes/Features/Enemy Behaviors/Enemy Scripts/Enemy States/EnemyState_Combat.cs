@@ -8,10 +8,12 @@ public class EnemyState_Combat : IState
     private float storedUpdateFrequency;
     private float attackUpdateFrequency; // via a scriptable object
     private float attackTimer;
+    private bool isCaster;
 
     private StateMachine combatSubStateMachine;
     public EnemyState_Combat(EnemyReferences enemyReferences, float attackUpdateFrequency)
     {
+        this.isCaster = enemyReferences.isCaster;
         this.enemyReferences = enemyReferences;
         playerRef = enemyReferences.playerRef.transform;
         this.attackUpdateFrequency = attackUpdateFrequency;
@@ -32,11 +34,30 @@ public class EnemyState_Combat : IState
         enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
         if (AttackUpdate())
         {
-            enemyReferences.enemeyAttack.Attacking();
-            if (enemyReferences.enemyAnimator != null)
+            if(isCaster)
             {
-                enemyReferences.enemyNavigation.SnapToTarget(playerRef.position);
-                enemyReferences.enemyAnimator.Attack1();
+                
+                if (enemyReferences.enemyAnimator != null)
+                {
+                    enemyReferences.enemyNavigation.SnapToTarget(playerRef.position);
+                    Debug.Log("enemyReferences.enemyNavigation.SnapToTarget(playerRef.position)");
+                    enemyReferences.enemyAnimator.SpellCast();
+
+                    Debug.Log("enemyReferences.enemyAnimator.SpellCast();");
+                    enemyReferences.enemyCasterAttack.CastSpell();
+                    Debug.Log(" enemyReferences.enemyCasterAttack.CastSpell();");
+                }
+            }
+            else
+            {
+
+                enemyReferences.enemeyAttack.Attacking();
+                if (enemyReferences.enemyAnimator != null)
+                {
+                    enemyReferences.enemyNavigation.SnapToTarget(playerRef.position);
+                    enemyReferences.enemyAnimator.Attack1();
+                }
+
             }
         }
     }

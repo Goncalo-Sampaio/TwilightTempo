@@ -159,6 +159,8 @@ MonoBehaviour:
   flash: {fileID: 0}
   enemyBrain: {fileID: 0}
   berserkParticles: {fileID: 0}
+  isCaster: 0
+  enemyCasterAttack: {fileID: 0}
   playerRef: {fileID: 0}
 --- !u!195 &4242322043275516276
 NavMeshAgent:
@@ -5488,6 +5490,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8062210318721165020}
     m_Modifications:
+    - target: {fileID: 100156, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100158, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100166, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 100168, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
       propertyPath: m_Name
       value: Orc Shaman

@@ -49,6 +49,11 @@ public class EnemyAnimator : MonoBehaviour
     public void StartRunning() => _animator.SetBool("Running", true);
     [Button]
     public void StopRunning() => _animator.SetBool("Running", false);
+    [Button]
     public void WarCry() => _animator.SetTrigger("WarCry");
+    [Button]
+    public void Casting() => _animator.SetTrigger("CastingSpell");
+    [Button]
+    public void SpellCast() => _animator.SetTrigger("Spell");
     public void Berserk(float berserskAnimationSpeed = 1.5f) => _animator.speed = berserskAnimationSpeed;
 }

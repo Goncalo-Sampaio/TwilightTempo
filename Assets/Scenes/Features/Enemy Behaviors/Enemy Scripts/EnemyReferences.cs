@@ -11,7 +11,9 @@ public class EnemyReferences : MonoBehaviour
     [HideInInspector] public Flash flash;
     [HideInInspector] public EnemyBrain enemyBrain;
     [HideInInspector] public ParticleSystem berserkParticles;
-    
+    //temporary:
+    public bool isCaster = false;
+    public EnemyCasterAttack enemyCasterAttack;
     public Transform playerRef;
     private void Awake()
     {
@@ -20,6 +22,7 @@ public class EnemyReferences : MonoBehaviour
         enemyHealth = GetComponent<EnemyHealth>();
         enemyNavigation = GetComponent<EnemyNavigation>();
         enemeyAttack = GetComponentInChildren<EnemyAttack>();
+        enemyCasterAttack = GetComponentInChildren<EnemyCasterAttack>();
         rb = GetComponentInChildren<Rigidbody>();
         enemyAnimator = GetComponentInChildren<EnemyAnimator>();
         flash = GetComponentInChildren<Flash>();
