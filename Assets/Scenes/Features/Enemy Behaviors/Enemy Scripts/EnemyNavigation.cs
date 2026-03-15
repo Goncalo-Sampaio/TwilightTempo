@@ -91,7 +91,7 @@ public class EnemyNavigation : MonoBehaviour
     public void LookAtTarget(Vector3 target)
     {
         var q = Quaternion.LookRotation(target - transform.position);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 35f * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 500f * Time.deltaTime);
     }
     public void SnapToTarget(Vector3 target) => transform.LookAt(target);
 
@@ -121,6 +121,11 @@ public class EnemyNavigation : MonoBehaviour
         //if hit nothing:            
         return false;
 
+    }
+    public float GetVisionConeFactor(Vector3 targetPos)
+    {
+        Vector3 targetDirection = (targetPos - rayCastOrigin.position).normalized;
+        return Vector3.Dot(rayCastOrigin.forward, targetDirection);
     }
     public void StopNow(bool stop)
     {

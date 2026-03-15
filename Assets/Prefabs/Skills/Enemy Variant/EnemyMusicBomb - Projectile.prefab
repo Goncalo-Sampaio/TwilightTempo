@@ -129,7 +129,7 @@ MonoBehaviour:
   explosion: {fileID: 5814675405232539316, guid: 3c99a88049e75674f8d016e4fd91844c, type: 3}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 8
 --- !u!1001 &7902326888593121787
 PrefabInstance:
   m_ObjectHideFlags: 0
