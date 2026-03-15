@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Flash : MonoBehaviour
@@ -21,6 +22,7 @@ public class Flash : MonoBehaviour
     void Start()
     {        
         renderers = GetComponentsInChildren<Renderer>();
+
     }
 
     [Button]
@@ -119,6 +121,7 @@ public class Flash : MonoBehaviour
     {
         foreach (Renderer renderer in renderers)
         {
+            if (renderer.gameObject.tag == "DontFlash") continue;
             if (on)
             {
                 renderer.material.EnableKeyword("_EMISSION");
@@ -134,7 +137,11 @@ public class Flash : MonoBehaviour
     }
     private void SetFlashEmissionValueInChildren(Color flashColour)
     {
-        foreach (Renderer renderer in renderers)renderer.material.SetColor("_EmissionColor", flashColour);
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer.gameObject.tag == "DontFlash") continue;
+            renderer.material.SetColor("_EmissionColor", flashColour);
+        }
     }
 
 

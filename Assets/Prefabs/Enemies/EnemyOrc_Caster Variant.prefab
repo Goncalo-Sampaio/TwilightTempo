@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 2007748154555362697}
   m_Layer: 0
   m_Name: Eye_L
-  m_TagString: Untagged
+  m_TagString: DontFlash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 6431333913974509672}
   m_Layer: 0
   m_Name: Eye_L
-  m_TagString: Untagged
+  m_TagString: DontFlash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 3827650958541405455}
   m_Layer: 0
   m_Name: Eye_R
-  m_TagString: Untagged
+  m_TagString: DontFlash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 606293027167976333}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: DontFlash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 7477536945183927385}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: DontFlash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 6982617387639078313}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: DontFlash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -504,7 +504,7 @@ GameObject:
   - component: {fileID: 7327515911108823902}
   m_Layer: 0
   m_Name: Eye_R
-  m_TagString: Untagged
+  m_TagString: DontFlash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -539,7 +539,7 @@ GameObject:
   - component: {fileID: 8166758018932984889}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: DontFlash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
