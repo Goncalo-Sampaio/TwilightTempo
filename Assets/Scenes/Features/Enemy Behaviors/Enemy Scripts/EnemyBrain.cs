@@ -9,10 +9,9 @@ public class EnemyBrain : MonoBehaviour
 {
     //Handles high level logic. and calls subcomponent methods    
     //Pools data from other subcomponents to execute desicions
-    [HideInInspector]public bool engaged = false;
     
-    [Header("CHASE params")]    
-
+    
+    [Header("CHASE params")]
     [SerializeField] private float chaseUpdateFrequency = 0.2f;
 
     private bool playerInsideTrigger = false;
@@ -23,7 +22,8 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private float attackRangeTolerance = .3f;
     [Tooltip("How the attack's collider is active for:")]
     [SerializeField] private float attackWindow = 1f;
-    
+    [SerializeField] private float staggerTimmer = .75f;
+
     //References
     private EnemyReferences enemyReferences;
 
@@ -32,18 +32,26 @@ public class EnemyBrain : MonoBehaviour
 
     //Local vars
     private bool gettingKnockBacked = false; //set from EnemyHealth
-    private float triggerColliderRadius;
+    
     private float groundOffset;
-    public bool wasHit;
-    public bool dead;
-    public string state;
+    [HideInInspector] public bool wasHit;
+    [HideInInspector] public bool dead;
+    [HideInInspector] public bool isBerserk;
+
+    private bool playerWithinLineOfSight, withinAttackRange;
+    private bool playerWasSpoted;
+    [HideInInspector] public bool engaged = false;
+    [SerializeField] private float forgetTimmer = 5f;
+    private float forgetTimmerCountdown;
+    private Collider[] colliders;
 
     private void Awake()
     {
+        playerWasSpoted = false;
         stateMachine = new StateMachine();
         enemyReferences = GetComponent<EnemyReferences>();
+        colliders = GetComponentsInChildren<Collider>();
     }
-
 
     private void Start()
     {
@@ -51,9 +59,7 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.rb.useGravity = false;
         enemyReferences.rb.isKinematic = true;
 
-        enemyReferences.enemeyAttack.SetAttackWindow(attackWindow);
-        groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
-        
+        groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;        
         
         //STATES
         var idle = new EnemyState_Idle(enemyReferences);
@@ -61,78 +67,126 @@ public class EnemyBrain : MonoBehaviour
         var combat = new EnemyState_Combat(enemyReferences, attackUpdateFrequency);
         var gotHit = new EnemyState_GotHit(enemyReferences);
         var death = new EnemyState_Death();
-        //var delay = new EnemyState_Delay(2f);
-
+        var berserk = new EnemyState_Berserk(enemyReferences);
         //TRANSITIONS
-        At(idle, chase, () => PlayerDetected() && !dead); //This will update inside an enumerator. Ideally checked inside a fixedUpdate
-        At(chase, idle, () => !playerInsideTrigger && !engaged && !dead);
-        At(chase, combat, () => CloseEnoughToAttack() && !dead); //is within attackDistance
-        At(combat, chase, () => !CloseEnoughToAttack() && engaged && !dead); //Outside attack range but still within line of sight
-        //(delay,() => enemyReferences.enemyHealth.dead);
-        //Make a knockedback STATE
-        //Any(delay, () => gettingKnockBacked);
+        At(idle, chase, () => engaged && !dead); 
+        At(chase, idle, () => !engaged && !berserkLag && !dead);        
+        At(combat, chase, () => engaged && !withinAttackRange && !dead);         
         Any(gotHit, () => wasHit && !dead);
         Any(death, () => dead);
-        //Transition from got hit to the rest of the states:
-        At(gotHit, chase, ()=> !wasHit && PlayerDetected() && !dead);
-        At(gotHit, combat, () => !wasHit && CloseEnoughToAttack() && !dead);
-        //At(delay, chase, () => PlayerDetected() );
+        Any(combat, () => withinAttackRange && engaged && !dead);
+
+        At(gotHit, chase, ()=> !wasHit && engaged && !dead);
+        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged && !dead);
+        Any(berserk, () => berserkLag && !dead);
+        At(berserk, chase, () => !berserkLag && engaged && !dead);
+        At(berserk, combat, () => !berserkLag && !wasHit && withinAttackRange && engaged && !dead);
         //START STATE
-
-
         stateMachine.SetState(idle);
-        //delay needs exit condition
-
 
         //FUNCTIONS & CONDITIONS
         void At(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
         void Any(IState to,Func<bool> condition) => stateMachine.AddAnyTransition(to, condition);
     }
-    
-    private bool PlayerDetected()
-    {        
-        if (playerInsideTrigger) return enemyReferences.enemyNavigation.HasLineOfSight(enemyReferences.playerRef.position);
-        else return false;
-    }
-    private bool CloseEnoughToAttack()
+
+    //player detection
+    private void ProbeSurroundings ()
     {
-        float distanceToPlayer = enemyReferences.enemyNavigation.LinearDistanceFromTarget(enemyReferences.playerRef.position);
+        playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideTriggerDistance();
+        if (playerInsideTrigger || engaged )
+        {
+            //Only probe line of sight if:
+            //  Player is inside sphere trigger
+            //  This Enemy is activly engaged with the player (Meaning it spotted them and is either chasing or attacking the player)
+            //reminder that the check is only done here:
+            playerWithinLineOfSight = enemyReferences.enemyNavigation.HasLineOfSight(enemyReferences.playerRef.position, "Player");
+            if (playerWithinLineOfSight )
+            {
+                //Enemy spots the player
+                engaged = true;
+                forgetTimmerCountdown = forgetTimmer;
+            }
+        }
+        //forgetting player after loosing sight:
+        if(engaged && !playerWithinLineOfSight)
+        {
+            forgetTimmerCountdown -= Time.deltaTime;
+            if(forgetTimmerCountdown <= 0f) engaged = false;
+        } 
+        //if within attack range or if was hit 
+        if(withinAttackRange || (!engaged && wasHit))
+        {
+            engaged = true;
+            forgetTimmerCountdown = forgetTimmer;
+        }
+        
+        withinAttackRange = enemyReferences.enemyNavigation.LinearDistanceFromTarget(enemyReferences.playerRef.position) <= attackRange;
+    }
+    private bool berserkLag =false;
+    public void Berserk() => StartCoroutine(BerserkOn());
+    private IEnumerator BerserkOn()
+    {
+        isBerserk = true;
+        berserkLag = true;
+        enemyReferences.enemyNavigation.StopNow(true);
+        yield return null;
+        DisableColliders();
+        yield return new WaitForFixedUpdate();
+        enemyReferences.enemyAnimator.WarCry();
+        
+        enemyReferences.berserkParticles.Play();
+        yield return new WaitForSeconds(2f);
+        enemyReferences.enemyAnimator.Berserk(1.2f);
+        enemyReferences.enemyNavigation.Berserk();
+        enemyReferences.enemyNavigation.StopNow(false);
+        EnableColliders();
+        yield return new WaitForFixedUpdate();
+        berserkLag = false;
+        yield return null;
 
-        bool isInsideRange = distanceToPlayer < attackRange + attackRangeTolerance && distanceToPlayer > attackRange - attackRangeTolerance;
-        Debug.Log($"Min = {attackRange - attackRangeTolerance} Current = {distanceToPlayer}, Max = {attackRange + attackRangeTolerance}, Is inside range = {isInsideRange}, engaged = {engaged} ");
-
-        return isInsideRange;
+    }
+    public void Die()
+    {
+        dead = true;
+        StopAllCoroutines();
+        enemyReferences.enemyAnimator.Die();
+        DisableColliders();        
+        StopRiggidbodyMovement();
+    }
+    public void GotHit()
+    {
+        if (!wasHit) StartCoroutine(GotHitRot());
+    }
+    private IEnumerator GotHitRot()
+    {
+        wasHit = true;
+        engaged = true;
+        yield return new WaitForSeconds(staggerTimmer);
+        wasHit = false;
     }
 
 
-
+    private void DisableColliders()
+    {
+        foreach (Collider col in colliders) col.enabled = false;
+    }
+    private void EnableColliders()
+    {
+        foreach (Collider col in colliders) col.enabled = true;
+    }
+    private void StopRiggidbodyMovement()
+    {
+        enemyReferences.rb.angularVelocity = Vector3.zero;
+        enemyReferences.rb.linearVelocity = Vector3.zero;
+    }
     private void Update()
     {
         stateMachine.Tick();
     }
     private void FixedUpdate()
-    {        
-        playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideChaseDistance();    
+    {
+        ProbeSurroundings();
     }
-    
-    //private void ShortTermMemory()
-    //{
-        
-    //    //Reset timer
-    //    if (PlayerDetected())
-    //    {
-    //        engaged = true;
-    //        forgetTimmerCountdown = forgetTimmer;
-    //    }
-    //    else
-    //    {
-    //        forgetTimmerCountdown -= Time.deltaTime;
-    //    }
-    //    if (forgetTimmerCountdown <= 0f) engaged = false;
-    //    //Debug.Log($"Forget me timer: {forgetTimmerCountdown}");
-
-    //}
-
     private void OnDrawGizmos()
     {
         if (stateMachine != null)

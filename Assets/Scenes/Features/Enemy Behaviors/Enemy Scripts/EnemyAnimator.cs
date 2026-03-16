@@ -1,9 +1,11 @@
 using NaughtyAttributes;
+using System.Collections;
 using UnityEngine;
 
 public class EnemyAnimator : MonoBehaviour
 {
     private Animator _animator;
+    private bool hitStopActive = false;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -11,7 +13,24 @@ public class EnemyAnimator : MonoBehaviour
     [Button]
     public void Hit() => _animator.SetTrigger("Hit");
     [Button]
-    public void Die() => _animator.SetTrigger("Die");
+    public void Die()
+    {
+        _animator.SetTrigger("Die");
+
+    }
+    public void HitStop(int frames = 10)
+    {
+        if (!hitStopActive) StartCoroutine(HitStopRot(frames));
+    }
+    private IEnumerator HitStopRot(int frames)
+    {
+        _animator.enabled = false;
+        for (int i = 0; i < frames; i++)
+        {
+            yield return null;
+        }
+        _animator.enabled = true;
+    }
     [Button]
     public void Attack1() => _animator.SetTrigger("Attack1");
     [Button]
@@ -30,4 +49,11 @@ public class EnemyAnimator : MonoBehaviour
     public void StartRunning() => _animator.SetBool("Running", true);
     [Button]
     public void StopRunning() => _animator.SetBool("Running", false);
+    [Button]
+    public void WarCry() => _animator.SetTrigger("WarCry");
+    [Button]
+    public void Casting() => _animator.SetTrigger("CastingSpell");
+    [Button]
+    public void SpellCast() => _animator.SetTrigger("Spell");
+    public void Berserk(float berserskAnimationSpeed = 1.5f) => _animator.speed = berserskAnimationSpeed;
 }

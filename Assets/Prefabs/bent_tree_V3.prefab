@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 5994f1c0498bfe147a0fcf258c7b60bd, type: 2}
     - target: {fileID: 919132149155446097, guid: ec9266e41992bf1468f1995acd44885a, type: 3}
       propertyPath: m_Name
-      value: BentTree_V3
+      value: bent_tree_V3
       objectReference: {fileID: 0}
     - target: {fileID: 1680980704780265393, guid: ec9266e41992bf1468f1995acd44885a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
