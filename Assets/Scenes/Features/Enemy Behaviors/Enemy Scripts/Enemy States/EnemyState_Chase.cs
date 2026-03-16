@@ -13,7 +13,7 @@ public class EnemyState_Chase : IState
     {
         this.enemyReferences = enemyReferences;
         enemyNav = enemyReferences.enemyNavigation;
-        playerRef = enemyReferences.playerRef.transform;        
+        playerRef = enemyReferences.playerRef.transform;
         this.chaseUpdateFrequency = chaseUpdateFrequency;
     }
     public void OnEnter()
