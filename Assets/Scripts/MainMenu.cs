@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,12 @@ public class MainMenu : MonoBehaviour
 
     public void QuitGame()
     {
+        StartCoroutine(QuitCoroutine());
+    }
+
+    private IEnumerator QuitCoroutine()
+    {
+        yield return new WaitForSeconds(.5f);
         Application.Quit();
     }
 }
