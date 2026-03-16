@@ -76,7 +76,6 @@ public class SkillSystem : MonoBehaviour
             rotationProgress = rotationProgress + Time.deltaTime / rotationTime;
             skillHolder.rotation = Quaternion.Lerp(Quaternion.Euler(initialRotation), Quaternion.Euler(finalRotation), rotationProgress);
 
-
             if (rotationProgress >= 1)
             {
                 rotating = false;
