@@ -29,38 +29,6 @@ MonoBehaviour:
       m_YScaleBool: 0
       m_ZScaleBool: 0
     name: Lantern
-  - gameObject: {fileID: 601198158503838656, guid: c66be18cd86866f43a7535833138b2f0, type: 3}
-    settings:
-      m_Strength: 51.800007
-      m_RotationRangeMin: {x: 0, y: 0, z: 0}
-      m_RotationRangeMax: {x: 0, y: 0, z: 0}
-      m_ScaleRangeMin: {x: 1, y: 1, z: 1}
-      m_ScaleRangeMax: {x: 1, y: 1, z: 1}
-      m_UniformScale: {x: 1, y: 1}
-      m_UniformBool: 0
-      m_XRotationBool: 0
-      m_YRotationBool: 0
-      m_ZRotationBool: 0
-      m_XScaleBool: 0
-      m_YScaleBool: 0
-      m_ZScaleBool: 0
-    name: Bush_V1
-  - gameObject: {fileID: 4912523856957936396, guid: 1a9c888217c05944d8dffec6fcbd93f4, type: 3}
-    settings:
-      m_Strength: 50
-      m_RotationRangeMin: {x: 0, y: 0, z: 0}
-      m_RotationRangeMax: {x: 0, y: 0, z: 0}
-      m_ScaleRangeMin: {x: 1, y: 1, z: 1}
-      m_ScaleRangeMax: {x: 1, y: 1, z: 1}
-      m_UniformScale: {x: 1, y: 1}
-      m_UniformBool: 0
-      m_XRotationBool: 0
-      m_YRotationBool: 0
-      m_ZRotationBool: 0
-      m_XScaleBool: 0
-      m_YScaleBool: 0
-      m_ZScaleBool: 0
-    name: Bush_V2
   - gameObject: {fileID: 2204578917629280115, guid: 4b962d7d7dd698843a6441267d768c09, type: 3}
     settings:
       m_Strength: 50
