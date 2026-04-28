@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/AmplifyShaderEditor/Plugins/EditorResources/Templates/HDRP 12x.unitypackage.meta
 guid: b79a9f07e035da248861a6bcfd4ef787
 DefaultImporter:
+========
+guid: aab34d0edfca285439bacc80fb41d34f
+PrefabImporter:
+>>>>>>>> 55bb1fdd440f5b4b60eeee919174d8702021eb40:Assets/Prefabs/brickwall_V1.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
