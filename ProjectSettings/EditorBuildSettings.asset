@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: bb21f380262eecf4a9a85bd660fcccf3
   - enabled: 1
-    path: Assets/Scenes/LoadingScreen.unity
-    guid: 969659af899e850458ac1104fc10510b
-  - enabled: 1
     path: Assets/Scenes/ArenaPrototype Troll Testing.unity
     guid: f0abf61dacf94504284a016adbaca6e8
   m_configObjects:

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class SceneTransition : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class SceneTransition : MonoBehaviour
         }
     }
 
-    private System.Collections.IEnumerator FadeInTitleAndText()
+    private IEnumerator FadeInTitleAndText()
     {
         // Fade in the title
         yield return StartCoroutine(FadeGraphic(titleImage, 0f, 1f, fadeDuration));
@@ -43,7 +44,7 @@ public class SceneTransition : MonoBehaviour
     }
 
     // Make the text blink in a loop
-    private System.Collections.IEnumerator BlinkText(TextMeshProUGUI text, float duration)
+    private IEnumerator BlinkText(TextMeshProUGUI text, float duration)
     {
         while (true)
         {
@@ -55,7 +56,7 @@ public class SceneTransition : MonoBehaviour
     }
 
     // Fade for any Graphic (Image or TextMeshProUGUI)
-    private System.Collections.IEnumerator FadeGraphic(Graphic graphic, float startAlpha, float endAlpha, float duration)
+    private IEnumerator FadeGraphic(Graphic graphic, float startAlpha, float endAlpha, float duration)
     {
         float t = 0f;
         while (t < duration)
