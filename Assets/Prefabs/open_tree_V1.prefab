@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: cc360a77aa3fee543a24d5d2d36b0f95, type: 2}
+    - target: {fileID: -7511558181221131132, guid: ad0e9793c2e51c04ba92893f6942a790, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cc360a77aa3fee543a24d5d2d36b0f95, type: 2}
     - target: {fileID: -4456705156955846513, guid: ad0e9793c2e51c04ba92893f6942a790, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -70,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: cc360a77aa3fee543a24d5d2d36b0f95, type: 2}
     - target: {fileID: 919132149155446097, guid: ad0e9793c2e51c04ba92893f6942a790, type: 3}
       propertyPath: m_Name
-      value: OpenTree
+      value: open_tree_V1
       objectReference: {fileID: 0}
     - target: {fileID: 1680980704780265393, guid: ad0e9793c2e51c04ba92893f6942a790, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

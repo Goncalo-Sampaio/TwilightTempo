@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 005d94f5514174b4ea668f082e08ec52, type: 2}
+    - target: {fileID: -7511558181221131132, guid: efddea7abf8b04342a10bfede375810a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 005d94f5514174b4ea668f082e08ec52, type: 2}
     - target: {fileID: -4456705156955846513, guid: efddea7abf8b04342a10bfede375810a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -62,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 005d94f5514174b4ea668f082e08ec52, type: 2}
     - target: {fileID: 919132149155446097, guid: efddea7abf8b04342a10bfede375810a, type: 3}
       propertyPath: m_Name
-      value: BentTreeV1
+      value: bent_tree_V1
       objectReference: {fileID: 0}
     - target: {fileID: 3310975968355442253, guid: efddea7abf8b04342a10bfede375810a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
