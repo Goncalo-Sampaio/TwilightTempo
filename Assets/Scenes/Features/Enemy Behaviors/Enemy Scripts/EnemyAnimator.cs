@@ -38,7 +38,12 @@ public class EnemyAnimator : MonoBehaviour
     [Button]
     public void Attack3() => _animator.SetTrigger("Attack3");
     [Button]
-    public void StartIdle() => _animator.SetBool("Idle", true);
+    public void StartIdle()
+    {
+        _animator.SetFloat("IdleOffset", Random.Range(0f, 1f));
+        _animator.SetBool("Idle", true);
+        
+    }
     [Button]
     public void StopIdle() => _animator.SetBool("Idle", false);
     [Button]

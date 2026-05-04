@@ -606,7 +606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1617214427788701709, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_Mass
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1811496294509267395, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_Name
@@ -632,6 +632,18 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c679081ccd36a4605aad739745385790, type: 2}
+    - target: {fileID: 4084440984013292482, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084440984013292482, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4084440984013292482, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 28
+      objectReference: {fileID: 0}
     - target: {fileID: 4084440984013725602, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -648,6 +660,14 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: a9f6aa3cde40e42ac84b56e4e2c99125, type: 2}
+    - target: {fileID: 4242322043275516276, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_Height
+      value: 2.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242322043275516276, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_Radius
+      value: 0.86
+      objectReference: {fileID: 0}
     - target: {fileID: 6640285124854255933, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.08
@@ -707,6 +727,10 @@ PrefabInstance:
     - target: {fileID: 8083665856115365505, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8527910691337372366, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.424
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1193042952315427688, guid: 2713646820f931f4d9147d819c770826, type: 3}
