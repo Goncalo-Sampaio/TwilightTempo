@@ -25,6 +25,12 @@ public class EnemyNavigation : MonoBehaviour
     [SerializeField] private bool desiredVelocity;
     [SerializeField] private bool steeringTarget;
 
+
+    [SerializeField] private bool isOnIce = false;
+    [SerializeField] private float iceForceMultiplier = 0.2f;
+
+    [SerializeField] private float maxAcceleration = 50f;
+    [SerializeField] private float iceAcceleration = 10f;
     public bool moving;
     private bool HasArrived()
     {
@@ -34,12 +40,13 @@ public class EnemyNavigation : MonoBehaviour
     {
         moving = false;
         enemyReferences = GetComponent<EnemyReferences>();
-        rb = enemyReferences.rb;
+        
         agent = GetComponent<NavMeshAgent>();
     }
     private void Start()
     {
         //state = EState.Waiting;
+        rb = enemyReferences.rb;
         TogglePhysicsModeOn();
 
     }
@@ -74,7 +81,6 @@ public class EnemyNavigation : MonoBehaviour
     //Phisics:
     public void TogglePhysicsModeOn()
     {
-        Debug.Log("TogglePhysicsModeOn");
         agent.updatePosition = false;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -90,11 +96,29 @@ public class EnemyNavigation : MonoBehaviour
         // navMeshAgent.desiredVelocity is the velocity the navmesh agent needs to do its AI behaviour
         //Its a result of it's current velocity towards the next position + the avoidance contribution.
         //The "go here now" vector at the current frame
-        var desiredVelocity = agent.desiredVelocity; //Debug this
 
         //calculate a force to accelerate the rigidbody so that its velocity moves toward the velocity the navmesh agent wants to have to follow its path
-        var calculatedForce = CalculateForceNeededToReachDesiredVelocity(desiredVelocity);
-        rb.AddForce(calculatedForce, ForceMode.Force);
+
+        
+        Vector3 desiredVelocity = agent.desiredVelocity;
+
+        //var calculatedForce = CalculateForceNeededToReachDesiredVelocity(desiredVelocity);
+        if (isOnIce)
+        {
+            desiredVelocity = Vector3.Lerp(rb.linearVelocity, desiredVelocity, 0.1f);
+        }
+
+
+        var desiredAcceleration = (desiredVelocity - rb.linearVelocity) / Time.fixedDeltaTime;
+
+        float accelLimit = isOnIce ? iceAcceleration : maxAcceleration;
+
+        desiredAcceleration = Vector3.ClampMagnitude(desiredAcceleration, accelLimit);
+
+        rb.AddForce(desiredAcceleration * rb.mass, ForceMode.Force);
+
+        rb.linearDamping = isOnIce ? 0.5f : 5f;
+        //rb.AddForce(calculatedForce, ForceMode.Force);
 
         //Synch Riggidbody with agent:
         agent.nextPosition = rb.position;
@@ -164,7 +188,7 @@ public class EnemyNavigation : MonoBehaviour
         Vector3 direction = (target - transform.position);
         Vector3 flatDirection = new Vector3(direction.x, 0, direction.z);
 
-        Debug.Log(GetVisionConeFactor(target));
+        
         if (GetVisionConeFactor(target) < .65)
         {
             rb.rotation = Quaternion.Slerp(rb.rotation, Quaternion.LookRotation(flatDirection.normalized, transform.up), 0.5f);
@@ -216,14 +240,12 @@ public class EnemyNavigation : MonoBehaviour
     {
         if (IsAgentActive())
         {
-            Debug.Log("agent.active == true");
             if (IsAgentOnNavmesh())
             {
-                Debug.Log("agent.IsOnNavmesh == true");
                 //Prevent error:
                 //The agent.isStopped getter can only be called if the agent.active == true && agent.IsOnNavmesh == true:
                 ToggleAgentStopped(stop);//stop agent navmesh
-                Debug.Log("ToggleAgentStopped called!");
+                
             }
         }
     }

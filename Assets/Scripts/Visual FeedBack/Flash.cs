@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Flash : MonoBehaviour
 {
@@ -122,8 +123,10 @@ public class Flash : MonoBehaviour
         foreach (Renderer renderer in renderers)
         {
             if (renderer.gameObject.tag == "DontFlash") continue;
+            if (renderer is UnityEngine.VFX.VFXRenderer) continue;
             if (on)
             {
+                
                 renderer.material.EnableKeyword("_EMISSION");
                 //This might mess with bakes:
                 renderer.material.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
@@ -140,6 +143,7 @@ public class Flash : MonoBehaviour
         foreach (Renderer renderer in renderers)
         {
             if (renderer.gameObject.tag == "DontFlash") continue;
+            if (renderer is UnityEngine.VFX.VFXRenderer) continue;
             renderer.material.SetColor("_EmissionColor", flashColour);
         }
     }

@@ -41,12 +41,10 @@ public class EnemyState_Combat : IState
                 else if (enemyReferences.enemyAnimator != null)
                 {
                     enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
-                    Debug.Log("enemyReferences.enemyNavigation.SnapToTarget(playerRef.position)");
                     enemyReferences.enemyAnimator.SpellCast();
 
-                    Debug.Log("enemyReferences.enemyAnimator.SpellCast();");
+                    
                     enemyReferences.enemyCasterAttack.CastSpell();
-                    Debug.Log(" enemyReferences.enemyCasterAttack.CastSpell();");
                 }
             }
             else
@@ -56,7 +54,6 @@ public class EnemyState_Combat : IState
                 if (enemyReferences.enemyAnimator != null)
                 {
                     //Enemy only attacks player if they are infront otherwise they rotate towards them
-                    Debug.Log($"Combat vision cone = {enemyReferences.enemyNavigation.GetVisionConeFactor(playerRef.position)}");
                     if (enemyReferences.enemyNavigation.GetVisionConeFactor(playerRef.position) < 0.65f)
                     {
                         enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
