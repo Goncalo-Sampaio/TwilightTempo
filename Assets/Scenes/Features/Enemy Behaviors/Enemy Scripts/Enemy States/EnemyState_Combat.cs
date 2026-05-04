@@ -31,15 +31,16 @@ public class EnemyState_Combat : IState
     }
     public void Tick()
     {
+
         enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
         if (AttackUpdate())
         {
             if(isCaster)
             {
-                if (enemyReferences.enemyNavigation.GetVisionConeFactor(playerRef.position) < 0.5f) enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
+                if (enemyReferences.enemyNavigation.GetVisionConeFactor(playerRef.position) < 0.65f) enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
                 else if (enemyReferences.enemyAnimator != null)
                 {
-                    enemyReferences.enemyNavigation.SnapToTarget(playerRef.position);
+                    enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
                     Debug.Log("enemyReferences.enemyNavigation.SnapToTarget(playerRef.position)");
                     enemyReferences.enemyAnimator.SpellCast();
 
@@ -51,11 +52,21 @@ public class EnemyState_Combat : IState
             else
             {
 
-                enemyReferences.enemeyAttack.Attacking();
+                
                 if (enemyReferences.enemyAnimator != null)
                 {
-                    enemyReferences.enemyNavigation.SnapToTarget(playerRef.position);
-                    enemyReferences.enemyAnimator.Attack1();
+                    //Enemy only attacks player if they are infront otherwise they rotate towards them
+                    Debug.Log($"Combat vision cone = {enemyReferences.enemyNavigation.GetVisionConeFactor(playerRef.position)}");
+                    if (enemyReferences.enemyNavigation.GetVisionConeFactor(playerRef.position) < 0.65f)
+                    {
+                        enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
+                        //enemyReferences.enemyNavigation.SnapToTarget(playerRef.position);
+                    }
+                    else
+                    {
+                        enemyReferences.enemeyAttack.Attacking();
+                        enemyReferences.enemyAnimator.Attack1();
+                    }
                 }
 
             }
