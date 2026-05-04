@@ -14928,10 +14928,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyOrc
       objectReference: {fileID: 0}
-    - target: {fileID: 1811496294509267395, guid: 2713646820f931f4d9147d819c770826, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6640285124854255933, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
