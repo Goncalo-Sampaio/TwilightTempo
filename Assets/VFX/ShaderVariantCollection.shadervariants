@@ -280,6 +280,36 @@ ShaderVariantCollection:
       variants:
       - keywords: 
         passType: 0
+  - first: {fileID: 4800002, guid: 5fc27737688daec4abda8ddc395a7f7b, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800004, guid: 5fc27737688daec4abda8ddc395a7f7b, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800006, guid: 5fc27737688daec4abda8ddc395a7f7b, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800008, guid: 5fc27737688daec4abda8ddc395a7f7b, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800016, guid: 5fc27737688daec4abda8ddc395a7f7b, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800018, guid: 5fc27737688daec4abda8ddc395a7f7b, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800010, guid: 5fc27737688daec4abda8ddc395a7f7b, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800012, guid: 5fc27737688daec4abda8ddc395a7f7b, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800014, guid: 5fc27737688daec4abda8ddc395a7f7b, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800000, guid: 5fc27737688daec4abda8ddc395a7f7b, type: 3}
+    second:
+      variants: []
   - first: {fileID: 4800002, guid: 24fe6f0c0b275bf4e893f293f866e664, type: 3}
     second:
       variants:
@@ -289,6 +319,9 @@ ShaderVariantCollection:
         passType: 13
       - keywords: FOG_EXP _SCREEN_SPACE_OCCLUSION
         passType: 13
+  - first: {fileID: 4800004, guid: 24fe6f0c0b275bf4e893f293f866e664, type: 3}
+    second:
+      variants: []
   - first: {fileID: -6465566751694194690, guid: a2910e56629806d429b08bdfc1bb9ac9, type: 3}
     second:
       variants:

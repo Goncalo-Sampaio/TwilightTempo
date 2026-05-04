@@ -7,6 +7,8 @@ public class UIFade : MonoBehaviour
     [SerializeField]
     private float fadeTime = 1f;
     [SerializeField]
+    private float VFXWarmupTime = .4f;
+    [SerializeField]
     private Image fadeImage;
 
     [SerializeField]
@@ -66,9 +68,9 @@ public class UIFade : MonoBehaviour
 
     private IEnumerator VFXWarmupCoroutine()
     {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(VFXWarmupTime);
         Destroy(vfxWarmupObject);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f - VFXWarmupTime);
         Fade(true);
     }
 }

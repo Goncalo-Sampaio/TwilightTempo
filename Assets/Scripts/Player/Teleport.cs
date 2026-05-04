@@ -6,6 +6,10 @@ public class Teleport : MonoBehaviour
     private float teleportSpeed;
     [SerializeField]
     private float stopRange;
+    [SerializeField]
+    private GameObject annikaModel;
+    [SerializeField]
+    private GameObject teleportObject;
 
     private GameObject targetCrystal;
 
@@ -27,6 +31,8 @@ public class Teleport : MonoBehaviour
         {
             if (Vector3.Distance(targetCrystal.transform.position, transform.position) < stopRange)
             {
+                annikaModel.SetActive(true);
+                teleportObject.SetActive(false);
                 teleporting = false;
                 stateManager.ResetState();
             }
@@ -43,7 +49,8 @@ public class Teleport : MonoBehaviour
 
     public void ActivateTeleport(GameObject target)
     {
-        
+        annikaModel.SetActive(false);
+        teleportObject.SetActive(true);
         targetCrystal = target;
         rb.linearVelocity = Vector3.zero;
         stateManager.SetCurrentState(PlayerStates.Teleporting);

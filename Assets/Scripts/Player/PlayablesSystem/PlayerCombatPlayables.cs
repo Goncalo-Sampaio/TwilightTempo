@@ -28,6 +28,7 @@ public class PlayerCombatPlayables : MonoBehaviour
     private MovementPlayables movementPlayables;
     private PlayerStates currentState;
     private AudioSource audioSource;
+    private ThirdPersonCam thirdPersonCam;
 
     private bool canCombo = false;
     private bool continueCombo = false;
@@ -42,6 +43,7 @@ public class PlayerCombatPlayables : MonoBehaviour
         movementPlayables = GetComponent<MovementPlayables>();
         currentState = playerStateManagerPlayables.CurrentState;
         audioSource = GetComponent<AudioSource>();
+        thirdPersonCam = GetComponentInChildren<ThirdPersonCam>();
     }
 
     // Update is called once per frame
@@ -93,12 +95,14 @@ public class PlayerCombatPlayables : MonoBehaviour
         {
             continueCombo = false;
             playerStateManagerPlayables.SetCurrentState(PlayerStates.Attacking);
+            thirdPersonCam.Attacking = true;
 
             ContinueCombo();
         }
         else if ((Time.time - lastComboEnd > 0.1f) && (comboCounter < attacks.Count()))
         {
             playerStateManagerPlayables.SetCurrentState(PlayerStates.Attacking);
+            thirdPersonCam.Attacking = true;
 
             playerStateManagerPlayables.Attack(attacks[comboCounter], attackSpeed);
             movementPlayables.AttackBoost();
@@ -132,6 +136,7 @@ public class PlayerCombatPlayables : MonoBehaviour
         }
 
         playerStateManagerPlayables.ResetState();
+        thirdPersonCam.Attacking = false;
 
         lastComboEnd = Time.time;
     }
@@ -144,6 +149,7 @@ public class PlayerCombatPlayables : MonoBehaviour
     private void ContinueCombo()
     {
         playerStateManagerPlayables.Attack(attacks[comboCounter], attackSpeed);
+
         movementPlayables.AttackBoost();
         StartAttack();
     }
