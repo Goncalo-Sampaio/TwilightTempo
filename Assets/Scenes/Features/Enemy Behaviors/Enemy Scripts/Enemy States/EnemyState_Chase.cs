@@ -19,6 +19,7 @@ public class EnemyState_Chase : IState
     public void OnEnter()
     {
         enemyReferences.enemyNavigation.StopNow(false);
+        enemyReferences.enemyNavigation.moving = true;
         if (enemyReferences.enemyAnimator != null)
         {
             enemyReferences.enemyAnimator.StartRunning();
@@ -37,6 +38,7 @@ public class EnemyState_Chase : IState
             enemyReferences.enemyAnimator.StopRunning();
         }
         enemyReferences.enemyNavigation.StopNow(true);
+        enemyReferences.enemyNavigation.moving = false;
         chaseTimer = chaseUpdateFrequency;
     }
     private bool ChaseUpdate()

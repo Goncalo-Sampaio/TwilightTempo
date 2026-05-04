@@ -45,6 +45,7 @@ public class EnemyBrain : MonoBehaviour
     private float forgetTimmerCountdown;
     private Collider[] colliders;
 
+
     private void Awake()
     {
         playerWasSpoted = false;
@@ -56,8 +57,7 @@ public class EnemyBrain : MonoBehaviour
     private void Start()
     {
         //Set the riggidbody to kinematic | set gravity to null on start
-        enemyReferences.rb.useGravity = false;
-        enemyReferences.rb.isKinematic = true;
+        
 
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;        
         
@@ -121,6 +121,7 @@ public class EnemyBrain : MonoBehaviour
         }
         
         withinAttackRange = enemyReferences.enemyNavigation.LinearDistanceFromTarget(enemyReferences.playerRef.position) <= attackRange;
+
     }
     private bool berserkLag =false;
     public void Berserk() => StartCoroutine(BerserkOn());
@@ -130,6 +131,8 @@ public class EnemyBrain : MonoBehaviour
         berserkLag = true;
         enemyReferences.enemyNavigation.StopNow(true);
         yield return null;
+        enemyReferences.rb.useGravity = false;
+        enemyReferences.rb.isKinematic = true;
         DisableColliders();
         yield return new WaitForFixedUpdate();
         enemyReferences.enemyAnimator.WarCry();
@@ -140,6 +143,8 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.enemyNavigation.Berserk();
         enemyReferences.enemyNavigation.StopNow(false);
         EnableColliders();
+        enemyReferences.rb.useGravity = true;
+        enemyReferences.rb.isKinematic = false;
         yield return new WaitForFixedUpdate();
         berserkLag = false;
         yield return null;
@@ -150,6 +155,8 @@ public class EnemyBrain : MonoBehaviour
         dead = true;
         StopAllCoroutines();
         enemyReferences.enemyAnimator.Die();
+        enemyReferences.rb.isKinematic = true;
+        enemyReferences.rb.useGravity =false;
         DisableColliders();        
         StopRiggidbodyMovement();
     }
@@ -161,6 +168,7 @@ public class EnemyBrain : MonoBehaviour
     {
         wasHit = true;
         engaged = true;
+        enemyReferences.rb.angularVelocity = Vector3.zero;
         yield return new WaitForSeconds(staggerTimmer);
         wasHit = false;
     }

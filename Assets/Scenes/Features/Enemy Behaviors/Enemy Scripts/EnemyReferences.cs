@@ -23,7 +23,7 @@ public class EnemyReferences : MonoBehaviour
         enemyNavigation = GetComponent<EnemyNavigation>();
         enemeyAttack = GetComponentInChildren<EnemyAttack>();
         enemyCasterAttack = GetComponentInChildren<EnemyCasterAttack>();
-        rb = GetComponentInChildren<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         enemyAnimator = GetComponentInChildren<EnemyAnimator>();
         flash = GetComponentInChildren<Flash>();
         berserkParticles = GetComponentInChildren<ParticleSystem>();

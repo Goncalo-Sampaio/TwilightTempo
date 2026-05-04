@@ -31,7 +31,7 @@ public class EnemyHealth : MonoBehaviour
     private Flash flash;    
     private bool gettingKnockBacked = false;
     [SerializeField][Tooltip("x out 10 chance of berserking after next hit when bellow 30% health")] private int chanceOfBerserking = 2; 
-    [SerializeField] private float maxKnockBackTime = 3f;
+    [SerializeField] private float maxKnockBackTime = 5f;
     [SerializeField] private float AfterDeathLingerTime = 5f;
 
     public void SetProgressionBlocker(ProgressionBlocker progressionBlocker) => this.progressionBlocker = progressionBlocker;
@@ -128,6 +128,7 @@ public class EnemyHealth : MonoBehaviour
     [Button]
     public void ApllyKnockBack() => ApllyKnockBack(10f * -transform.forward + transform.up);
     public void ApllyKnockBack(Vector3 force) => StartCoroutine("ApplyKnockBackRot", force);
+    //Change this to just use normal ass phisics
     private IEnumerator ApplyKnockBackRot(Vector3 force)
     {
         gettingKnockBacked = true;
@@ -140,9 +141,9 @@ public class EnemyHealth : MonoBehaviour
 
         enemyReferences.enemyNavigation.StopNow(true);
         enemyReferences.enemyNavigation.ToggleEnableAgent(false); //disable agent
-
-        enemyReferences.rb.useGravity = true;
-        enemyReferences.rb.isKinematic = false;
+        
+        enemyReferences.rb.linearVelocity = Vector3.zero;
+        enemyReferences.rb.angularVelocity = Vector3.zero;
         enemyReferences.rb.AddForce(force, ForceMode.Impulse);
 
 
@@ -153,6 +154,44 @@ public class EnemyHealth : MonoBehaviour
         yield return new WaitUntil(() => enemyReferences.rb.linearVelocity.magnitude < 0.05f || Time.time > knockBackTime + maxKnockBackTime); //wait until it stops moving.
 
         
+        yield return new WaitForSeconds(0.25f); //stun frames //consider adding a flash here
+
+        //now reset:        
+        enemyReferences.rb.linearVelocity = Vector3.zero;
+        enemyReferences.rb.angularVelocity = Vector3.zero;
+        //snap agent back to navmesh
+        //enemyReferences.enemyNavigation.Warp(transform.position);
+        //THEN AND ONLY THEN
+        //enable the agent
+        enemyReferences.enemyNavigation.ToggleEnableAgent(true); //enable agent
+        enemyReferences.enemyNavigation.ToggleAgentStopped(false); //start agent navmesh
+
+        gettingKnockBacked = false;
+    }
+    private IEnumerator ApplyKnockBackRot2(Vector3 force)
+    {
+        gettingKnockBacked = true;
+
+        yield return null; //wait one frame to make sure all courotines are stopped
+        //Only call agent.Stop if:
+        //  agent is active
+        //  agent is on NavMesh;
+        //  agent isint' already stopped
+
+        enemyReferences.enemyNavigation.StopNow(true);
+        enemyReferences.enemyNavigation.ToggleEnableAgent(false); //disable agent
+
+        enemyReferences.enemyNavigation.moving = false;
+        enemyReferences.rb.AddForce(force, ForceMode.Impulse);
+
+
+        //only exit after the fixedUpdate frame is passed. To make sure the force is applied
+        yield return new WaitForFixedUpdate();
+        float knockBackTime = Time.time;
+
+        yield return new WaitUntil(() => enemyReferences.rb.linearVelocity.magnitude < 0.1f || Time.time > knockBackTime + maxKnockBackTime); //wait until it stops moving.
+
+
         yield return new WaitForSeconds(0.25f); //stun frames //consider adding a flash here
 
         //now reset:
@@ -170,7 +209,8 @@ public class EnemyHealth : MonoBehaviour
 
         gettingKnockBacked = false;
     }
-    
+
+
     private IEnumerator DeathRot()
     {
         dead = true;
