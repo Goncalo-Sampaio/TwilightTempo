@@ -56,7 +56,7 @@ public class EnemyBrain : MonoBehaviour
 
     private void Start()
     {
-        //Set the riggidbody to kinematic | set gravity to null on start
+        
         
 
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;        
