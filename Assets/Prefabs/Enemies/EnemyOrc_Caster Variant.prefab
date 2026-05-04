@@ -652,6 +652,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyOrc_Caster Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1811496294509267395, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3352019002978529422, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: rayCastOrigin
       value: 
@@ -668,6 +672,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c679081ccd36a4605aad739745385790, type: 2}
+    - target: {fileID: 4084440984013725602, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4084440984013725612, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_IsActive
       value: 1
