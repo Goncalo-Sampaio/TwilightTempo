@@ -10,6 +10,8 @@ public class PlayerDodge : MonoBehaviour
     private float cooldown;
     [SerializeField]
     private AnimationClip dodgeAnimation;
+    [SerializeField]
+    private GameObject dodgeSFX;
 
     private PlayerStateManagerPlayables playerStateManagerPlayables;
 
@@ -39,6 +41,7 @@ public class PlayerDodge : MonoBehaviour
             resetState = true;
             playerStateManagerPlayables.SetCurrentState(PlayerStates.Dashing);
             playerStateManagerPlayables.Attack(dodgeAnimation, dodgeSpeedMultiplier);
+            Instantiate(dodgeSFX, transform.position, Quaternion.identity);
         }
     }
 
