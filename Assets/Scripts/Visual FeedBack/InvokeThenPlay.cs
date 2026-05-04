@@ -25,7 +25,7 @@ public class InvokeThenPlay : MonoBehaviour
     {
         yield return null;
         yield return new WaitForSeconds(1);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
    
 }
