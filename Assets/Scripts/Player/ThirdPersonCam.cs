@@ -21,6 +21,20 @@ public class ThirdPersonCam : MonoBehaviour
     [SerializeField]
     private GameObject combatCam;
 
+    private bool attacking = false;
+
+    public bool Attacking
+    {
+        get
+        {
+            return attacking;
+        } 
+        set
+        {
+            attacking = value;
+        }
+    }
+
     private CameraStyle currentStyle;
 
     private PlayerStateManagerPlayables playerStateManager;
@@ -60,6 +74,10 @@ public class ThirdPersonCam : MonoBehaviour
 
             if (inputDir != Vector3.zero && currentState <= PlayerStates.Falling)
                 playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+            else if (attacking)
+            {
+                playerObj.forward = Vector3.Slerp(playerObj.forward, orientation.forward.normalized, Time.deltaTime * rotationSpeed);
+            }
         }
 
         else if(currentStyle == CameraStyle.Combat)
