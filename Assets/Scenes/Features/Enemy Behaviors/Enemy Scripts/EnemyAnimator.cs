@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class EnemyAnimator : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject[] meshes;
+    [SerializeField]
+    private float timeToShow = 1f;
+
     private Animator _animator;
     private bool hitStopActive = false;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
     }
+
+    private void Start()
+    {
+        StartCoroutine(AppearCoroutine());
+    }
+
     [Button]
     public void Hit() => _animator.SetTrigger("Hit");
     [Button]
@@ -61,4 +72,13 @@ public class EnemyAnimator : MonoBehaviour
     [Button]
     public void SpellCast() => _animator.SetTrigger("Spell");
     public void Berserk(float berserskAnimationSpeed = 1.5f) => _animator.speed = berserskAnimationSpeed;
+
+    private IEnumerator AppearCoroutine()
+    {
+        yield return new WaitForSeconds(timeToShow);
+        foreach (GameObject mesh in meshes)
+        {
+            mesh.SetActive(true);
+        }
+    }
 }
