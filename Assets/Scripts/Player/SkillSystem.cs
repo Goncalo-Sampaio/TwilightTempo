@@ -34,8 +34,17 @@ public class SkillSystem : MonoBehaviour
         for (int i = 0; i < skillSlots.Count; i++)
         {
             skillSlots[i].AssignSkill(skillSOs[i]);
-        }
+        }        
     }
+    private void OnEnable()
+    {
+        LevelDataManager.onCanvasRegister += GetSkillHolder;
+    }
+    private void OnDisable()
+    {
+        LevelDataManager.onCanvasRegister -= GetSkillHolder;
+    }
+    private void GetSkillHolder() => skillHolder = LevelDataManager.Instance.playerCanvas.skillHolder.transform;
 
     // Update is called once per frame
     void Update()
@@ -44,8 +53,9 @@ public class SkillSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E) && !rotating)
         {
+            if (!CheckForSkillHolderReference()) return;
             rotating = true;
-            rotationProgress = 0;
+            rotationProgress = 0;            
             //skillHolder.Rotate(rightRotation);
             initialRotation = skillHolder.rotation.eulerAngles;
             finalRotation = skillHolder.rotation.eulerAngles + rightRotation;
@@ -58,6 +68,7 @@ public class SkillSystem : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Q) && !rotating)
         {
+            if (!CheckForSkillHolderReference()) return;
             rotating = true;
             rotationProgress = 0;
             //skillHolder.Rotate(leftRotation);
@@ -73,6 +84,7 @@ public class SkillSystem : MonoBehaviour
 
         if (rotating)
         {
+            if (!CheckForSkillHolderReference()) return;
             rotationProgress = rotationProgress + Time.deltaTime / rotationTime;
             skillHolder.rotation = Quaternion.Lerp(Quaternion.Euler(initialRotation), Quaternion.Euler(finalRotation), rotationProgress);
 
@@ -92,5 +104,15 @@ public class SkillSystem : MonoBehaviour
 
             skillSlots[currentlyActiveSlot].ActivateSlot();
         }
+    }
+    //Checks if skillholder is not null first:
+    private bool CheckForSkillHolderReference()
+    {
+        if (skillHolder == null)
+        {
+            Debug.Log("Skill Holder reference not set");
+            return false;
+        }
+        else return true;
     }
 }

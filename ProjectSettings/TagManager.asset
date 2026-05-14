@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - DontFlash
+  - SkillVisual
   layers:
   - Default
   - TransparentFX

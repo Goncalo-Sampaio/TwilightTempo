@@ -84,6 +84,7 @@ MonoBehaviour:
   animator: {fileID: 6839650163396528004}
   player: {fileID: 2262148066567392203}
   skillTimer: {fileID: 0}
+  skillSlotNumber: 1
 --- !u!1 &1019358715042266143
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,6 +580,7 @@ MonoBehaviour:
   animator: {fileID: 6839650163396528004}
   player: {fileID: 2262148066567392203}
   skillTimer: {fileID: 0}
+  skillSlotNumber: 5
 --- !u!1 &1892927103221237332
 GameObject:
   m_ObjectHideFlags: 0
@@ -1329,6 +1331,7 @@ MonoBehaviour:
   animator: {fileID: 6839650163396528004}
   player: {fileID: 2262148066567392203}
   skillTimer: {fileID: 0}
+  skillSlotNumber: 6
 --- !u!1 &2583462439318318570
 GameObject:
   m_ObjectHideFlags: 0
@@ -1707,6 +1710,7 @@ MonoBehaviour:
   animator: {fileID: 6839650163396528004}
   player: {fileID: 2262148066567392203}
   skillTimer: {fileID: 0}
+  skillSlotNumber: 3
 --- !u!1 &4460739859289484697
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,6 +1789,7 @@ MonoBehaviour:
   animator: {fileID: 6839650163396528004}
   player: {fileID: 2262148066567392203}
   skillTimer: {fileID: 0}
+  skillSlotNumber: 4
 --- !u!1 &4618505949846056788
 GameObject:
   m_ObjectHideFlags: 0
@@ -2135,6 +2140,7 @@ MonoBehaviour:
   animator: {fileID: 6839650163396528004}
   player: {fileID: 2262148066567392203}
   skillTimer: {fileID: 0}
+  skillSlotNumber: 2
 --- !u!1 &8439670490481172677
 GameObject:
   m_ObjectHideFlags: 0

@@ -56,8 +56,6 @@ public class EnemyBrain : MonoBehaviour
 
     private void Start()
     {
-        
-        
 
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;        
         

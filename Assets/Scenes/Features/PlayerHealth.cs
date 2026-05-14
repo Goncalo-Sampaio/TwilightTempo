@@ -28,8 +28,23 @@ public class PlayerHealth : MonoBehaviour
             healthUI.maxValue = maxHealth;
             healthUI.value = currentHealth; 
         }
+        if (LevelDataManager.Instance != null) LevelDataManager.Instance.AddPlayer(this);
+        else Debug.LogWarning("LevelDataManager is missing - Add one to the scene"); ;
         
     }
+    private void SetupUIReferences()
+    {
+        healthUI = LevelDataManager.Instance.playerCanvas.healthUI;
+    }
+    private void OnEnable()
+    {
+        LevelDataManager.onCanvasRegister += SetupUIReferences;
+    }
+    private void OnDisable()
+    {
+        LevelDataManager.onCanvasRegister -= SetupUIReferences;
+    }
+
 
     public void Damage()
     {

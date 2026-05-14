@@ -45,6 +45,11 @@ public class EnemyHealth : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         dead = false;
+        if (LevelDataManager.Instance != null)
+        {
+            LevelDataManager.Instance.AddEnemy(this);            
+        }
+        else Debug.LogWarning("LevelDataManager is missing - Add one to the scene");
     }
     //Just Damage
     public void Damage(float damage)
@@ -216,6 +221,7 @@ public class EnemyHealth : MonoBehaviour
         dead = true;
         enemyReferences.enemyNavigation.StopNow(true);        
         enemyReferences.enemyBrain.Die();
+        LevelDataManager.Instance.RemoveEnemy(this);
         yield return new WaitForSeconds(AfterDeathLingerTime);        
         Destroy(this.gameObject);
 
