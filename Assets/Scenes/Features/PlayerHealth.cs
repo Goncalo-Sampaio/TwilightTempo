@@ -22,12 +22,7 @@ public class PlayerHealth : MonoBehaviour
     {
         damageScreenController = gameObject.GetComponent<DamageScreenController>();
         flash = gameObject.GetComponent<Flash>();
-        currentHealth = maxHealth;
-        if (LinkToHealthUi)
-        {
-            healthUI.maxValue = maxHealth;
-            healthUI.value = currentHealth; 
-        }
+        currentHealth = maxHealth;        
         if (LevelDataManager.Instance != null) LevelDataManager.Instance.AddPlayer(this);
         else Debug.LogWarning("LevelDataManager is missing - Add one to the scene"); ;
         
@@ -35,6 +30,11 @@ public class PlayerHealth : MonoBehaviour
     private void SetupUIReferences()
     {
         healthUI = LevelDataManager.Instance.playerCanvas.healthUI;
+        if (LinkToHealthUi)
+        {
+            healthUI.maxValue = maxHealth;
+            healthUI.value = currentHealth;
+        }
     }
     private void OnEnable()
     {

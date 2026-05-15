@@ -995,6 +995,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 466015661808217309, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1165667102962165599, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.56865
@@ -1035,6 +1039,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1239833610706566262, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2262148066567392203, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1042,6 +1050,14 @@ PrefabInstance:
     - target: {fileID: 2768383765238699066, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
       propertyPath: skillHolder
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5032515527463768621, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6609568154695593710, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7318075609819891274, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
       propertyPath: m_PolyMesh.name
@@ -1051,6 +1067,10 @@ PrefabInstance:
       propertyPath: m_PolyMesh.m_Mesh
       value: 
       objectReference: {fileID: 1711749453}
+    - target: {fileID: 8125076119471913820, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8214709740220546004, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
       propertyPath: jumpAnimation
       value: 
@@ -4534,6 +4554,10 @@ PrefabInstance:
     - target: {fileID: 4901876085803372903, guid: 6c1ac633b549013458c2dec0dc0fd69e, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575841684061988039, guid: 6c1ac633b549013458c2dec0dc0fd69e, type: 3}
+      propertyPath: vfxWarmupObject
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7917184923710187870, guid: 6c1ac633b549013458c2dec0dc0fd69e, type: 3}
       propertyPath: m_AnchorMax.x
