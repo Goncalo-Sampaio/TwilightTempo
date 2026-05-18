@@ -12,6 +12,7 @@ public class SkillSlot : MonoBehaviour
     [SerializeField]
     private GameObject skillTimer;
     private TextMeshProUGUI skillTimerText;
+    [SerializeField] private int skillSlotNumber;
     private PlayerStateManagerPlayables playerStateManagerPlayables;
     private PlayerStates currentState;
 
@@ -38,7 +39,22 @@ public class SkillSlot : MonoBehaviour
     {
         playerStateManagerPlayables = GetComponentInParent<PlayerStateManagerPlayables>();
         currentState = playerStateManagerPlayables.CurrentState;
-        skillTimerText = skillTimer.GetComponentInChildren<TextMeshProUGUI>();
+        
+    }
+    //Only link to canvas when it registers with levelDataManager
+    private void OnEnable()
+    {
+        LevelDataManager.onCanvasRegister += GetCanvasReferences;
+    }
+    private void OnDisable()
+    {
+        LevelDataManager.onCanvasRegister -= GetCanvasReferences;
+    }
+    //Needs a scriptable object as a reference:
+    private void GetCanvasReferences()
+    {
+        skillTimer = LevelDataManager.Instance.playerCanvas.GetSkillVisual(skillSlotNumber);
+        skillTimerText = skillTimer.GetComponentInChildren<TextMeshProUGUI>(true);
     }
 
     private void FixedUpdate()
@@ -47,7 +63,7 @@ public class SkillSlot : MonoBehaviour
 
         currentCooldown -= Time.fixedDeltaTime;
         animationTimer -= Time.fixedDeltaTime;
-
+        if (skillTimer == null) return;
         if (currentCooldown < 0)
         {
             currentCooldown = 0;

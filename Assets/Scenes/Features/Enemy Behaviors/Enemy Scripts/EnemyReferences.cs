@@ -17,6 +17,8 @@ public class EnemyReferences : MonoBehaviour
     public Transform playerRef;
     private void Awake()
     {
+        //Set something by default so this doesn't just crap itself from no reference:
+        playerRef = Camera.main.transform;
 
         enemyBrain = GetComponent<EnemyBrain>();
         enemyHealth = GetComponent<EnemyHealth>();
@@ -27,5 +29,6 @@ public class EnemyReferences : MonoBehaviour
         enemyAnimator = GetComponentInChildren<EnemyAnimator>();
         flash = GetComponentInChildren<Flash>();
         berserkParticles = GetComponentInChildren<ParticleSystem>();
-    }
+    }  
+    
 }

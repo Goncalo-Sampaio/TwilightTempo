@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] private Animator attackAnimator;
+    private EnemyReferences enemyReferences;
     private bool playerHit;
     private bool attacking = false;
     public string collisionTag = "Player";
@@ -17,7 +18,9 @@ public class EnemyAttack : MonoBehaviour
     //Honestly this whole ass class doesnt need to exist
     void Awake()
     {
-        sphereCollider = GetComponentInChildren<Collider>().transform.gameObject;
+        enemyReferences = GetComponentInParent<EnemyReferences>();
+        //Only look for collider when no caster. Fix this later:
+        if (!enemyReferences.isCaster) sphereCollider = GetComponentInChildren<Collider>().transform.gameObject;
     }
     private void Start()
     {
