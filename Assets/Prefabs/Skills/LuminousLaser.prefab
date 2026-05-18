@@ -47,3 +47,5 @@ MonoBehaviour:
   laserObject: {fileID: 4080281603126310260, guid: 75e22bbe5247a6d45ac648df9317ba73, type: 3}
   laserDelay: 0.5
   castPosition: {x: 0, y: 0.15, z: 1.7}
+  burnDecal: {fileID: 4114087996853284313, guid: bf30b5a3e3e200e45bbf76ac6be4edde, type: 3}
+  burnDecalCastPosition: {x: 0, y: -1.33, z: 2}

@@ -9,6 +9,11 @@ public class LuminousLaser : MonoBehaviour, ISkill
     [SerializeField]
     private Vector3 castPosition = Vector3.zero;
 
+    [SerializeField]
+    private GameObject burnDecal;
+    [SerializeField]
+    private Vector3 burnDecalCastPosition = Vector3.zero;
+
     private GameObject playerModel;
 
     private float laserCastTimer = 0f;
@@ -35,6 +40,7 @@ public class LuminousLaser : MonoBehaviour, ISkill
 
                 transform.rotation = playerModel.transform.rotation;
                 Instantiate(laserObject, transform.position + transform.TransformVector(castPosition), playerModel.transform.rotation);
+                Instantiate(burnDecal, transform.position + transform.TransformVector(burnDecalCastPosition), playerModel.transform.rotation);
             }
         }
     }
