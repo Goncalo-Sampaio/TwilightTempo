@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject skillTimer6;
     public GameObject skillHolder;
     public Slider healthUI;
+
+    [SerializeField]
+    private GameObject enemyHealth;
     
     public void ActivateFinisher(bool activated)
     {
@@ -47,6 +50,20 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log($"No Skills with {skillNumber} skill Number");
             return null;
+        }
+    }
+
+    public void UpdateEnemyHealth(bool showHealth, float maxHealth, float currentHealth)
+    {
+        if (showHealth)
+        {
+            enemyHealth.GetComponentInChildren<Slider>().maxValue = maxHealth;
+            enemyHealth.GetComponentInChildren<Slider>().value = currentHealth;
+            enemyHealth.SetActive(true);
+        }
+        else
+        {
+            enemyHealth.SetActive(false);
         }
     }
 }

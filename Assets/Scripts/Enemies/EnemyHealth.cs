@@ -34,6 +34,8 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float maxKnockBackTime = 5f;
     [SerializeField] private float AfterDeathLingerTime = 5f;
 
+    private UIManager uiManager;
+
     public void SetProgressionBlocker(ProgressionBlocker progressionBlocker) => this.progressionBlocker = progressionBlocker;
     void Start()
     {
@@ -41,7 +43,7 @@ public class EnemyHealth : MonoBehaviour
         brain = enemyReferences.enemyBrain;
         flash = enemyReferences.flash;        
         currentHealth = maxHealth;
-
+        uiManager = enemyReferences.uIManager;
 
         audioSource = GetComponent<AudioSource>();
         dead = false;
@@ -75,14 +77,17 @@ public class EnemyHealth : MonoBehaviour
 
             if (!dead)
             {
+                uiManager.UpdateEnemyHealth(false, 0, 0);
                 StartCoroutine(DeathRot());                
             }
 
         }
+
         //VISUAL FEEDBACK:
         //Flash once
         if (!dead)
         {
+            uiManager.UpdateEnemyHealth(true, maxHealth, currentHealth);
             enemyReferences.enemyAnimator.HitStop(10);
             enemyReferences.enemyBrain.GotHit();
         }

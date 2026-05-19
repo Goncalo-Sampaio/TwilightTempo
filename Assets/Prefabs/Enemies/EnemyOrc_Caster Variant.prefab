@@ -650,7 +650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4084440984013725612, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4084440984027386696, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -668,6 +668,14 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.86
       objectReference: {fileID: 0}
+    - target: {fileID: 6192708092241260225, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: meshes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6192708092241260225, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: 'meshes.Array.data[2]'
+      value: 
+      objectReference: {fileID: 4769774189380224043}
     - target: {fileID: 6640285124854255933, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.08
@@ -724,8 +732,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7910505428877591237, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8083665856115365505, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8096241110523028414, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8527910691337372366, guid: 2713646820f931f4d9147d819c770826, type: 3}
@@ -777,6 +793,11 @@ Transform:
 --- !u!4 &4769774189380000231 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4084440984013292128, guid: 2713646820f931f4d9147d819c770826, type: 3}
+  m_PrefabInstance: {fileID: 8835918664251906951}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4769774189380224043 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4084440984013725612, guid: 2713646820f931f4d9147d819c770826, type: 3}
   m_PrefabInstance: {fileID: 8835918664251906951}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &5484864245390349083 stripped

@@ -8,6 +8,10 @@ public class MusicBombProjectile : MonoBehaviour
     private GameObject explosion;
     [SerializeField]
     private LayerMask enemyLayer;
+    [SerializeField]
+    private float damage = 20f;
+    [SerializeField]
+    private float gaugeIncrease = 15f;
 
     private bool moving = true;
     private GaugeManager gaugeManager;
@@ -49,8 +53,8 @@ public class MusicBombProjectile : MonoBehaviour
         {
             Debug.Log("Hit");
             Explosion();
-            other.GetComponentInParent<EnemyHealth>().Damage(35f);
-            gaugeManager.IncreaseGauge(10f, SkillAttunement.None);
+            other.GetComponentInParent<EnemyHealth>().Damage(damage);
+            gaugeManager.IncreaseGauge(gaugeIncrease, SkillAttunement.None);
         }
     }
 }

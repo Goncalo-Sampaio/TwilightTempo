@@ -8,9 +8,14 @@ public class LightDashObject : MonoBehaviour
     private float rotationSpeed;
     [SerializeField]
     private float timeToDie = 0.43f;
+    [SerializeField]
+    private float damage = 30f;
+    [SerializeField]
+    private float gaugeIncrease = 5f;
 
     private GameObject player;
     private GameObject playerModel;
+    private Rigidbody rb;
 
     private float horizontalInput;
 
@@ -29,6 +34,7 @@ public class LightDashObject : MonoBehaviour
     {
         player = GetComponentInParent<MovementPlayables>().gameObject;
         playerModel = FindAnyObjectByType<PlayerAnimEventsHandler>().gameObject;
+        rb = player.GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -39,7 +45,7 @@ public class LightDashObject : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        player.transform.position += playerModel.transform.forward * velocity * Time.fixedDeltaTime;
+        rb.linearVelocity = playerModel.transform.forward * velocity;
         playerModel.transform.Rotate(Vector3.up * rotationSpeed * Time.fixedDeltaTime * horizontalInput);
 
         timeToDie-= Time.fixedDeltaTime;
@@ -57,8 +63,8 @@ public class LightDashObject : MonoBehaviour
         if ((enemyLayer.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             Debug.Log("Hit");
-            other.GetComponentInParent<EnemyHealth>().Damage(35f);
-            gaugeManager.IncreaseGauge(10f, SkillAttunement.Light);
+            other.GetComponentInParent<EnemyHealth>().Damage(damage);
+            gaugeManager.IncreaseGauge(gaugeIncrease, SkillAttunement.Light);
         }
     }
 }

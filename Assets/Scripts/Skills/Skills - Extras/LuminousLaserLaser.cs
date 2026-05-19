@@ -6,6 +6,10 @@ public class LuminousLaserLaser : MonoBehaviour
     private float timeToDie = 1.5f;
     [SerializeField]
     private LayerMask enemyLayer;
+    [SerializeField]
+    private float damage = 50f;
+    [SerializeField]
+    private float gaugeIncrease = 5f;
 
     private GaugeManager gaugeManager;
 
@@ -29,8 +33,8 @@ public class LuminousLaserLaser : MonoBehaviour
         if ((enemyLayer.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             Debug.Log("Hit");
-            other.GetComponentInParent<EnemyHealth>().Damage(35f);
-            gaugeManager.IncreaseGauge(10f, SkillAttunement.Light);
+            other.GetComponentInParent<EnemyHealth>().Damage(damage);
+            gaugeManager.IncreaseGauge(gaugeIncrease, SkillAttunement.Light);
         }
     }
 }

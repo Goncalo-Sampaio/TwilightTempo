@@ -5181,6 +5181,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
+  damage: 25
+  gaugeIncrease: 10
 --- !u!82 &4931861065525992995
 AudioSource:
   m_ObjectHideFlags: 0

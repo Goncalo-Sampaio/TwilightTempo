@@ -11,6 +11,7 @@ public class EnemyReferences : MonoBehaviour
     [HideInInspector] public Flash flash;
     [HideInInspector] public EnemyBrain enemyBrain;
     [HideInInspector] public ParticleSystem berserkParticles;
+    [HideInInspector] public UIManager uIManager;
     //temporary:
     public bool isCaster = false;
     public EnemyCasterAttack enemyCasterAttack;
@@ -29,6 +30,7 @@ public class EnemyReferences : MonoBehaviour
         enemyAnimator = GetComponentInChildren<EnemyAnimator>();
         flash = GetComponentInChildren<Flash>();
         berserkParticles = GetComponentInChildren<ParticleSystem>();
+        uIManager = FindAnyObjectByType<UIManager>();
     }  
     
 }

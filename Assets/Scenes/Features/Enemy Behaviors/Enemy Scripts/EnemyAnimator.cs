@@ -8,6 +8,8 @@ public class EnemyAnimator : MonoBehaviour
     private GameObject[] meshes;
     [SerializeField]
     private float timeToShow = 1f;
+    [SerializeField]
+    private ParticleSystem spawnParticles;
 
     private Animator _animator;
     private bool hitStopActive = false;
@@ -18,6 +20,12 @@ public class EnemyAnimator : MonoBehaviour
 
     private void Start()
     {
+
+    }
+
+    public void EnableSpawn()
+    {
+        spawnParticles.Play();
         StartCoroutine(AppearCoroutine());
     }
 

@@ -72,7 +72,7 @@ public class ThirdPersonCam : MonoBehaviour
             float verticalInput = Input.GetAxis("Vertical");
             Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-            if (inputDir != Vector3.zero && currentState <= PlayerStates.Falling)
+            if (inputDir != Vector3.zero && currentState <= PlayerStates.Attacking)
                 playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
             else if (attacking)
             {

@@ -5598,6 +5598,10 @@ PrefabInstance:
       propertyPath: timeToAppear
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3652764802434592345, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
+      propertyPath: spawnParticles
+      value: 
+      objectReference: {fileID: 8096241110523028414}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5636,7 +5640,8 @@ MonoBehaviour:
   meshes:
   - {fileID: 4084440984013725614}
   - {fileID: 4084440984013725610}
-  timeToAppear: 0.5
+  timeToShow: 1
+  spawnParticles: {fileID: 0}
 --- !u!1 &4084440984013725610 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100160, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
@@ -5709,6 +5714,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5364489142155404905, guid: e7807ffcd663a2d4687259299e69ec32, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6336033411965323026, guid: e7807ffcd663a2d4687259299e69ec32, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5717,5 +5730,10 @@ PrefabInstance:
 --- !u!4 &3313047192091712604 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1716875076315650443, guid: e7807ffcd663a2d4687259299e69ec32, type: 3}
+  m_PrefabInstance: {fileID: 4191125119269029335}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8096241110523028414 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5364489142155404905, guid: e7807ffcd663a2d4687259299e69ec32, type: 3}
   m_PrefabInstance: {fileID: 4191125119269029335}
   m_PrefabAsset: {fileID: 0}
