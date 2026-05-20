@@ -19,7 +19,7 @@ public class EnemyReferences : MonoBehaviour
     private void Awake()
     {
         //Set something by default so this doesn't just crap itself from no reference:
-        playerRef = Camera.main.transform;
+        playerRef = FindAnyObjectByType<PlayerHealth>().transform;
 
         enemyBrain = GetComponent<EnemyBrain>();
         enemyHealth = GetComponent<EnemyHealth>();

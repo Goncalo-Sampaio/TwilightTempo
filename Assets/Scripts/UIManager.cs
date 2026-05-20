@@ -66,4 +66,10 @@ public class UIManager : MonoBehaviour
             enemyHealth.SetActive(false);
         }
     }
+
+    public void SetHealth(float maxHealth, float currentHealth)
+    {
+        healthUI.maxValue = maxHealth;
+        healthUI.value = currentHealth;
+    }
 }
