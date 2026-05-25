@@ -15,8 +15,25 @@ public class SceneTransition : MonoBehaviour
 
     private bool canPress = false;
 
+    [SerializeField]
+    private GameObject forestCam;
+    [SerializeField]
+    private float titleFadeDuration = 2f;
+    [SerializeField]
+    private float buttonsAppearDelay = 2f;
+    [SerializeField]
+    private float buttonsInteractableDelay = 3f;
+    [SerializeField]
+    private TextMeshProUGUI[] buttonsText;
+    private float buttonsTimeCounter = 0f;
+    private bool buttonsTimeCounting = false;
+    private bool buttonsFadeStarted = false;
+
+    private bool waitingForInput = true;
+
     void Start()
     {
+        buttonsTimeCounter = buttonsInteractableDelay;
         // Start with alpha 0
         SetAlpha(titleImage, 0f);
         SetAlpha(pressText, 0f);
@@ -29,7 +46,40 @@ public class SceneTransition : MonoBehaviour
     {
         if (canPress && Input.anyKeyDown)
         {
-            SceneManager.LoadScene("MainMenu"); // Load MainMenu scene
+            canPress = false;
+            //SceneManager.LoadScene("MainMenu"); // Load MainMenu scene
+            forestCam.SetActive(true);
+            waitingForInput = false;
+            StartCoroutine(FadeGraphic(titleImage, 1f, 0f, fadeDuration));
+            buttonsTimeCounting = true;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (buttonsTimeCounting)
+        {
+            buttonsTimeCounter -= Time.fixedDeltaTime;
+
+            if (buttonsTimeCounter <= buttonsInteractableDelay - buttonsAppearDelay && !buttonsFadeStarted)
+            {
+                buttonsFadeStarted = true;
+                foreach (TextMeshProUGUI button in buttonsText)
+                {
+                    StartCoroutine(FadeGraphic(button, 0f, 1f, buttonsTimeCounter));
+                }
+            }
+
+            if (buttonsTimeCounter <= 0)
+            {
+                foreach (TextMeshProUGUI button in buttonsText)
+                {
+
+                    button.GetComponentInParent<Button>().interactable = true;
+                }
+
+                buttonsTimeCounting = false;
+            }
         }
     }
 
@@ -46,7 +96,7 @@ public class SceneTransition : MonoBehaviour
     // Make the text blink in a loop
     private IEnumerator BlinkText(TextMeshProUGUI text, float duration)
     {
-        while (true)
+        while (waitingForInput)
         {
             // Fade in
             yield return StartCoroutine(FadeGraphic(text, 0f, 1f, duration));
