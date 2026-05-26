@@ -27,12 +27,10 @@ public class EnemyCasterAttack : MonoBehaviour
        
         Instantiate(SpellProjectile, projectileExit.position, projectileExit.rotation);
         
-        Debug.Log(" Instantiated Spell");
         yield return null;
         //lerp tatto and eyes glows back to 0
         //same for staff glow
         attacking = false;
-        Debug.Log("CastSpellRotStarted Done");
     }
     private float CurrentAnimationCompletion()
     {

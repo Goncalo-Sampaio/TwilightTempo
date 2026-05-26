@@ -668,6 +668,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.86
       objectReference: {fileID: 0}
+    - target: {fileID: 4242322043275516276, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_BaseOffset
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6192708092241260225, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: meshes.Array.size
       value: 3
@@ -737,11 +741,27 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8083665856115365505, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_Height
+      value: 2.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083665856115365505, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_Radius
+      value: 0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083665856115365505, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_Center.y
+      value: 1.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083665856115365505, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8096241110523028414, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122886282516405891, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8527910691337372366, guid: 2713646820f931f4d9147d819c770826, type: 3}
@@ -752,6 +772,7 @@ PrefabInstance:
     - {fileID: 1193042952315427688, guid: 2713646820f931f4d9147d819c770826, type: 3}
     m_RemovedGameObjects:
     - {fileID: 5309183367078513333, guid: 2713646820f931f4d9147d819c770826, type: 3}
+    - {fileID: 2029570604078750346, guid: 2713646820f931f4d9147d819c770826, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8062210318721165020, guid: 2713646820f931f4d9147d819c770826, type: 3}
       insertIndex: 0

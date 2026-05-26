@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DontFlash
   - SkillVisual
+  - Enemy
   layers:
   - Default
   - TransparentFX
