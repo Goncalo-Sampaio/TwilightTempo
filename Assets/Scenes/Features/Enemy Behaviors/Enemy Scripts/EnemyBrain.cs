@@ -137,7 +137,7 @@ public class EnemyBrain : MonoBehaviour
         
         enemyReferences.berserkParticles.Play();
         yield return new WaitForSeconds(2f);
-        enemyReferences.enemyAnimator.Berserk(1.2f);
+        enemyReferences.enemyAnimator.Berserk();
         enemyReferences.enemyNavigation.Berserk();
         enemyReferences.enemyNavigation.StopNow(false);
         EnableColliders();

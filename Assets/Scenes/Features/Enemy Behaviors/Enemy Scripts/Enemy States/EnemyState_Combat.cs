@@ -13,7 +13,7 @@ public class EnemyState_Combat : IState
     private StateMachine combatSubStateMachine;
     public EnemyState_Combat(EnemyReferences enemyReferences, float attackUpdateFrequency)
     {
-        this.isCaster = enemyReferences.isCaster;
+        isCaster = enemyReferences.isCaster;
         this.enemyReferences = enemyReferences;
         playerRef = enemyReferences.playerRef.transform;
         this.attackUpdateFrequency = attackUpdateFrequency;

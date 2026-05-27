@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class EnemyAnimator : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] meshes;
-    [SerializeField]
-    private float timeToShow = 1f;
-    [SerializeField]
-    private ParticleSystem spawnParticles;
+    
+    [SerializeField] private GameObject[] meshes;
+    
+    [SerializeField] private float timeToShow = 1f;
+    
+    [SerializeField] private ParticleSystem spawnParticles;
+    [SerializeField] private float attackSpeed = .5f;
+    [SerializeField] private float baseSpeed = 1.0f;
+    [SerializeField] private float berserskAnimationSpeedMultiplier = 1.5f;
 
     private Animator _animator;
     private bool hitStopActive = false;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-    }
-
-    private void Start()
-    {
-
-    }
+    }   
 
     public void EnableSpawn()
     {
@@ -30,10 +28,15 @@ public class EnemyAnimator : MonoBehaviour
     }
 
     [Button]
-    public void Hit() => _animator.SetTrigger("Hit");
+    public void Hit()
+    {
+        UpdateSpeed();
+        _animator.SetTrigger("Hit");
+    } 
     [Button]
     public void Die()
     {
+        UpdateSpeed();
         _animator.SetTrigger("Die");
 
     }
@@ -51,35 +54,81 @@ public class EnemyAnimator : MonoBehaviour
         _animator.enabled = true;
     }
     [Button]
-    public void Attack1() => _animator.SetTrigger("Attack1");
+    public void Attack1()
+    {
+        UpdateSpeed();
+        _animator.SetTrigger("Attack1");
+    }
     [Button]
-    public void Attack2() => _animator.SetTrigger("Attack2");
+    public void Attack2()
+    {
+        UpdateSpeed();
+        _animator.SetTrigger("Attack2");
+    }
     [Button]
-    public void Attack3() => _animator.SetTrigger("Attack3");
+    public void Attack3()
+    {
+        UpdateSpeed();
+        _animator.SetTrigger("Attack3");
+    }
     [Button]
     public void StartIdle()
     {
+        UpdateSpeed();
         _animator.SetFloat("IdleOffset", Random.Range(0f, 1f));
         _animator.SetBool("Idle", true);
         
     }
     [Button]
-    public void StopIdle() => _animator.SetBool("Idle", false);
+    public void StopIdle()
+    {
+        UpdateSpeed();
+        _animator.SetBool("Idle", false);
+    } 
     [Button]
-    public void StartWalking() => _animator.SetBool("Walking", true);
+    public void StartWalking()
+    {
+        UpdateSpeed();
+        _animator.SetBool("Walking", true);
+    }
     [Button]
-    public void StopWalking() => _animator.SetBool("Walking", false);
+    public void StopWalking()
+    {
+        UpdateSpeed();
+        _animator.SetBool("Walking", false);
+    }
     [Button]
-    public void StartRunning() => _animator.SetBool("Running", true);
+    public void StartRunning()
+    {
+        UpdateSpeed();
+        _animator.SetBool("Running", true);
+    } 
     [Button]
-    public void StopRunning() => _animator.SetBool("Running", false);
+    public void StopRunning()
+    {
+        UpdateSpeed();
+        _animator.SetBool("Running", false);
+    }
     [Button]
-    public void WarCry() => _animator.SetTrigger("WarCry");
+    public void WarCry()
+    {
+        UpdateSpeed();
+        _animator.SetTrigger("WarCry");
+    }
     [Button]
-    public void Casting() => _animator.SetTrigger("CastingSpell");
+    public void Casting()
+    {
+        UpdateSpeed();
+        _animator.SetTrigger("CastingSpell");
+    }
+    
     [Button]
-    public void SpellCast() => _animator.SetTrigger("Spell");
-    public void Berserk(float berserskAnimationSpeed = 1.5f) => _animator.speed = berserskAnimationSpeed;
+    public void SpellCast()
+    {
+        UpdateSpeed();
+            _animator.SetTrigger("Spell");
+    }
+    public void Berserk() => _animator.speed = baseSpeed * berserskAnimationSpeedMultiplier;
 
     private IEnumerator AppearCoroutine()
     {
@@ -89,4 +138,5 @@ public class EnemyAnimator : MonoBehaviour
             mesh.SetActive(true);
         }
     }
+    private void UpdateSpeed() => _animator.speed = (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1")) ? attackSpeed : baseSpeed;
 }

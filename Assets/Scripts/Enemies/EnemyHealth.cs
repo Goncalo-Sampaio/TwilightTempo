@@ -56,6 +56,7 @@ public class EnemyHealth : MonoBehaviour
     //Just Damage
     public void Damage(float damage)
     {
+        Debug.Log($"{gameObject.name} got damaged");
         PlayGettingHitSounds();
 
         currentHealth -= damage;
