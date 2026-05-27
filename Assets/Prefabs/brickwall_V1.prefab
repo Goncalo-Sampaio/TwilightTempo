@@ -49,16 +49,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2994574054460991704, guid: f17865fc0f861a64e8d2ee9f0a2e2458, type: 3}
+      propertyPath: m_ReceiveGI
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2994574054460991704, guid: f17865fc0f861a64e8d2ee9f0a2e2458, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 96436be86f68a054dbe01e280b1fa298, type: 2}
     - target: {fileID: -2288921755906265262, guid: f17865fc0f861a64e8d2ee9f0a2e2458, type: 3}
+      propertyPath: m_ReceiveGI
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2288921755906265262, guid: f17865fc0f861a64e8d2ee9f0a2e2458, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: effa4f8c652f45d46b7b76903ccbe950, type: 2}
+    - target: {fileID: -315436298499295655, guid: f17865fc0f861a64e8d2ee9f0a2e2458, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f17865fc0f861a64e8d2ee9f0a2e2458, type: 3}
       propertyPath: m_Name
       value: brickwall_V1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f17865fc0f861a64e8d2ee9f0a2e2458, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6489447807880887363, guid: f17865fc0f861a64e8d2ee9f0a2e2458, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

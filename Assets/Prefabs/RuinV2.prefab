@@ -48,10 +48,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3133498875991405556, guid: bc22c4132afdd0d4ab39d67e099393d7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -2859109400176981367, guid: bc22c4132afdd0d4ab39d67e099393d7, type: 3}
+      propertyPath: m_ReceiveGI
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: -2859109400176981367, guid: bc22c4132afdd0d4ab39d67e099393d7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: a695f6f9c55beab4a9d90b02372c8cd2, type: 2}
+    - target: {fileID: -2288921755906265262, guid: bc22c4132afdd0d4ab39d67e099393d7, type: 3}
+      propertyPath: m_ReceiveGI
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: -2288921755906265262, guid: bc22c4132afdd0d4ab39d67e099393d7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -59,6 +71,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: bc22c4132afdd0d4ab39d67e099393d7, type: 3}
       propertyPath: m_Name
       value: RuinV2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bc22c4132afdd0d4ab39d67e099393d7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6489447807880887363, guid: bc22c4132afdd0d4ab39d67e099393d7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

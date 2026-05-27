@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3133498875991405556, guid: 31d5f0f7a808569478fa9d2e735181e1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -2859109400176981367, guid: 31d5f0f7a808569478fa9d2e735181e1, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -59,6 +63,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 31d5f0f7a808569478fa9d2e735181e1, type: 3}
       propertyPath: m_Name
       value: RuinV1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 31d5f0f7a808569478fa9d2e735181e1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6489447807880887363, guid: 31d5f0f7a808569478fa9d2e735181e1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

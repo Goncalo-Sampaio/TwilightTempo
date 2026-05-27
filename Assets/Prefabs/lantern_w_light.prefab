@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2277291756982017082, guid: 4084cc9a9242cb94b9c8fbca559265e6, type: 3}
+      propertyPath: m_ReceiveGI
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 25054185535610482, guid: 4084cc9a9242cb94b9c8fbca559265e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.207058
@@ -84,6 +88,10 @@ PrefabInstance:
     - target: {fileID: 606906144360625614, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 606906144360625614, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4299114264868627611, guid: 8a1bb8b81a5ff6749963c65fe91878ea, type: 3}
       propertyPath: m_Enabled

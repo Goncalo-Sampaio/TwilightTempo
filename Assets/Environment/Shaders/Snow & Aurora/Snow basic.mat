@@ -33,12 +33,20 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _Octaves
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 04bfd43042d89af46a71c14f291b5711, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: 382037428a1332146924f156afcdbd63, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Smoothness_Rock_1:
+        m_Texture: {fileID: 2800000, guid: 4fca71ee6fe79c246880f78f47dc6651, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -55,18 +63,23 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Contrast: 2
-    - _Cutoff_offset: 0
-    - _Fine_noise_scale: 8.06
-    - _Metallic: 0
-    - _Noise_Scale: 0.5
-    - _Normal_Strength: 0.74
-    - _Octaves: 1.8
+    - _Contrast: 35.3
+    - _Cutoff_offset: 0.362
+    - _Fine_noise_scale: 6.86
+    - _Metallic: 1
+    - _Metallic_Snow: 0
+    - _Noise_Scale: 1
+    - _Normal_Strength: 1
+    - _Octaves: 0.37
     - _Push_Snow: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 0.058
+    - _Smoothness: 0.04
+    - _Smoothness_Rock: 0.433
+    - _Smoothness_Snow: 0.339
+    - _Tilling_1: 0.03
     m_Colors:
     - _Snow_Colour: {r: 1, g: 1, b: 1, a: 1}
+    - _Tilling: {r: 25, g: 25, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
