@@ -1,4 +1,6 @@
 using NaughtyAttributes;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
@@ -22,8 +24,7 @@ public class EnemyNavigation : MonoBehaviour
     private Rigidbody rb;
     //Moving with phisics:
     private Vector3 currentTarget;
-    [SerializeField] private bool desiredVelocity;
-    [SerializeField] private bool steeringTarget;
+    private Vector3 desiredVelocity;
 
 
     [SerializeField] private bool isOnIce = false;
@@ -31,6 +32,10 @@ public class EnemyNavigation : MonoBehaviour
 
     [SerializeField] private float maxAcceleration = 50f;
     [SerializeField] private float iceAcceleration = 10f;
+
+    [SerializeField] private float avoidFactor = 5f;
+    [SerializeField] private float avoidPDistance = .5f; //how far away to the nearest agent to start avoiding
+    private List<EnemyHealth> nearbyEnemies = new();
     public bool moving;
     private bool HasArrived()
     {
@@ -45,6 +50,7 @@ public class EnemyNavigation : MonoBehaviour
     }
     private void Start()
     {
+        NavRayCastPosition = transform.position;
         //state = EState.Waiting;
         rb = enemyReferences.rb;
         TogglePhysicsModeOn();
@@ -75,8 +81,21 @@ public class EnemyNavigation : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!moving) return;
+        if (!moving)
+        {
+            //stopped and attacking agents can't be pushed since they have higher priority:
+            if(enemyReferences.enemyBrain.engaged) agent.avoidancePriority = 45;
+            return;
+        }
+        
+        agent.avoidancePriority = 50;
         MoveWithPhysics();
+        ResynchAgent();
+        //Debugging:
+        if (agent.pathStatus == NavMeshPathStatus.PathPartial) Debug.Log("NavMeshPathStatus.PathPartial");
+        if (agent.pathPending) Debug.Log("agent.pathPending");
+        if (!agent.hasPath) Debug.Log("Agent has no path");
+
     }
     //Phisics:
     public void TogglePhysicsModeOn()
@@ -87,55 +106,47 @@ public class EnemyNavigation : MonoBehaviour
         rb.isKinematic = false;
         rb.useGravity = true;
     }
+
+    
+
     private void MoveWithPhysics()
-    {
-        
-        // force the navmeshagent velocity to match the rigidbody
+    {        
         agent.velocity = rb.linearVelocity;
-
-        // navMeshAgent.desiredVelocity is the velocity the navmesh agent needs to do its AI behaviour
-        //Its a result of it's current velocity towards the next position + the avoidance contribution.
-        //The "go here now" vector at the current frame
-
-        //calculate a force to accelerate the rigidbody so that its velocity moves toward the velocity the navmesh agent wants to have to follow its path
-
         
-        Vector3 desiredVelocity = agent.desiredVelocity;
+        desiredVelocity = agent.desiredVelocity;
 
-        //var calculatedForce = CalculateForceNeededToReachDesiredVelocity(desiredVelocity);
         if (isOnIce)
         {
             desiredVelocity = Vector3.Lerp(rb.linearVelocity, desiredVelocity, 0.1f);
-        }
+        }                
+        //prevents spikes
+        Vector3 targetVelocity = Vector3.MoveTowards(rb.linearVelocity, desiredVelocity, maxAcceleration * Time.fixedDeltaTime);
 
-
-        var desiredAcceleration = (desiredVelocity - rb.linearVelocity) / Time.fixedDeltaTime;
+        
+        var desiredAcceleration = (targetVelocity - rb.linearVelocity) / Time.fixedDeltaTime;
 
         float accelLimit = isOnIce ? iceAcceleration : maxAcceleration;
-
         desiredAcceleration = Vector3.ClampMagnitude(desiredAcceleration, accelLimit);
 
+        //smoth it out
         rb.AddForce(desiredAcceleration * rb.mass, ForceMode.Force);
-
         rb.linearDamping = isOnIce ? 0.5f : 5f;
-        //rb.AddForce(calculatedForce, ForceMode.Force);
 
-        //Synch Riggidbody with agent:
+        
         agent.nextPosition = rb.position;
 
-        //Look at target so that it stops jittering the rotation
-        //However switch this out with a smooth rotation towards the target rather.
+        
         Vector3 direction = (currentTarget - transform.position);
         Vector3 flatDirection = new Vector3(direction.x, 0, direction.z);
 
-        Debug.Log(GetVisionConeFactor(currentTarget));
-        if (GetVisionConeFactor(currentTarget) < .65)
+        if (flatDirection.sqrMagnitude > 0.001f)
         {
-            rb.rotation = Quaternion.Slerp(rb.rotation, Quaternion.LookRotation(flatDirection.normalized, transform.up), 0.5f);
+            Quaternion targetRotation = Quaternion.LookRotation(flatDirection.normalized, transform.up);
+            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, 0.15f);
         }
-        else rb.rotation = Quaternion.LookRotation(flatDirection.normalized, transform.up);
-
     }
+
+    
     private Vector3 CalculateForceNeededToReachDesiredVelocity(Vector3 desiredVelocity)
     {
         // Calculate force needed to reach targetVelocity in the next fixed update
@@ -167,6 +178,7 @@ public class EnemyNavigation : MonoBehaviour
         if(toggle) agent.velocity = Vector3.zero;
         rb.linearVelocity = Vector3.zero;
         agent.isStopped = toggle;
+        
         //agent.path = null;
 
     }
@@ -249,8 +261,32 @@ public class EnemyNavigation : MonoBehaviour
             }
         }
     }
+    private Vector3 NavRayCastPosition;
     public bool PlayerInsideTriggerDistance() => playerInsideTrigger;
-    
+    private void ResynchAgent()
+    {
+        
+        float desynchThreshold = .5f;
+        Vector3 desynchVector = agent.nextPosition - rb.position;
+
+        if (desynchVector.sqrMagnitude > (desynchThreshold * desynchThreshold))
+        {
+            // Use rb.position to find the nearest valid navmesh point
+            if (NavMesh.SamplePosition(rb.position, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
+            {
+                NavRayCastPosition = hit.position;
+
+                //MovePosition keeps physics velocities intact and stops jitter - use this instead to not break phisc
+                rb.MovePosition(hit.position);
+                agent.Warp(hit.position); // Ensure the agent's internal position resets too
+            }
+            else
+            {
+                rb.MovePosition(agent.nextPosition);
+                rb.linearVelocity = Vector3.zero; // Kill velocity so it doesn't shoot away
+            }
+        }
+    }
     public bool HasArrivedAtTarget(float minDistance = 0.1f)
     {
         return NavMeshDistanceToDestination() < minDistance;
@@ -261,17 +297,22 @@ public class EnemyNavigation : MonoBehaviour
     //Detection Sphere Trigger:
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
-        Debug.Log(other.gameObject.tag);
-        if (other.gameObject.tag == "Player")
-        {
-            playerInsideTrigger = true;            
-        }
+        if (other.gameObject.CompareTag("Player")) playerInsideTrigger = true;
+        if (other.gameObject.CompareTag("Enemy")) AddAndSort(other.GetComponentInParent<EnemyHealth>());
 
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player") playerInsideTrigger = false;
+        if (other.gameObject.CompareTag("Player")) playerInsideTrigger = false;
+        if (other.gameObject.CompareTag("Enemy")) nearbyEnemies.Remove(other.GetComponentInParent<EnemyHealth>());
+    }
+    //Add new enemy and sort List by distance
+    private void AddAndSort(EnemyHealth enemy)
+    {
+        nearbyEnemies.Add(enemy);
+        //Sort by distance: https://www.youtube.com/watch?v=7EALNQ9tFlw&t=224s
+        nearbyEnemies.Sort((a, b) => Vector3.SqrMagnitude(b.transform.position - a.transform.position)
+        .CompareTo(Vector3.SqrMagnitude(a.transform.position - transform.position)));
     }
     #endregion
 
@@ -279,12 +320,25 @@ public class EnemyNavigation : MonoBehaviour
     private bool debug = true;
     private void OnDrawGizmos()
     {
+        if (!Application.isPlaying) return;
+        Gizmos.color = Color.purple;
+        Gizmos.DrawSphere(agent.nextPosition, .2f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(NavRayCastPosition, .2f);
+
+        Gizmos.color = Color.purple;
+        Gizmos.DrawLine(transform.position, transform.position + targetDirectionDebugg);
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + desiredVelocity);
+
         if (!debug) return;
         {
-            Gizmos.color = Color.purple;
-            Gizmos.DrawLine(transform.position, transform.position + targetDirectionDebugg);
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, transform.position + transform.forward * 2);
+            
+            //Gizmos.color = Color.yellow;
+            //Gizmos.DrawLine(transform.position, transform.position + transform.forward);
+            //Gizmos.color = Color.red;
+            //Gizmos.DrawLine(transform.position, transform.position + desiredVelocity);
+            
         }
     }
     private void DebugLineOfSight(bool triggered, Vector3 target, RaycastHit hit)

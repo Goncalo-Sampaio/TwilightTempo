@@ -74,7 +74,7 @@ public class EnemyState_Combat : IState
     {
         attackTimer = attackUpdateFrequency;
         //enable navigation:
-        enemyReferences.enemyNavigation.StopNow(false);
+        //enemyReferences.enemyNavigation.StopNow(false);
         enemyReferences.enemeyAttack.StopAttacking();
 
     }

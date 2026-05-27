@@ -7,7 +7,7 @@ public class EnemyReferences : MonoBehaviour
     [HideInInspector] public EnemyNavigation enemyNavigation;
     [HideInInspector] public EnemyHealth enemyHealth;
     [HideInInspector] public Rigidbody rb;
-    [HideInInspector] public EnemyAnimator enemyAnimator;
+    public EnemyAnimator enemyAnimator;
     [HideInInspector] public Flash flash;
     [HideInInspector] public EnemyBrain enemyBrain;
     [HideInInspector] public ParticleSystem berserkParticles;
