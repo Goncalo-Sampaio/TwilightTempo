@@ -205,6 +205,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   damage: 65
+  gaugeIncrease: 5
 --- !u!95 &4037086033212246696
 Animator:
   serializedVersion: 7
@@ -238,7 +239,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 9c3a24e8ac70a0342abf2328731d0844, type: 3}
+  m_Resource: {fileID: 8300000, guid: 73c2136de86946549b0d33be82e7cebe, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
