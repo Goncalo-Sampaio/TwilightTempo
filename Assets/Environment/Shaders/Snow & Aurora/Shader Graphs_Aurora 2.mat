@@ -55,14 +55,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AnimAmount: 0.06
-    - _AnimDistance: 0.05
-    - _AnimFrequency: 4.04
-    - _AnimSpeed: 1.35
+    - _AnimAmount: 1
+    - _AnimDistance: 0.2
+    - _AnimFrequency: 0.29
+    - _AnimSpeed: 0.5
     - _DissolvePower: -1.34
     - _Float: 0
-    - _MaskPower: 1.18
-    - _NoiseScale: 30
+    - _MaskPower: 0.84
+    - _NoiseScale: 38.3
     - _QueueControl: 0
     - _QueueOffset: 0
     - _WobbleAmount: 0.2
@@ -70,8 +70,8 @@ Material:
     - _WobbleFrequency: 2
     - _WobbleSpeed: 1.27
     m_Colors:
-    - _Color: {r: 0.43133917, g: 0.17199706, b: 0.7660377, a: 1}
-    - _NoiseSpeed: {r: 0, g: -0.1, b: 0, a: 0}
-    - _NoiseTiling: {r: 7, g: 0.1, b: 0, a: 0}
+    - _Color: {r: 5.7574706, g: 1.5095375, b: 11.18176, a: 1}
+    - _NoiseSpeed: {r: 0, g: -0.05, b: 0, a: 0}
+    - _NoiseTiling: {r: 1.72, g: 0.05, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
