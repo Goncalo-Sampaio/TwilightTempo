@@ -35,6 +35,12 @@ public class ThirdPersonCam : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private float skillRotationTime = 0.1f;
+    [SerializeField]
+    private bool skill = false;
+    private float skillRotationCounter = 0f;
+
     private CameraStyle currentStyle;
 
     private PlayerStateManagerPlayables playerStateManager;
@@ -72,11 +78,28 @@ public class ThirdPersonCam : MonoBehaviour
             float verticalInput = Input.GetAxis("Vertical");
             Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-            if (inputDir != Vector3.zero && currentState <= PlayerStates.Attacking)
+            if (inputDir.magnitude >= 0.2f && currentState <= PlayerStates.Skill)
+            //if (inputDir != Vector3.zero && currentState <= PlayerStates.Skill)
+            {
                 playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+            }
+            else if (skill)
+            {
+                playerObj.forward = orientation.forward.normalized;
+            }
             else if (attacking)
             {
                 playerObj.forward = Vector3.Slerp(playerObj.forward, orientation.forward.normalized, Time.deltaTime * rotationSpeed);
+            }
+        }
+
+        if (skill)
+        {
+            skillRotationCounter -= Time.deltaTime;
+
+            if (skillRotationCounter <= 0)
+            {
+                skill = false;
             }
         }
 
@@ -98,5 +121,11 @@ public class ThirdPersonCam : MonoBehaviour
         if (newStyle == CameraStyle.Combat) combatCam.SetActive(true);
 
         currentStyle = newStyle;
+    }
+
+    public void StartSkill()
+    {
+        skillRotationCounter = skillRotationTime + 0.1f;
+        skill = true;
     }
 }

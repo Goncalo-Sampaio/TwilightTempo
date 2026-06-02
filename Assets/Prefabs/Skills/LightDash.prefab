@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LightDash
   lightDashObject: {fileID: 2503682672228104484, guid: cf012f35022c66a4eb28a62e58ae442a, type: 3}
   castPosition: {x: 0, y: 0, z: 0.87}
-  dashDelay: 0
+  dashDelay: 0.1

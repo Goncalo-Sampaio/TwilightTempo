@@ -23,11 +23,13 @@ public class SkillSystem : MonoBehaviour
 
     private PlayerStateManagerPlayables playerStateManager;
     private PlayerStates state;
+    private ThirdPersonCam thirdPersonCam;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerStateManager = GetComponent<PlayerStateManagerPlayables>();
+        thirdPersonCam = GetComponentInChildren<ThirdPersonCam>();
 
         currentlyActiveSlot = 0;
 
@@ -96,6 +98,7 @@ public class SkillSystem : MonoBehaviour
 
         if (Input.GetButtonDown("Fire2") && state < PlayerStates.Skill)
         {
+            thirdPersonCam.StartSkill();
             //HARDCODED for now
             if (currentlyActiveSlot == 1 ||  currentlyActiveSlot == 2 || currentlyActiveSlot == 3)
             {
