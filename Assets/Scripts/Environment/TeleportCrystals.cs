@@ -13,28 +13,26 @@ public class TeleportCrystals : MonoBehaviour
 
     [SerializeField] private Collider crystalMeshCollider;
     [SerializeField] private Collider[] bridgeMeshColliders;
-    [SerializeField] private SphereCollider playerTriggerColl;    
-    private bool playerInRange, enableColliderRotRunning,wasTeleporting;
+    [SerializeField] private SphereCollider playerTriggerColl;
+    private bool enableColliderRotRunning;
+    public bool playerInRange;
+    public static bool  wasTeleporting ;
     [SerializeField] private float delayBeforeEnablingColliders = 1f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private TeleportFeedback teleportFeedback;
     void Start()
     {
         player = FindAnyObjectByType<Teleport>();
+        teleportFeedback = GetComponentInParent<TeleportFeedback>();
         enableColliderRotRunning = false;
     }
     private void OnValidate()
     {
         playerTriggerColl.radius = interactionRange;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T) && playerInRange)
-        {
-            player.ActivateTeleport(targetCrystal);           
-            
-        }
+        if (playerInRange && Input.GetKeyDown(KeyCode.T)) player.ActivateTeleport(targetCrystal);
+
     }
     private void FixedUpdate()
     {
@@ -43,23 +41,18 @@ public class TeleportCrystals : MonoBehaviour
             //if player is in range and also teleportin
             if (player.teleporting)
             {
-                crystalMeshCollider.isTrigger = true;
-                wasTeleporting = true;
+                crystalMeshCollider.isTrigger = true;                
                 foreach (Collider collider in bridgeMeshColliders) { collider.isTrigger = true; }
             }
-            else
-            {
-                //triggered only was previously teleporting and then not (teleporting >> !teleporting)
-                //only call coroutine on that state transition
-                if (wasTeleporting)
-                {
-                    if (!enableColliderRotRunning) StartCoroutine(DelayedEnableMeshCollider());
-                    wasTeleporting = false;                    
-                }
-                
-            }
         }
-        
+        //triggered only was previously teleporting and then not (teleporting >> !teleporting)
+        //only call coroutine on that state transition
+        if (wasTeleporting)
+        {
+            if (!enableColliderRotRunning) StartCoroutine(DelayedEnableMeshCollider());
+            wasTeleporting = false;
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -69,6 +62,7 @@ public class TeleportCrystals : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player")) playerInRange = false;
+        
     }
     private IEnumerator DelayedEnableMeshCollider()
     {
