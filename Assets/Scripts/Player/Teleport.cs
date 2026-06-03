@@ -1,3 +1,4 @@
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 public class Teleport : MonoBehaviour
@@ -14,14 +15,16 @@ public class Teleport : MonoBehaviour
     private GameObject targetCrystal;
 
     private Vector3 direction;
-    private bool teleporting = false;
+    public bool teleporting = false;
     private Rigidbody rb;
     private PlayerStateManagerPlayables stateManager;
-
+    private float stopBufferRange = 2f;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         stateManager = GetComponent<PlayerStateManagerPlayables>();
+        teleportLerpedSpeed = teleportSpeed;
+
     }
 
     // Update is called once per frame
@@ -35,15 +38,22 @@ public class Teleport : MonoBehaviour
                 teleportObject.SetActive(false);
                 teleporting = false;
                 stateManager.ResetState();
+                //reset teleport speed:
+                teleportLerpedSpeed = teleportSpeed;
             }
         }
     }
-
+    private float teleportLerpedSpeed = 0;
     private void FixedUpdate()
     {
         if (teleporting)
         {
-            rb.linearVelocity = direction.normalized * teleportSpeed;
+            //Start rapidly decreaseing teleport speed the closer the player is to the endposition (Starting "stopBufferRange" from stopping distance:)
+            if (Vector3.Distance(targetCrystal.transform.position, transform.position) < stopRange + stopBufferRange)
+            {
+                teleportLerpedSpeed = teleportSpeed / Mathf.Max((stopRange + stopBufferRange - Vector3.Distance(targetCrystal.transform.position, transform.position)), 1);
+            }            
+             rb.linearVelocity = direction.normalized * teleportLerpedSpeed;
         }
     }
 
@@ -54,7 +64,7 @@ public class Teleport : MonoBehaviour
         targetCrystal = target;
         rb.linearVelocity = Vector3.zero;
         stateManager.SetCurrentState(PlayerStates.Teleporting);
-        direction = target.transform.position - transform.position;
+        direction = target.transform.position - transform.position;        
         teleporting = true;
     }
 }
