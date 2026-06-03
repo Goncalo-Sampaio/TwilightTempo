@@ -30,7 +30,11 @@ public class SceneTransition : MonoBehaviour
     private bool buttonsFadeStarted = false;
 
     private bool waitingForInput = true;
-
+    private void Awake()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
     void Start()
     {
         buttonsTimeCounter = buttonsInteractableDelay;
