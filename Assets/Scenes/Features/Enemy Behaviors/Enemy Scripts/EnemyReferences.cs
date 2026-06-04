@@ -7,11 +7,12 @@ public class EnemyReferences : MonoBehaviour
     [HideInInspector] public EnemyNavigation enemyNavigation;
     [HideInInspector] public EnemyHealth enemyHealth;
     [HideInInspector] public Rigidbody rb;
-    public EnemyAnimator enemyAnimator;
+    [HideInInspector] public EnemyAnimator enemyAnimator;
     [HideInInspector] public Flash flash;
     [HideInInspector] public EnemyBrain enemyBrain;
     [HideInInspector] public ParticleSystem berserkParticles;
     [HideInInspector] public UIManager uIManager;
+    [HideInInspector] public EnemySoundManager enemySoundManager;
     //temporary:
     public bool isCaster = false;
     public EnemyCasterAttack enemyCasterAttack;
@@ -31,6 +32,7 @@ public class EnemyReferences : MonoBehaviour
         flash = GetComponentInChildren<Flash>();
         berserkParticles = GetComponentInChildren<ParticleSystem>();
         uIManager = FindAnyObjectByType<UIManager>();
+        enemySoundManager = GetComponent<EnemySoundManager>();
     }  
     
 }

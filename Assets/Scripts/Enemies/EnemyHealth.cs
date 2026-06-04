@@ -18,14 +18,9 @@ public class EnemyHealth : MonoBehaviour
 
     [SerializeField][Tooltip("Percentage Based - how much knockback is negated?")] private float knockBackResistance = 10f;
     public bool dead;
-    
-    
-    [SerializeField] private AudioClip hitSFX;
-    [SerializeField] private AudioClip magicHitSFX;
 
-    private EnemyBrain brain;
     
-    private AudioSource audioSource;
+    
     private EnemyReferences enemyReferences;
     private ProgressionBlocker progressionBlocker;
     private Flash flash;    
@@ -39,13 +34,11 @@ public class EnemyHealth : MonoBehaviour
     public void SetProgressionBlocker(ProgressionBlocker progressionBlocker) => this.progressionBlocker = progressionBlocker;
     void Start()
     {
-        enemyReferences = GetComponent<EnemyReferences>();
-        brain = enemyReferences.enemyBrain;
+        enemyReferences = GetComponent<EnemyReferences>();        
         flash = enemyReferences.flash;        
         currentHealth = maxHealth;
         uiManager = enemyReferences.uIManager;
 
-        audioSource = GetComponent<AudioSource>();
         dead = false;
         if (LevelDataManager.Instance != null)
         {
@@ -57,7 +50,7 @@ public class EnemyHealth : MonoBehaviour
     public void Damage(float damage)
     {
         Debug.Log($"{gameObject.name} got damaged");
-        PlayGettingHitSounds();
+        enemyReferences.enemySoundManager.PlayGettingHitSounds();
 
         currentHealth -= damage;
 
@@ -97,7 +90,7 @@ public class EnemyHealth : MonoBehaviour
     //With KnockBack
     public void Damage(float damage,Vector3 force)
     {
-        PlayGettingHitSounds();
+        enemyReferences.enemySoundManager.PlayGettingHitSounds();
         currentHealth -= damage;
         Vector3 forceAfterKnockBackNegation = force - (force * knockBackResistance / 100 );
         if (currentHealth - damage <= 0 ) ApllyKnockBack(forceAfterKnockBackNegation);
@@ -231,14 +224,7 @@ public class EnemyHealth : MonoBehaviour
         yield return new WaitForSeconds(AfterDeathLingerTime);        
         Destroy(this.gameObject);
 
-    }
-    private void PlayGettingHitSounds()
-    {
-        audioSource.pitch = Random.Range(0.95f, 1.05f);
-        audioSource.PlayOneShot(hitSFX);
-        audioSource.pitch = Random.Range(0.95f, 1.05f);
-        audioSource.PlayOneShot(magicHitSFX);
-    }
+    }    
     private bool RollTheDice()
     {
         return (chanceOfBerserking >= Random.Range(0, 10)) ;

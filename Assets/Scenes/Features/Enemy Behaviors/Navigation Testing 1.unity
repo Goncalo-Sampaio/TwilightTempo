@@ -1066,6 +1066,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 466015661808217309, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 728591330265752905, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
       propertyPath: skillTimer
       value: 
@@ -1110,6 +1114,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1239833610706566262, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1346069485191569771, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
       propertyPath: skillTimer
       value: 
@@ -1130,6 +1138,22 @@ PrefabInstance:
       propertyPath: skillTimer
       value: 
       objectReference: {fileID: 1097570834}
+    - target: {fileID: 5032515527463768621, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6609568154695593710, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639695121453974042, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7318075609819891274, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_PolyMesh.name
+      value: Head
+      objectReference: {fileID: 0}
     - target: {fileID: 7318075609819891274, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
       propertyPath: m_PolyMesh.m_Mesh
       value: 
@@ -1138,6 +1162,10 @@ PrefabInstance:
       propertyPath: skillTimer
       value: 
       objectReference: {fileID: 1780421869}
+    - target: {fileID: 8125076119471913820, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8214709740220546004, guid: e094c4b16c58b194bbe3bd3070585400, type: 3}
       propertyPath: jumpAnimation
       value: 
@@ -9694,7 +9722,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.13333334
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: cfcbbf0eeb8a19b439b9e2e42fa765f6, type: 2}
   m_BuildHeightMesh: 0
@@ -10203,6 +10231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIFade
   fadeTime: 1
+  VFXWarmupTime: 0.4
   fadeImage: {fileID: 1994274102}
   vfxWarmupObject: {fileID: 0}
 --- !u!114 &1204349934
@@ -10219,6 +10248,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   finisherReady: {fileID: 934703516}
   gauge: {fileID: 1704548728}
+  skillTimer1: {fileID: 0}
+  skillTimer2: {fileID: 0}
+  skillTimer3: {fileID: 0}
+  skillTimer4: {fileID: 0}
+  skillTimer5: {fileID: 0}
+  skillTimer6: {fileID: 0}
+  skillHolder: {fileID: 0}
+  healthUI: {fileID: 0}
+  enemyHealth: {fileID: 0}
 --- !u!114 &1204349935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14928,6 +14966,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyOrc
       objectReference: {fileID: 0}
+    - target: {fileID: 6257689180093501406, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_Room
+      value: -1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257689180093501406, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257689180093501406, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_DecayTime
+      value: 8.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257689180093501406, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_ReverbDelay
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257689180093501406, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_ReverbLevel
+      value: 985
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257689180093501406, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_DecayHFRatio
+      value: 1.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257689180093501406, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_ReverbPreset
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 6257689180093501406, guid: 2713646820f931f4d9147d819c770826, type: 3}
+      propertyPath: m_ReflectionsLevel
+      value: -115
+      objectReference: {fileID: 0}
     - target: {fileID: 6640285124854255933, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -15027,6 +15097,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2790108708464822970, guid: bde724a93b315bc46a5dacbf9823ba09, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2831570229743181593, guid: bde724a93b315bc46a5dacbf9823ba09, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: b65ec5d3ec9125e4bb5be360009ecf4a, type: 2}
+    - target: {fileID: 3191004923684574297, guid: bde724a93b315bc46a5dacbf9823ba09, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7186838448900395588, guid: bde724a93b315bc46a5dacbf9823ba09, type: 3}

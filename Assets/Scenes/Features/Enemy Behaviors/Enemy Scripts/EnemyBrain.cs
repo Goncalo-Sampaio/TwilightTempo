@@ -134,6 +134,7 @@ public class EnemyBrain : MonoBehaviour
         DisableColliders();
         yield return new WaitForFixedUpdate();
         enemyReferences.enemyAnimator.WarCry();
+        enemyReferences.enemySoundManager.PlayRoarSoundEffect();
         
         enemyReferences.berserkParticles.Play();
         yield return new WaitForSeconds(2f);

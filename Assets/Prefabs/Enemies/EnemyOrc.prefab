@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 7019767393199814816}
   - component: {fileID: 4242322043275516276}
   - component: {fileID: 1617214427788701709}
+  - component: {fileID: 7513554278427123776}
   - component: {fileID: 2984943583569956599}
   - component: {fileID: 6761239131903444126}
   m_Layer: 0
@@ -100,7 +101,7 @@ MonoBehaviour:
   dead: 0
   isBerserk: 0
   engaged: 0
-  forgetTimmer: 5
+  forgetTimmer: 10
 --- !u!114 &3371665363935538307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,8 +120,6 @@ MonoBehaviour:
   maxHealth: 200
   knockBackResistance: 10
   dead: 0
-  hitSFX: {fileID: 8300000, guid: 9bd84b4efee7ec24783ace477ede2ab7, type: 3}
-  magicHitSFX: {fileID: 8300000, guid: b6576797195f4674b88b958d75b7044d, type: 3}
   chanceOfBerserking: 2
   maxKnockBackTime: 3
   AfterDeathLingerTime: 5
@@ -168,6 +167,7 @@ MonoBehaviour:
   enemyBrain: {fileID: 0}
   berserkParticles: {fileID: 0}
   uIManager: {fileID: 0}
+  enemySoundManager: {fileID: 0}
   isCaster: 0
   enemyCasterAttack: {fileID: 0}
   playerRef: {fileID: 0}
@@ -220,6 +220,24 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 1
+--- !u!114 &7513554278427123776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811496294509267395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10e24b08f2ebe1d4da52eacb343774ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySoundManager
+  defaultMixer: {fileID: 24300002, guid: 45d9f3b3fa6640f488f1b73e23475e8b, type: 2}
+  reverbMixer: {fileID: 24300002, guid: b65ec5d3ec9125e4bb5be360009ecf4a, type: 2}
+  attackSFX: {fileID: 0}
+  roarSFX: {fileID: 8300000, guid: c55fb47f6865f480c989e8407de1d19c, type: 3}
+  hitSFX: {fileID: 8300000, guid: 9bd84b4efee7ec24783ace477ede2ab7, type: 3}
+  magicHitSFX: {fileID: 8300000, guid: b6576797195f4674b88b958d75b7044d, type: 3}
 --- !u!114 &2984943583569956599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +266,7 @@ AudioSource:
   m_GameObject: {fileID: 1811496294509267395}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: b65ec5d3ec9125e4bb5be360009ecf4a, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
