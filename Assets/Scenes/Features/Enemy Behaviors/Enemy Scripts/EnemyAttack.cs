@@ -54,7 +54,6 @@ public class EnemyAttack : MonoBehaviour
     public void StopAttacking()
     {
         attacking = false;
-        sphereCollider.SetActive(false);
     }
     
     private float CurrentAnimationCompletion()

@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -17,12 +18,16 @@ public class Flash : MonoBehaviour
 
     [HideInInspector] public bool isFlashing = false;
     
-    private Renderer[] renderers;
+    private List<Renderer> renderers;
 
     private float Lerpthreshold = 0.01f;
     void Start()
-    {        
-        renderers = GetComponentsInChildren<Renderer>();
+    {
+        renderers = new();
+        foreach (Renderer renderer in gameObject.GetComponentsInChildren<Renderer>(true))
+        {
+            if (renderer is not UnityEngine.VFX.VFXRenderer || renderer is not UnityEngine.ParticleSystemRenderer) renderers.Add(renderer);
+        }
 
     }
 
@@ -122,8 +127,8 @@ public class Flash : MonoBehaviour
     {
         foreach (Renderer renderer in renderers)
         {
-            if (renderer.gameObject.tag == "DontFlash") continue;
-            if (renderer is UnityEngine.VFX.VFXRenderer) continue;
+            if (renderer == null) continue;
+            if (renderer.gameObject.tag == "DontFlash") continue;            
             if (on)
             {
                 
@@ -142,8 +147,8 @@ public class Flash : MonoBehaviour
     {
         foreach (Renderer renderer in renderers)
         {
+            if (renderer == null) continue;
             if (renderer.gameObject.tag == "DontFlash") continue;
-            if (renderer is UnityEngine.VFX.VFXRenderer) continue;
             renderer.material.SetColor("_EmissionColor", flashColour);
         }
     }
