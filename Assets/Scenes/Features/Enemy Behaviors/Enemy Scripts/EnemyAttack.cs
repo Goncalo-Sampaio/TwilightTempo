@@ -26,14 +26,36 @@ public class EnemyAttack : MonoBehaviour
     {
         sphereCollider.SetActive(false);
     }
+    bool triggerAttackSoundFlag = false;
     private void FixedUpdate()
     {
         if (!attacking) return;
-        if (CurrentAnimationCompletion() >= attackWindowStart && CurrentAnimationCompletion() <= attackWindowEnd) sphereCollider.SetActive(true);
-        else sphereCollider.SetActive(false);
-    }    
-    public void Attacking() => attacking = true;
-    public void StopAttacking() => attacking = false;
+        float completion = CurrentAnimationCompletion();
+        if (completion < 0) return;
+        if (completion >= attackWindowStart && completion <= attackWindowEnd)
+        {
+            if (triggerAttackSoundFlag)
+            {
+                enemyReferences.enemySoundManager.PlayAttackSound();
+                triggerAttackSoundFlag = false;
+            }
+            sphereCollider.SetActive(true);
+        }
+        else
+        {
+            sphereCollider.SetActive(false);
+        }
+    }
+    public void Attacking()
+    {
+        triggerAttackSoundFlag = true;
+        attacking = true;
+    }
+    public void StopAttacking()
+    {
+        attacking = false;
+        sphereCollider.SetActive(false);
+    }
     
     private float CurrentAnimationCompletion()
     {
@@ -41,7 +63,7 @@ public class EnemyAttack : MonoBehaviour
         //if animation clip is currently "Attack01"
         if (attack01AnimHash == stateInfo.fullPathHash)
         {
-            return stateInfo.normalizedTime;
+            return Mathf.Repeat(stateInfo.normalizedTime, 1f);
         }
         else return -1;      
     }
@@ -56,7 +78,7 @@ public class EnemyAttack : MonoBehaviour
         {   
             //use layer overrides to exclude self from detection
             //if player hit     
-            if (collision.gameObject.tag == collisionTag)
+            if (collision.gameObject.CompareTag(collisionTag))
             {
                 collision.gameObject.GetComponent<PlayerHealth>().Damage();
                 //call .TakeDamage() on its "Health" component
@@ -75,7 +97,7 @@ public class EnemyAttack : MonoBehaviour
         {
             //use layer overrides to exclude self from detection
             //if player hit     
-            if (other.gameObject.tag == collisionTag)
+            if (other.gameObject.CompareTag(collisionTag))
             {
                 other.gameObject.GetComponentInParent<PlayerHealth>().Damage();
                 //call .TakeDamage() on its "Health" component                

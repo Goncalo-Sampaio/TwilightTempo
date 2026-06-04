@@ -35,11 +35,12 @@ public class EnemyState_Combat : IState
         enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
         if (AttackUpdate())
         {
+
             if(isCaster)
             {
                 if (enemyReferences.enemyNavigation.GetVisionConeFactor(playerRef.position) < 0.65f) enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
                 else if (enemyReferences.enemyAnimator != null)
-                {
+                {                    
                     enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
                     enemyReferences.enemyAnimator.SpellCast();
 
@@ -60,13 +61,15 @@ public class EnemyState_Combat : IState
                         //enemyReferences.enemyNavigation.SnapToTarget(playerRef.position);
                     }
                     else
-                    {
+                    {                        
                         enemyReferences.enemeyAttack.Attacking();
                         enemyReferences.enemyAnimator.Attack1();
+                        //random animas here:
                     }
                 }
 
             }
+            
         }
     }
     //Make sure the state values Reset when leaving.

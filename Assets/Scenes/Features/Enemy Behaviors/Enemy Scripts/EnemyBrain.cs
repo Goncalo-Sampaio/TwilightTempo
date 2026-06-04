@@ -39,8 +39,8 @@ public class EnemyBrain : MonoBehaviour
     [HideInInspector] public bool isBerserk;
 
     private bool playerWithinLineOfSight, withinAttackRange;
-    private bool playerWasSpoted;
-    [HideInInspector] public bool engaged = false;
+    private bool playerFirstSpoted;
+    [HideInInspector] public bool engaged = false;    
     [SerializeField] private float forgetTimmer = 5f;
     private float forgetTimmerCountdown;
     private Collider[] colliders;
@@ -48,7 +48,7 @@ public class EnemyBrain : MonoBehaviour
 
     private void Awake()
     {
-        playerWasSpoted = false;
+        playerFirstSpoted = true;
         stateMachine = new StateMachine();
         enemyReferences = GetComponent<EnemyReferences>();
         colliders = GetComponentsInChildren<Collider>();
@@ -109,7 +109,12 @@ public class EnemyBrain : MonoBehaviour
         if(engaged && !playerWithinLineOfSight)
         {
             forgetTimmerCountdown -= Time.deltaTime;
-            if(forgetTimmerCountdown <= 0f) engaged = false;
+            if (forgetTimmerCountdown <= 0f)
+            {
+                playerFirstSpoted = true;
+                engaged = false;
+            }
+            
         } 
         //if within attack range or if was hit 
         if(withinAttackRange || (!engaged && wasHit))
@@ -193,6 +198,14 @@ public class EnemyBrain : MonoBehaviour
     private void FixedUpdate()
     {
         ProbeSurroundings();
+        if (engaged)
+        {
+            if (playerFirstSpoted)
+            {
+                enemyReferences.enemySoundManager.PlaySpottedPlayerSoundEffect();
+                playerFirstSpoted = false;
+            }
+        }
     }
     private void OnDrawGizmos()
     {

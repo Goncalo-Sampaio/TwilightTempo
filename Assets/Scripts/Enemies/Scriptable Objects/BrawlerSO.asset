@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4be42781a616f4ea8fb6d2c7f032f2, type: 3}
+  m_Name: BrawlerSO
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyScriptableObject
+  enemyType: 1
+  attackSFX:
+  - {fileID: 8300000, guid: 0a3b2f9bc46e5424093383795e4952d2, type: 3}
+  - {fileID: 8300000, guid: adae929479e20914b95e923eea2a2dac, type: 3}
+  gettingHitSFX:
+  - {fileID: 8300000, guid: 1b11819c3a79db545a89313f770591bd, type: 3}
+  - {fileID: 8300000, guid: 2550543b7f5373b4e9fa7c7d26366748, type: 3}
+  - {fileID: 8300000, guid: 6c9de7f32217f5c41a977120ee3cf196, type: 3}
+  spottedPlayer:
+  - {fileID: 8300000, guid: fb830072fbde8bb4189e23302814f1af, type: 3}
+  - {fileID: 8300000, guid: 2801e050df19b3a4faa69b7d4c70bf1b, type: 3}
+  - {fileID: 8300000, guid: 2427f1d0f369d3743b44f14a4d1fca43, type: 3}
+  - {fileID: 8300000, guid: 11fa30557c041ff498d27bebeefa3f26, type: 3}
+  - {fileID: 8300000, guid: fd7d9a2da9995244eb4f365aad38795c, type: 3}
+  hitSFX: {fileID: 8300000, guid: 9bd84b4efee7ec24783ace477ede2ab7, type: 3}
+  magicHitSFX: {fileID: 8300000, guid: b6576797195f4674b88b958d75b7044d, type: 3}
+  deathSFX: {fileID: 8300000, guid: 2801e050df19b3a4faa69b7d4c70bf1b, type: 3}
+  roarSFX:
+  - {fileID: 8300000, guid: 093a5dc60018d476791de718279859f3, type: 3}
+  - {fileID: 8300000, guid: 8a42266be58db4c518b5d4e47cc0f780, type: 3}
+  - {fileID: 8300000, guid: ec834e3a0a9a041e58e015c0bf39ed52, type: 3}

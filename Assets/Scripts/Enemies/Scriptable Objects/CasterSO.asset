@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb4be42781a616f4ea8fb6d2c7f032f2, type: 3}
+  m_Name: CasterSO
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyScriptableObject
+  enemyType: 0
+  attackSFX:
+  - {fileID: 8300000, guid: 1adce15604a14d64da258de3313c2836, type: 3}
+  - {fileID: 8300000, guid: fbeee351c3333bd4c954611071e76384, type: 3}
+  - {fileID: 8300000, guid: 918915efa6a4cc64788561c70a35ad64, type: 3}
+  gettingHitSFX:
+  - {fileID: 8300000, guid: 9230cca346eb8df4ea50ad16b1c02d6f, type: 3}
+  - {fileID: 8300000, guid: 208b61031cbb6b4468a33c33e8c59056, type: 3}
+  - {fileID: 8300000, guid: db14045a5d46ce2439646e4ac63d5e42, type: 3}
+  - {fileID: 8300000, guid: 5108a9cd10c4a3b4c9c123da856dbf06, type: 3}
+  - {fileID: 8300000, guid: 19fbe8ee4318dd14a849bdfb63f4619f, type: 3}
+  spottedPlayer:
+  - {fileID: 8300000, guid: 664045440a91a7e4ca6b206c16c3dee9, type: 3}
+  - {fileID: 8300000, guid: 19fbe8ee4318dd14a849bdfb63f4619f, type: 3}
+  hitSFX: {fileID: 8300000, guid: 9bd84b4efee7ec24783ace477ede2ab7, type: 3}
+  magicHitSFX: {fileID: 8300000, guid: b6576797195f4674b88b958d75b7044d, type: 3}
+  deathSFX: {fileID: 8300000, guid: 667089b500ac25f48a7e6475e4113ccf, type: 3}
+  roarSFX: []

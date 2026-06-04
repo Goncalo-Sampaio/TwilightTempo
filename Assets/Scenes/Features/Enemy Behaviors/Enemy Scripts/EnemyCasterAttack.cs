@@ -12,8 +12,12 @@ public class EnemyCasterAttack : MonoBehaviour
 
     [SerializeField] private Transform projectileExit;
     [SerializeField] private GameObject SpellProjectile;
+    private EnemyReferences enemyReferences;
+    private void Awake()
+    {
+        enemyReferences = GetComponentInParent<EnemyReferences>();
+    }
     
-    [Button]
     public void CastSpell() { if (!attacking) StartCoroutine(CastSpellRot()); }
     private IEnumerator CastSpellRot()
     {
@@ -24,7 +28,7 @@ public class EnemyCasterAttack : MonoBehaviour
         //enable staff magic particles
 
         yield return new WaitUntil(() => (CurrentAnimationCompletion() >= castProjectileAt) && CurrentAnimationCompletion() < 1);
-       
+        enemyReferences.enemySoundManager.PlayAttackSound();
         Instantiate(SpellProjectile, projectileExit.position, projectileExit.rotation);
         
         yield return null;

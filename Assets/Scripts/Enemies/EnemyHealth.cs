@@ -218,6 +218,7 @@ public class EnemyHealth : MonoBehaviour
     private IEnumerator DeathRot()
     {
         dead = true;
+        enemyReferences.enemySoundManager.PlayDeathSFX();
         enemyReferences.enemyNavigation.StopNow(true);        
         enemyReferences.enemyBrain.Die();
         LevelDataManager.Instance.RemoveEnemy(this);
