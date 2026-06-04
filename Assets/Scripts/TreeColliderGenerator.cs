@@ -10,7 +10,7 @@ public class TreeColliderGenerator : MonoBehaviour
     {
         GenerateColliders();
     }
-
+    //original code: https://gist.github.com/lewyt/938abaca35e3b9f0efd2e33223a954d3#file-treecollidergenerator-cs 
     public void GenerateColliders()
     {
         if (targetTerrain == null)
@@ -49,6 +49,7 @@ public class TreeColliderGenerator : MonoBehaviour
             colliderCount++;
         }
     }
+    //Recursivly deletes non collider and transform components
     void StripPrefabAndChildren(GameObject targetObject)
     {
         Component[] components = targetObject.GetComponentsInChildren<Component>(true);
