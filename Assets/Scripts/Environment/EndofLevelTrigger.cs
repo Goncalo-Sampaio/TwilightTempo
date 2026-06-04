@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class EndofLevelTrigger : MonoBehaviour
 {
     private bool m_IsActive = false;
+    [SerializeField] private float waitTime;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player" && !m_IsActive)
@@ -16,7 +17,7 @@ public class EndofLevelTrigger : MonoBehaviour
     {
         m_IsActive = true;
         yield return null;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(waitTime);
         SceneManager.LoadScene(0);
     }
 }
