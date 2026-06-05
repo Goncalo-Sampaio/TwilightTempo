@@ -128,7 +128,10 @@ public class Flash : MonoBehaviour
         foreach (Renderer renderer in renderers)
         {
             if (renderer == null) continue;
-            if (renderer.gameObject.tag == "DontFlash") continue;            
+            if (renderer.gameObject.tag == "DontFlash") continue;
+            if (renderer is UnityEngine.ParticleSystemRenderer) continue;
+            if (renderer is VFXRenderer) continue;
+
             if (on)
             {
                 
@@ -149,6 +152,8 @@ public class Flash : MonoBehaviour
         {
             if (renderer == null) continue;
             if (renderer.gameObject.tag == "DontFlash") continue;
+            if (renderer is UnityEngine.ParticleSystemRenderer) continue;
+            if (renderer is VFXRenderer) continue;            
             renderer.material.SetColor("_EmissionColor", flashColour);
         }
     }
@@ -159,7 +164,8 @@ public class Flash : MonoBehaviour
         {
             if (renderer == null) continue;
             if (renderer.gameObject.tag == "DontFlash") continue;
-            if(renderer is UnityEngine.ParticleSystemRenderer) continue;
+            if (renderer is UnityEngine.ParticleSystemRenderer) continue;
+            if (renderer is VFXRenderer) continue;
             renderer.material.EnableKeyword("_BERSERK");
         }
 

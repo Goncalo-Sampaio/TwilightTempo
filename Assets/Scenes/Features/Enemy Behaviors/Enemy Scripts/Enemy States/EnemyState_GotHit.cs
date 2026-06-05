@@ -11,10 +11,7 @@ public class EnemyState_GotHit : IState
     }
     public void OnEnter()
     {
-        if (enemyReferences.enemyAnimator != null)
-        {
-            enemyReferences.enemyAnimator.Hit();
-        }
+        
         enemyReferences.enemyNavigation.StopNow(true);
 
         enemyReferences.flash.FlashForXIterations(1);

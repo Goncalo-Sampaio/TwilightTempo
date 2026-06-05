@@ -50,6 +50,7 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private ParticleSystem shockwave;
     private void Awake()
     {
+        defaultStaggerTime = staggerTimmer;
         playerFirstSpoted = true;
         stateMachine = new StateMachine();
         enemyReferences = GetComponent<EnemyReferences>();
@@ -179,17 +180,32 @@ public class EnemyBrain : MonoBehaviour
         DisableColliders();        
         StopRiggidbodyMovement();
         burst.Stop();
-    }
+    }    
+    float defaultStaggerTime;
     public void GotHit()
     {
+        
+        staggerTimmer = defaultStaggerTime;
+        if (enemyReferences.enemyAnimator != null)
+        {
+            enemyReferences.enemyAnimator.Hit();
+        }
+        //allow for multihit        
         if (!wasHit) StartCoroutine(GotHitRot());
+        //all hitting does is reset the timer;        
+        
     }
+
     private IEnumerator GotHitRot()
     {
         wasHit = true;
         engaged = true;
         enemyReferences.rb.angularVelocity = Vector3.zero;
-        yield return new WaitForSeconds(staggerTimmer);
+        while(staggerTimmer > 0f)
+        {
+            staggerTimmer -= Time.deltaTime;            
+            yield return null;
+        }
         wasHit = false;
     }
 
