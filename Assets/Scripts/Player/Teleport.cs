@@ -1,4 +1,5 @@
 using DG.Tweening.Plugins.Options;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class Teleport : MonoBehaviour
@@ -19,6 +20,9 @@ public class Teleport : MonoBehaviour
     private Rigidbody rb;
     private PlayerStateManagerPlayables stateManager;
     private float stopBufferRange = 2f;
+
+    public bool Paused { get; set; } = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -30,6 +34,11 @@ public class Teleport : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Paused)
+        {
+            return;
+        }
+
         if (teleporting)
         {
             if (Vector3.Distance(targetCrystal.transform.position, transform.position) < stopRange)
@@ -46,6 +55,11 @@ public class Teleport : MonoBehaviour
     private float teleportLerpedSpeed = 0;
     private void FixedUpdate()
     {
+        if (Paused)
+        {
+            return;
+        }
+
         if (teleporting)
         {
             //Start rapidly decreaseing teleport speed the closer the player is to the endposition (Starting "stopBufferRange" from stopping distance:)
@@ -59,6 +73,11 @@ public class Teleport : MonoBehaviour
 
     public void ActivateTeleport(GameObject target)
     {
+        if (Paused)
+        {
+            return;
+        }
+
         annikaModel.SetActive(false);
         teleportObject.SetActive(true);
         targetCrystal = target;

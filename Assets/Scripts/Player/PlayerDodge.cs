@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class PlayerDodge : MonoBehaviour
@@ -23,6 +24,8 @@ public class PlayerDodge : MonoBehaviour
     private Rigidbody rb;
     private Transform playerModel;
 
+    public bool Paused { get; set; } = false;
+
     private void Start()
     {
         playerStateManagerPlayables = GetComponent<PlayerStateManagerPlayables>();
@@ -33,6 +36,11 @@ public class PlayerDodge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Paused)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDodge)
         {
             dodgeTimer = dodgeAnimation.length / dodgeSpeedMultiplier;
@@ -47,6 +55,11 @@ public class PlayerDodge : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Paused)
+        {
+            return;
+        }
+
         if (dodging)
         {
             rb.linearVelocity = playerModel.transform.forward * velocity * Time.fixedDeltaTime;
