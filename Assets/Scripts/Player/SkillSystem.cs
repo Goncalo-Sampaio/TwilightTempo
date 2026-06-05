@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class SkillSystem : MonoBehaviour
@@ -24,6 +25,8 @@ public class SkillSystem : MonoBehaviour
     private PlayerStateManagerPlayables playerStateManager;
     private PlayerStates state;
     private ThirdPersonCam thirdPersonCam;
+
+    public bool Paused { get; set; } = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -51,6 +54,11 @@ public class SkillSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Paused)
+        {
+            return;
+        }
+
         state = playerStateManager.CurrentState;
 
         if (Input.GetKeyDown(KeyCode.E) && !rotating)

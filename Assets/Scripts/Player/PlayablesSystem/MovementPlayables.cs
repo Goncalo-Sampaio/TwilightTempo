@@ -85,6 +85,8 @@ public class MovementPlayables : MonoBehaviour
     private PlayerStateManagerPlayables playerStateManagerPlayables;
     private PlayerStates currentPlayerState;
 
+    public bool Paused { get; set; } = false;
+
     //Other Scripts:
     //[SerializeField] private PlayerAnimator playerAnimator;
 
@@ -102,6 +104,10 @@ public class MovementPlayables : MonoBehaviour
 
     private void Update()
     {
+        if (Paused)
+        {
+            return;
+        }
         //Debug.Log(grounded);
 
         if (canCheckForGround)
@@ -136,6 +142,11 @@ public class MovementPlayables : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Paused)
+        {
+            return;
+        }
+
         currentPlayerState = playerStateManagerPlayables.CurrentState;
         playerStateManagerPlayables.SetVelocity(rb.linearVelocity.magnitude, 8f, grounded);
 

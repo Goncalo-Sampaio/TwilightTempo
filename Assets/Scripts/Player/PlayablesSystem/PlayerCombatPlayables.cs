@@ -1,4 +1,5 @@
 using System.Linq;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class PlayerCombatPlayables : MonoBehaviour
@@ -36,6 +37,8 @@ public class PlayerCombatPlayables : MonoBehaviour
     private bool exitAttack = false;
     private float exitAttackTimer = 0f;
 
+    public bool Paused { get; set; } = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -49,6 +52,11 @@ public class PlayerCombatPlayables : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Paused)
+        {
+            return;
+        }
+
         if (Input.GetButtonDown("Fire1") && currentState <= PlayerStates.Attacking)
         {
             if (comboCounter == 0 || continueCombo)
@@ -60,6 +68,11 @@ public class PlayerCombatPlayables : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Paused)
+        {
+            return;
+        }
+
         currentState = playerStateManagerPlayables.CurrentState;
         exitAttackTimer -= Time.fixedDeltaTime;
 
