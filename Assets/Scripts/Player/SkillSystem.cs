@@ -108,9 +108,14 @@ public class SkillSystem : MonoBehaviour
         {
             thirdPersonCam.StartSkill();
             //HARDCODED for now
-            if (currentlyActiveSlot == 1 ||  currentlyActiveSlot == 2 || currentlyActiveSlot == 3)
+
+            if (currentlyActiveSlot + 3 >= skillSlots.Count)
             {
-                return;
+                skillSlots[currentlyActiveSlot - 3].ActivateCooldown();
+            }
+            else
+            {
+                skillSlots[currentlyActiveSlot + 3].ActivateCooldown();
             }
 
             skillSlots[currentlyActiveSlot].ActivateSlot();

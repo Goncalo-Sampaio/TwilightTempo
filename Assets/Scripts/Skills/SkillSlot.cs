@@ -72,7 +72,7 @@ public class SkillSlot : MonoBehaviour
         }
         else
         {
-            skillTimerText.text = TimeSpan.FromSeconds(currentCooldown).ToString("ss").TrimStart('0');
+            skillTimerText.text = TimeSpan.FromSeconds(Mathf.Ceil(currentCooldown)).ToString("ss").TrimStart('0');
             skillTimer.gameObject.SetActive(true);
             skillTimerText.gameObject.SetActive(true);
         }
@@ -127,5 +127,10 @@ public class SkillSlot : MonoBehaviour
             playerStateManagerPlayables.Attack(skillAnimation);
             exitSkill = true;
         }
+    }
+
+    public void ActivateCooldown()
+    {
+        currentCooldown = cooldown;
     }
 }
