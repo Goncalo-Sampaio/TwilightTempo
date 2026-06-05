@@ -152,6 +152,18 @@ public class Flash : MonoBehaviour
             renderer.material.SetColor("_EmissionColor", flashColour);
         }
     }
+    //I can't be bothered to make a separte script for now. But i should
+    public void Berserk()
+    {
+        foreach (Renderer renderer in renderers)
+        {
+            if (renderer == null) continue;
+            if (renderer.gameObject.tag == "DontFlash") continue;
+            if(renderer is UnityEngine.ParticleSystemRenderer) continue;
+            renderer.material.EnableKeyword("_BERSERK");
+        }
+
+    }
 
 
     

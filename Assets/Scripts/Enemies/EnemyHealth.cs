@@ -30,7 +30,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float AfterDeathLingerTime = 5f;
 
     private UIManager uiManager;
-
+    public bool invunerable = false;
     public void SetProgressionBlocker(ProgressionBlocker progressionBlocker) => this.progressionBlocker = progressionBlocker;
     void Start()
     {
@@ -49,6 +49,7 @@ public class EnemyHealth : MonoBehaviour
     //Just Damage
     public void Damage(float damage)
     {
+        if (invunerable) return;
         Debug.Log($"{gameObject.name} got damaged");
         enemyReferences.enemySoundManager.PlayGettingHitSounds();
 
@@ -90,6 +91,7 @@ public class EnemyHealth : MonoBehaviour
     //With KnockBack
     public void Damage(float damage,Vector3 force)
     {
+        if (invunerable) return;
         enemyReferences.enemySoundManager.PlayGettingHitSounds();
         currentHealth -= damage;
         Vector3 forceAfterKnockBackNegation = force - (force * knockBackResistance / 100 );
@@ -223,7 +225,8 @@ public class EnemyHealth : MonoBehaviour
         enemyReferences.enemyBrain.Die();
         LevelDataManager.Instance.RemoveEnemy(this);
         yield return new WaitForSeconds(AfterDeathLingerTime);        
-        Destroy(this.gameObject);
+        //Instead of destroy just leave the bodies:
+        //Destroy(this.gameObject);
 
     }    
     private bool RollTheDice()

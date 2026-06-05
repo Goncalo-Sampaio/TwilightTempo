@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class EnemyBrain : MonoBehaviour
 {
@@ -45,7 +46,8 @@ public class EnemyBrain : MonoBehaviour
     private float forgetTimmerCountdown;
     private Collider[] colliders;
 
-
+    [SerializeField] private VisualEffect burst;
+    [SerializeField] private ParticleSystem shockwave;
     private void Awake()
     {
         playerFirstSpoted = true;
@@ -68,17 +70,18 @@ public class EnemyBrain : MonoBehaviour
         var berserk = new EnemyState_Berserk(enemyReferences);
         //TRANSITIONS
         At(idle, chase, () => engaged && !dead); 
-        At(chase, idle, () => !engaged && !berserkLag && !dead);        
-        At(combat, chase, () => engaged && !withinAttackRange && !dead);         
-        Any(gotHit, () => wasHit && !dead);
-        Any(death, () => dead);
-        Any(combat, () => withinAttackRange && engaged && !dead);
-
+        At(chase, idle, () => !engaged && !enteringBerserkState && !dead);        
+        At(combat, chase, () => engaged && !withinAttackRange && !dead);  
         At(gotHit, chase, ()=> !wasHit && engaged && !dead);
-        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged && !dead);
-        Any(berserk, () => berserkLag && !dead);
-        At(berserk, chase, () => !berserkLag && engaged && !dead);
-        At(berserk, combat, () => !berserkLag && !wasHit && withinAttackRange && engaged && !dead);
+        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged && !dead);        
+        At(berserk, chase, () => !enteringBerserkState && engaged && !dead);
+        At(berserk, combat, () => !enteringBerserkState && !wasHit && withinAttackRange && engaged && !dead);
+
+        Any(gotHit, () => wasHit && !dead && !enteringBerserkState);
+        Any(death, () => dead);
+        Any(combat, () => withinAttackRange && engaged && !dead && !enteringBerserkState);
+        Any(berserk, () => enteringBerserkState && !dead);
+
         //START STATE
         stateMachine.SetState(idle);
 
@@ -126,12 +129,17 @@ public class EnemyBrain : MonoBehaviour
         withinAttackRange = enemyReferences.enemyNavigation.LinearDistanceFromTarget(enemyReferences.playerRef.position) <= attackRange;
 
     }
-    private bool berserkLag =false;
+    private bool enteringBerserkState =false; //time span between non berserk and fully berserk state
     public void Berserk() => StartCoroutine(BerserkOn());
+    //this should happen on the berserk state not here:
     private IEnumerator BerserkOn()
     {
+        Debug.Log("Berserk Routine started");
         isBerserk = true;
-        berserkLag = true;
+        //prevent other states from triggering when this is on
+        enteringBerserkState = true;
+        //invunerable during transition to berkserk
+        enemyReferences.enemyHealth.invunerable = true;
         enemyReferences.enemyNavigation.StopNow(true);
         yield return null;
         enemyReferences.rb.useGravity = false;
@@ -139,10 +147,13 @@ public class EnemyBrain : MonoBehaviour
         DisableColliders();
         yield return new WaitForFixedUpdate();
         enemyReferences.enemyAnimator.WarCry();
+        shockwave.Play();
+        burst.Play();
+        enemyReferences.flash.Berserk();
         enemyReferences.enemySoundManager.PlayRoarSoundEffect();
         
-        enemyReferences.berserkParticles.Play();
-        yield return new WaitForSeconds(3.5f);
+        //enemyReferences.berserkParticles.Play();
+        yield return new WaitForSeconds(2f);
         enemyReferences.enemyAnimator.Berserk();
         enemyReferences.enemyNavigation.Berserk();
         enemyReferences.enemyNavigation.StopNow(false);
@@ -150,8 +161,12 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.rb.useGravity = true;
         enemyReferences.rb.isKinematic = false;
         yield return new WaitForFixedUpdate();
-        berserkLag = false;
+        
+        enteringBerserkState = false;
+        enemyReferences.enemyHealth.invunerable = false;
+        
         yield return null;
+        Debug.Log("Berserk Routine ended");
 
     }
     public void Die()
@@ -163,6 +178,7 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.rb.useGravity =false;
         DisableColliders();        
         StopRiggidbodyMovement();
+        burst.Stop();
     }
     public void GotHit()
     {
@@ -194,6 +210,7 @@ public class EnemyBrain : MonoBehaviour
     private void Update()
     {
         stateMachine.Tick();
+        
     }
     private void FixedUpdate()
     {
