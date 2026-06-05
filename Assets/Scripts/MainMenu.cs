@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject credits;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,5 +27,10 @@ public class MainMenu : MonoBehaviour
     {
         yield return new WaitForSeconds(.5f);
         Application.Quit();
+    }
+
+    public void Credits(bool enabled)
+    {
+        credits.SetActive(enabled);
     }
 }

@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -18,11 +19,13 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField]
     private AudioMixer audioMixer;
     [SerializeField]
-    private Slider musicSlider;
+    private float musicValue;
     [SerializeField]
-    private Slider sfxSlider;
+    private float sfxValue;
     [SerializeField]
-    private GameObject InstructionsReturn;
+    private TextMeshProUGUI musicValueTMP;
+    [SerializeField]
+    private TextMeshProUGUI sfxValueTMP;
     [SerializeField]
     private GameObject confirmationPopup;
 
@@ -31,30 +34,6 @@ public class PauseMenuController : MonoBehaviour
     private string PlayerPrefsVolumeKey = "MasterVolumeValue";
     [SerializeField]
     private string PlayerPrefsSFXKey = "MasterSFXValue";
-
-    // Music
-    [SerializeField] 
-    private Image musicHandleImage;
-    [SerializeField] 
-    private Sprite musicMuteSprite;
-    [SerializeField] 
-    private Sprite musicLowSprite;
-    [SerializeField] 
-    private Sprite musicMidSprite;
-    [SerializeField] 
-    private Sprite musicHighSprite;
-
-    // SFX
-    [SerializeField] 
-    private Image sfxHandleImage;
-    [SerializeField] 
-    private Sprite sfxMuteSprite;
-    [SerializeField] 
-    private Sprite sfxLowSprite;
-    [SerializeField] 
-    private Sprite sfxMidSprite;
-    [SerializeField] 
-    private Sprite sfxHighSprite;
 
     [SerializeField]
     private MovementPlayables playerMov;
@@ -69,8 +48,6 @@ public class PauseMenuController : MonoBehaviour
 
     private bool isPaused = false;
 
-    private bool canEsc = true;
-
     public bool CanPause { get; set; } = true;
 
     private void Start()
@@ -78,11 +55,11 @@ public class PauseMenuController : MonoBehaviour
         float savedVolume = PlayerPrefs.GetFloat(PlayerPrefsVolumeKey, 1f);
         float savedSFX = PlayerPrefs.GetFloat(PlayerPrefsSFXKey, 1f);
 
-        musicSlider.value = savedVolume;
-        sfxSlider.value = savedSFX;
+        musicValue = savedVolume;
+        sfxValue = savedSFX;
 
-        ChangeMusicVolume();
-        ChangeSFXVolume();
+        ChangeMusicVolume(0f);
+        ChangeSFXVolume(0f);
     }
 
     void Update()
@@ -115,6 +92,11 @@ public class PauseMenuController : MonoBehaviour
     public void OpenSettings(bool open)
     {
         settingsMenu.SetActive(open);
+        pauseMenu.SetActive(!open);
+    }
+    public void OpenConfirmation(bool open)
+    {
+        confirmationPopup.SetActive(open);
         pauseMenu.SetActive(!open);
     }
 
@@ -159,11 +141,6 @@ public class PauseMenuController : MonoBehaviour
             gameUI.SetActive(false); // deactivate player UI*/
     }
 
-    public void OpenConfirmationPopup(bool open)
-    {
-        confirmationPopup.SetActive(open);
-    }
-
     private void UpdateHandleSprite(float value, Image handleImage, Sprite mute, Sprite low, Sprite mid, Sprite high)
     {
         if (value <= 0.10f)
@@ -175,33 +152,39 @@ public class PauseMenuController : MonoBehaviour
         else
             handleImage.sprite = high;
     }
-    public void ChangeMusicVolume()
+    public void ChangeMusicVolume(float change)
     {
-        float value = musicSlider.value;
+        float value = musicValue + change;
 
         // Protect against log(0)
         if (value <= 0.0001f) value = 0.0001f;
+        if (value >= 1f) value = 1f;
+
+        musicValue = value;
 
         float dB = Mathf.Log10(value) * 20f;
         audioMixer.SetFloat("MusicVolume", dB);
 
         PlayerPrefs.SetFloat(PlayerPrefsVolumeKey, value);
 
-        UpdateHandleSprite(value, musicHandleImage, musicMuteSprite, musicLowSprite, musicMidSprite, musicHighSprite);
+        musicValueTMP.text = (Mathf.Round(musicValue * 100)).ToString() + "%";
     }
 
-    public void ChangeSFXVolume()
+    public void ChangeSFXVolume(float change)
     {
-        float value = sfxSlider.value;
+        float value = sfxValue + change;
 
         // Protect against log(0)
         if (value <= 0.0001f) value = 0.0001f;
+        if (value >= 1f) value = 1f;
+
+        sfxValue = value;
 
         float dB = Mathf.Log10(value) * 20f;
         audioMixer.SetFloat("SFXVolume", dB);
 
         PlayerPrefs.SetFloat(PlayerPrefsSFXKey, value);
 
-        UpdateHandleSprite(value, sfxHandleImage, sfxMuteSprite, sfxLowSprite, sfxMidSprite, sfxHighSprite);
+        sfxValueTMP.text = (Mathf.Round(sfxValue * 100)).ToString() + "%";
     }
 }
