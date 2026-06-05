@@ -142,7 +142,7 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.enemySoundManager.PlayRoarSoundEffect();
         
         enemyReferences.berserkParticles.Play();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3.5f);
         enemyReferences.enemyAnimator.Berserk();
         enemyReferences.enemyNavigation.Berserk();
         enemyReferences.enemyNavigation.StopNow(false);

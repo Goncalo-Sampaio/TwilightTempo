@@ -22,7 +22,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 208b61031cbb6b4468a33c33e8c59056, type: 3}
   - {fileID: 8300000, guid: db14045a5d46ce2439646e4ac63d5e42, type: 3}
   - {fileID: 8300000, guid: 5108a9cd10c4a3b4c9c123da856dbf06, type: 3}
-  - {fileID: 8300000, guid: 19fbe8ee4318dd14a849bdfb63f4619f, type: 3}
   spottedPlayer:
   - {fileID: 8300000, guid: 664045440a91a7e4ca6b206c16c3dee9, type: 3}
   - {fileID: 8300000, guid: 19fbe8ee4318dd14a849bdfb63f4619f, type: 3}
