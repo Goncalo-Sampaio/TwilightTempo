@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8497217556833582719}
   m_Layer: 10
   m_Name: EnemyMusicBomb - Projectile
-  m_TagString: Untagged
+  m_TagString: EnemyProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: be66c9f91c309d047818b5e3d3d874d2, type: 2}
+  - {fileID: 2100000, guid: 0dbb75d53f156294cabb2ff34af14df4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -449,6 +449,18 @@ PrefabInstance:
     - target: {fileID: 6334189849550931949, guid: 0183f67982cdd9d428279ec4aea0f8b8, type: 3}
       propertyPath: m_Color.g
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067972978983088415, guid: 0183f67982cdd9d428279ec4aea0f8b8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067972978983088415, guid: 0183f67982cdd9d428279ec4aea0f8b8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7067972978983088415, guid: 0183f67982cdd9d428279ec4aea0f8b8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7067972978983088415, guid: 0183f67982cdd9d428279ec4aea0f8b8, type: 3}
       propertyPath: m_LocalPosition.x
