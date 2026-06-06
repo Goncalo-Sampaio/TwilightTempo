@@ -166,10 +166,12 @@ MonoBehaviour:
   maxRayDistance: 100
   rayCastOrigin: {fileID: 8527910691337372366}
   arrivedDistance: 0.1
-  isOnIce: 0
+  isOnIce: 1
   iceForceMultiplier: 0.2
-  maxAcceleration: 50
-  iceAcceleration: 10
+  iceLinearDamp: 0.5
+  defaultLinearDamp: 10
+  maxAcceleration: 60
+  iceAcceleration: 4
   avoidFactor: 5
   avoidPDistance: 0.5
   moving: 0
@@ -183,7 +185,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 2
-  m_Speed: 10
+  m_Speed: 20
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 720

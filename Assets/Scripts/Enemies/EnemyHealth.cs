@@ -56,19 +56,11 @@ public class EnemyHealth : MonoBehaviour
     public void Damage(float damage)
     {
         if (invunerable) return;
-        Debug.Log($"{gameObject.name} got damaged");
+        if (dead) return;
         enemyReferences.enemySoundManager.PlayGettingHitSounds();
 
         currentHealth -= damage;
 
-
-        if (RollTheDice())
-        {
-            if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
-            {
-                if (!enemyReferences.isCaster) enemyReferences.enemyBrain.Berserk();
-            }
-        }
         if (currentHealth <= 0)
         {
             if (progressionBlocker != null)
@@ -79,15 +71,19 @@ public class EnemyHealth : MonoBehaviour
             if (!dead)
             {
                 uiManager.UpdateEnemyHealth(false, 0, 0);
-                StartCoroutine(DeathRot());                
+                StartCoroutine(DeathRot());
             }
 
         }
-
-        //VISUAL FEEDBACK:
-        //Flash once
-        if (!dead)
+        else
         {
+            if (RollTheDice())
+            {
+                if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
+                {
+                    if (!enemyReferences.isCaster) enemyReferences.enemyBrain.Berserk();
+                }
+            }
             uiManager.UpdateEnemyHealth(true, maxHealth, currentHealth);
             enemyReferences.enemyAnimator.HitStop(10);
             enemyReferences.enemyBrain.GotHit();
@@ -111,19 +107,13 @@ public class EnemyHealth : MonoBehaviour
     //With KnockBack
     public void Damage(float damage,Vector3 force)
     {
+        
         if (invunerable) return;
+        if (dead) return;
         enemyReferences.enemySoundManager.PlayGettingHitSounds();
         currentHealth -= damage;
-        Vector3 forceAfterKnockBackNegation = force - (force * knockBackResistance / 100 );
-        ApllyKnockBack(forceAfterKnockBackNegation);
-        if(RollTheDice())
-        {
-            if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
-            {
-                if (!enemyReferences.isCaster) enemyReferences.enemyBrain.Berserk();
-            }
-        }
 
+        //first check if not dead before running anymore code:
         if (currentHealth <= 0)
         {
             if (progressionBlocker != null)
@@ -133,22 +123,29 @@ public class EnemyHealth : MonoBehaviour
 
             if (!dead)
             {
+                uiManager.UpdateEnemyHealth(false, 0, 0);
                 StartCoroutine(DeathRot());
-                
             }
-            
+
         }
-        //VISUAL FEEDBACK:
-        //Flash once
-        if (!dead)
+        else
         {
+            Vector3 forceAfterKnockBackNegation = force - (force * knockBackResistance / 100);
+            ApllyKnockBack(forceAfterKnockBackNegation);
+
+            if (RollTheDice())
+            {
+                if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
+                {
+                    if (!enemyReferences.isCaster) enemyReferences.enemyBrain.Berserk();
+                }
+            }
             enemyReferences.enemyAnimator.HitStop(10);
             enemyReferences.enemyBrain.GotHit();
+
         }
-        //flash.FlashForXIterations(1);
-
-        //transform.DOShakePosition(0.2f, 0.1f, 10);
-
+        
+       
     }    
     
     [Button]

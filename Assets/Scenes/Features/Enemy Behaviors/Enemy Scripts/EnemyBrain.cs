@@ -231,7 +231,7 @@ public class EnemyBrain : MonoBehaviour
     private void FixedUpdate()
     {
         ProbeSurroundings();
-        if (engaged)
+        if (engaged && !dead)
         {
             if (playerFirstSpoted)
             {

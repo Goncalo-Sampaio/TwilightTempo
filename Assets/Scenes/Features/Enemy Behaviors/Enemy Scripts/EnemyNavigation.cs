@@ -29,6 +29,8 @@ public class EnemyNavigation : MonoBehaviour
 
     [SerializeField] private bool isOnIce = false;
     [SerializeField] private float iceForceMultiplier = 0.2f;
+    [SerializeField] private float iceLinearDamp = 0.5f;
+    [SerializeField] private float defaultLinearDamp = 10;
 
     [SerializeField] private float maxAcceleration = 50f;
     [SerializeField] private float iceAcceleration = 10f;
@@ -130,7 +132,7 @@ public class EnemyNavigation : MonoBehaviour
 
         //smoth it out
         rb.AddForce(desiredAcceleration * rb.mass, ForceMode.Force);
-        rb.linearDamping = isOnIce ? 0.5f : 5f;
+        rb.linearDamping = isOnIce ? iceLinearDamp : defaultLinearDamp;
 
         
         agent.nextPosition = rb.position;
