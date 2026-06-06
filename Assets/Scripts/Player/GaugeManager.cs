@@ -19,6 +19,16 @@ public class GaugeManager : MonoBehaviour
     private AnimationClip finisherAnimation;
     [SerializeField]
     private PlayerCinematics playerCinematics;
+    [SerializeField]
+    private Material finisherReadyMaterial;
+    [SerializeField]
+    private float maxPower = 3f;
+    [SerializeField]
+    private float maxIntensity = 10f;
+    [SerializeField]
+    private float finisherReadyCounter = 0f;
+    [SerializeField]
+    private AnimationCurve finisherReadyCurve;
 
     private PlayerStateManagerPlayables playerStateManager;
 
