@@ -28,7 +28,9 @@ public class GaugeManager : MonoBehaviour
     [SerializeField]
     private float finisherReadyCounter = 0f;
     [SerializeField]
-    private AnimationCurve finisherReadyCurve;
+    private AnimationCurve finisherReadyPowerCurve;
+    [SerializeField]
+    private AnimationCurve finisherReadyIntensityCurve;
 
     private PlayerStateManagerPlayables playerStateManager;
 
@@ -54,6 +56,17 @@ public class GaugeManager : MonoBehaviour
         {
             ResetGauge();
             StartCoroutine(ActivateFinisherCoroutine());
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (finisherReady && finisherReadyCounter <= 3f)
+        {
+            finisherReadyCounter += Time.fixedDeltaTime;
+
+            finisherReadyMaterial.SetFloat("_VignetePower", maxPower * finisherReadyPowerCurve.Evaluate(finisherReadyCounter/3));
+            finisherReadyMaterial.SetFloat("_VigneteIntensity", maxIntensity * finisherReadyIntensityCurve.Evaluate(finisherReadyCounter/3));
         }
     }
 
@@ -95,6 +108,7 @@ public class GaugeManager : MonoBehaviour
         }*/
 
         finisherReady = true;
+        finisherReadyCounter = 0f;
         uiManager.ActivateFinisher(finisherReady);
     }
 
