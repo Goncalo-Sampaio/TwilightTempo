@@ -370,6 +370,12 @@ public class MovementPlayables : MonoBehaviour
 
     public void AttackBoost()
     {
+        rb.linearVelocity = Vector3.zero;
         rb.AddForce(playerModel.transform.forward.normalized * moveSpeed * attackBoost, ForceMode.Force);
+    }
+
+    public void SkillCast()
+    {
+        rb.linearVelocity = Vector3.zero;
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class GaugeManager : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class GaugeManager : MonoBehaviour
 
     private PlayerStateManagerPlayables playerStateManager;
 
+    private AudioSource audioSource;
+
 
     Dictionary<SkillAttunement, float> attunementCharges = new Dictionary<SkillAttunement, float>();
 
@@ -41,6 +44,7 @@ public class GaugeManager : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         playerStateManager = GetComponentInParent<PlayerStateManagerPlayables>();
 
         attunementCharges.Add(SkillAttunement.None, 0f);
@@ -61,12 +65,12 @@ public class GaugeManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (finisherReady && finisherReadyCounter <= 3f)
+        if (finisherReady && finisherReadyCounter <= 2f)
         {
             finisherReadyCounter += Time.fixedDeltaTime;
 
-            finisherReadyMaterial.SetFloat("_VignetePower", maxPower * finisherReadyPowerCurve.Evaluate(finisherReadyCounter/3));
-            finisherReadyMaterial.SetFloat("_VigneteIntensity", maxIntensity * finisherReadyIntensityCurve.Evaluate(finisherReadyCounter/3));
+            finisherReadyMaterial.SetFloat("_VignetePower", maxPower * finisherReadyPowerCurve.Evaluate(finisherReadyCounter/2));
+            finisherReadyMaterial.SetFloat("_VigneteIntensity", maxIntensity * finisherReadyIntensityCurve.Evaluate(finisherReadyCounter/2));
         }
     }
 
@@ -109,6 +113,7 @@ public class GaugeManager : MonoBehaviour
 
         finisherReady = true;
         finisherReadyCounter = 0f;
+        audioSource.Play();
         uiManager.ActivateFinisher(finisherReady);
     }
 

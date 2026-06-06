@@ -15,6 +15,7 @@ public class SkillSlot : MonoBehaviour
     [SerializeField] private int skillSlotNumber;
     private PlayerStateManagerPlayables playerStateManagerPlayables;
     private PlayerStates currentState;
+    private MovementPlayables movementPlayables;
 
     private SkillSO skillSO;
 
@@ -38,6 +39,7 @@ public class SkillSlot : MonoBehaviour
     void Start()
     {
         playerStateManagerPlayables = GetComponentInParent<PlayerStateManagerPlayables>();
+        movementPlayables = GetComponentInParent<MovementPlayables>();
         currentState = playerStateManagerPlayables.CurrentState;
         
     }
@@ -125,6 +127,7 @@ public class SkillSlot : MonoBehaviour
             animationTimer = skillAnimation.length;
             playerStateManagerPlayables.SetCurrentState(PlayerStates.Skill);
             playerStateManagerPlayables.Attack(skillAnimation);
+            movementPlayables.SkillCast();
             exitSkill = true;
         }
     }
