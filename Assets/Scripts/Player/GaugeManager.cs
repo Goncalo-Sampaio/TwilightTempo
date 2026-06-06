@@ -44,6 +44,8 @@ public class GaugeManager : MonoBehaviour
 
     private void Start()
     {
+        finisherReadyMaterial.SetFloat("_VignetePower", 5f);
+        finisherReadyMaterial.SetFloat("_VigneteIntensity", 0f);
         audioSource = GetComponent<AudioSource>();
         playerStateManager = GetComponentInParent<PlayerStateManagerPlayables>();
 
@@ -58,6 +60,8 @@ public class GaugeManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R) && finisherReady)
         {
+            finisherReadyMaterial.SetFloat("_VignetePower", 5f);
+            finisherReadyMaterial.SetFloat("_VigneteIntensity", 0f);
             ResetGauge();
             StartCoroutine(ActivateFinisherCoroutine());
         }

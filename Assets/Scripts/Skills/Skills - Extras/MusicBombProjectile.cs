@@ -26,7 +26,7 @@ public class MusicBombProjectile : MonoBehaviour
     void Start()
     {
         
-        Invoke("StopMoving", 1);
+        Invoke("StopMoving", 2f);
     }
 
     // Update is called once per frame

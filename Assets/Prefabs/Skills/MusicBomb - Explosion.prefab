@@ -137,9 +137,9 @@ AudioSource:
   m_GameObject: {fileID: 5814675405232539316}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8334017277155016340, guid: 69e87df917d324444ba8a2cfdc32c5c5, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 990a8a1f6bce8c4488fd8692cc4189f1, type: 3}
+  m_Resource: {fileID: 8300000, guid: 11201003add110642a9696973f08978e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.8
   m_Pitch: 1
@@ -148,7 +148,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0

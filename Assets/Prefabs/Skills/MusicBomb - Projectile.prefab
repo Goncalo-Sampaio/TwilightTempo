@@ -5181,8 +5181,6 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
-  damage: 25
-  gaugeIncrease: 10
 --- !u!82 &4931861065525992995
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5192,7 +5190,7 @@ AudioSource:
   m_GameObject: {fileID: 5814675405232539316}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8334017277155016340, guid: 69e87df917d324444ba8a2cfdc32c5c5, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 24b45b382e8bf8648adcde50a743af94, type: 3}
   m_PlayOnAwake: 1
