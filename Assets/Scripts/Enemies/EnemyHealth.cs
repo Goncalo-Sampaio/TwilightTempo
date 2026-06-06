@@ -99,13 +99,13 @@ public class EnemyHealth : MonoBehaviour
     {
 
         Vector3 KnockBackDirection = (gameObject.transform.position - enemyReferences.playerRef.position).normalized;
-        Vector3 KnockBackDirectionFlat = new Vector3(KnockBackDirection.x, gameObject.transform.position.y, KnockBackDirection.z);
+        Vector3 KnockBackDirectionFlat = new Vector3(KnockBackDirection.x, 0, KnockBackDirection.z);
         Damage(damage, KnockBackDirectionFlat * knockBackForce * 5);
     }
     public void Damage (float damage, float knockBackForce,Vector3 knockBackOriginPos)
     {
         Vector3 KnockBackDirection = (gameObject.transform.position - knockBackOriginPos).normalized;
-        Vector3 KnockBackDirectionFlat = new Vector3(KnockBackDirection.x, gameObject.transform.position.y, KnockBackDirection.z);
+        Vector3 KnockBackDirectionFlat = new Vector3(KnockBackDirection.x, 0, KnockBackDirection.z);
         Damage(damage, KnockBackDirectionFlat * knockBackForce*5);
     }
     //With KnockBack
@@ -192,48 +192,7 @@ public class EnemyHealth : MonoBehaviour
         enemyReferences.enemyNavigation.ToggleAgentStopped(false); //start agent navmesh
 
         gettingKnockBacked = false;
-    }
-    private IEnumerator ApplyKnockBackRot2(Vector3 force)
-    {
-        gettingKnockBacked = true;
-
-        yield return null; //wait one frame to make sure all courotines are stopped
-        //Only call agent.Stop if:
-        //  agent is active
-        //  agent is on NavMesh;
-        //  agent isint' already stopped
-
-        enemyReferences.enemyNavigation.StopNow(true);
-        enemyReferences.enemyNavigation.ToggleEnableAgent(false); //disable agent
-
-        enemyReferences.enemyNavigation.moving = false;
-        enemyReferences.rb.AddForce(force, ForceMode.Impulse);
-
-
-        //only exit after the fixedUpdate frame is passed. To make sure the force is applied
-        yield return new WaitForFixedUpdate();
-        float knockBackTime = Time.time;
-
-        yield return new WaitUntil(() => enemyReferences.rb.linearVelocity.magnitude < 0.1f || Time.time > knockBackTime + maxKnockBackTime); //wait until it stops moving.
-
-
-        yield return new WaitForSeconds(0.25f); //stun frames //consider adding a flash here
-
-        //now reset:
-        enemyReferences.rb.linearVelocity = Vector3.zero;
-        enemyReferences.rb.angularVelocity = Vector3.zero;
-        enemyReferences.rb.useGravity = false;
-        enemyReferences.rb.isKinematic = true;
-
-        //snap agent back to navmesh
-        enemyReferences.enemyNavigation.Warp(transform.position);
-        //THEN AND ONLY THEN
-        //enable the agent
-        enemyReferences.enemyNavigation.ToggleEnableAgent(true); //enable agent
-        enemyReferences.enemyNavigation.ToggleAgentStopped(false); //start agent navmesh
-
-        gettingKnockBacked = false;
-    }
+    }    
 
 
     private IEnumerator DeathRot()

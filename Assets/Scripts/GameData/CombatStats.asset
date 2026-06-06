@@ -12,41 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6491be71ca8fd948b276db96a0fcf91, type: 3}
   m_Name: CombatStats
   m_EditorClassIdentifier: Assembly-CSharp::CombatStats
+  Stattest: {x: 0, y: 0, z: 0, w: 0}
   BaseAttack:
     Damage: 10
     KnockbackForce: 100
     StunTime: 0
-    CoolDownTime: 0
     GuageIncrease: 5
   Dash:
     Damage: 10
     KnockbackForce: 100
     StunTime: 0
-    CoolDownTime: 0
     GuageIncrease: 5
   LightDash:
     Damage: 40
     KnockbackForce: 100
     StunTime: 0
-    CoolDownTime: 0
     GuageIncrease: 5
   MusicBomb:
     Damage: 25
     KnockbackForce: 100
     StunTime: 0
-    CoolDownTime: 0
-    GuageIncrease: 10
+    GuageIncrease: 5
   LuminousLazer:
     Damage: 65
     KnockbackForce: 100
     StunTime: 0
-    CoolDownTime: 0
     GuageIncrease: 5
   Finisher:
     Damage: 100
     KnockbackForce: 100
     StunTime: 0
-    CoolDownTime: 0
     GuageIncrease: 0
   BrawlerHealth: 200
   BrawlerMovementSpeed: 0
