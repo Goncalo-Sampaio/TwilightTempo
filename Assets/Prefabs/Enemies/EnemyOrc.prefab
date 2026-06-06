@@ -147,12 +147,8 @@ MonoBehaviour:
   playerDamageLayer:
     serializedVersion: 2
     m_Bits: 512
-  maxHealth: 200
-  knockBackResistance: 10
   dead: 0
   chanceOfBerserking: 2
-  maxKnockBackTime: 3
-  AfterDeathLingerTime: 5
   invunerable: 0
 --- !u!114 &3352019002978529422
 MonoBehaviour:
@@ -5640,13 +5636,13 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 0, y: -0.0000015170451, z: 0}
+      - m_Value: {x: -0, y: 0.0000025610689, z: 0}
         m_Name: Transform_angles
         m_Overridden: 1
-      - m_Value: {x: -0.0000015201508, y: -3.5017722e-10, z: -0.000000530051}
+      - m_Value: {x: -0.00000057526836, y: -0.0000000053261004, z: 0.0000014496879}
         m_Name: Transform_position
         m_Overridden: 1
-      - m_Value: {x: 1.0000005, y: 1.0000001, z: 1.0000005}
+      - m_Value: {x: 1.0000006, y: 1.0000001, z: 1.0000006}
         m_Name: Transform_scale
         m_Overridden: 1
     m_Vector4f:
@@ -10696,7 +10692,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100164, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100166, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
       propertyPath: m_IsActive

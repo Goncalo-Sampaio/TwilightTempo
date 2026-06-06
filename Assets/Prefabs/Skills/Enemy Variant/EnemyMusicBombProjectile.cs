@@ -44,7 +44,7 @@ public class EnemyMusicBombProjectile : MonoBehaviour
         if ((playerLayer.value & (1 << other.transform.gameObject.layer)) > 0)
         {            
             Explosion();
-            other.GetComponentInParent<PlayerHealth>().Damage(15f);
+            other.GetComponentInParent<PlayerHealth>().Damage(CombatDataManager.Instance.combatData.CasterAttackDamage);
         }
     }
 }

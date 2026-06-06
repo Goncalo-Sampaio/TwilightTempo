@@ -186,6 +186,7 @@ public class EnemyNavigation : MonoBehaviour
     //Updating this:
     public void MoveTo(Vector3 destination)
     {
+        if (!agent.isOnNavMesh) Warp(transform.position);
         agent.SetDestination(destination);
         currentTarget = destination;
     }

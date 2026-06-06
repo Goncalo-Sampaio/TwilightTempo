@@ -8,10 +8,10 @@ public class LightDashObject : MonoBehaviour
     private float rotationSpeed;
     [SerializeField]
     private float timeToDie = 0.43f;
-    [SerializeField]
-    private float damage = 30f;
-    [SerializeField]
-    private float gaugeIncrease = 5f;
+    //[SerializeField]
+    //private float damage = 30f;
+    //[SerializeField]
+    //private float gaugeIncrease = 5f;
 
     private GameObject player;
     private GameObject playerModel;
@@ -27,11 +27,13 @@ public class LightDashObject : MonoBehaviour
     private void Awake()
     {
         gaugeManager = FindAnyObjectByType<GaugeManager>();
+        combatData = FindAnyObjectByType<CombatDataManager>().combatData;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    CombatStats combatData;
+    
     void Start()
-    {
+    {        
         player = GetComponentInParent<MovementPlayables>().gameObject;
         playerModel = FindAnyObjectByType<PlayerAnimEventsHandler>().gameObject;
         rb = player.GetComponent<Rigidbody>();
@@ -63,8 +65,8 @@ public class LightDashObject : MonoBehaviour
         if ((enemyLayer.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             Debug.Log("Hit");
-            other.GetComponentInParent<EnemyHealth>().Damage(damage);
-            gaugeManager.IncreaseGauge(gaugeIncrease, SkillAttunement.Light);
+            other.GetComponentInParent<EnemyHealth>().Damage(combatData.LightDash.Damage, combatData.LightDash.KnockbackForce);
+            gaugeManager.IncreaseGauge(combatData.LightDash.GuageIncrease, SkillAttunement.Light);
         }
     }
 }

@@ -79,7 +79,7 @@ public class EnemyAttack : MonoBehaviour
             //if player hit     
             if (collision.gameObject.CompareTag(collisionTag))
             {
-                collision.gameObject.GetComponent<PlayerHealth>().Damage();
+                collision.gameObject.GetComponent<PlayerHealth>().Damage(CombatDataManager.Instance.combatData.BrawlerAttackDamage);
                 //call .TakeDamage() on its "Health" component
                 
             }
@@ -98,7 +98,7 @@ public class EnemyAttack : MonoBehaviour
             //if player hit     
             if (other.gameObject.CompareTag(collisionTag))
             {
-                other.gameObject.GetComponentInParent<PlayerHealth>().Damage();
+                other.gameObject.GetComponentInParent<PlayerHealth>().Damage(CombatDataManager.Instance.combatData.BrawlerAttackDamage);
                 //call .TakeDamage() on its "Health" component                
             }
         }

@@ -8,10 +8,10 @@ public class MusicBombProjectile : MonoBehaviour
     private GameObject explosion;
     [SerializeField]
     private LayerMask enemyLayer;
-    [SerializeField]
-    private float damage = 20f;
-    [SerializeField]
-    private float gaugeIncrease = 15f;
+    //[SerializeField]
+    //private float damage = 20f;
+    //[SerializeField]
+    //private float gaugeIncrease = 15f;
 
     private bool moving = true;
     private GaugeManager gaugeManager;
@@ -19,11 +19,13 @@ public class MusicBombProjectile : MonoBehaviour
     private void Awake()
     {
         gaugeManager = FindAnyObjectByType<GaugeManager>();
+        combatData = FindAnyObjectByType<CombatDataManager>().combatData;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    CombatStats combatData;    
     void Start()
     {
+        
         Invoke("StopMoving", 1);
     }
 
@@ -53,8 +55,8 @@ public class MusicBombProjectile : MonoBehaviour
         {
             Debug.Log("Hit");
             Explosion();
-            other.GetComponentInParent<EnemyHealth>().Damage(damage);
-            gaugeManager.IncreaseGauge(gaugeIncrease, SkillAttunement.None);
+            other.GetComponentInParent<EnemyHealth>().Damage(combatData.MusicBomb.Damage, combatData.MusicBomb.KnockbackForce, transform.position);
+            gaugeManager.IncreaseGauge(combatData.MusicBomb.KnockbackForce, SkillAttunement.None);
         }
     }
 }

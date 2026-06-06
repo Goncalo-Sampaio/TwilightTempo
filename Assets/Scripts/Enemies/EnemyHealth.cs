@@ -12,11 +12,10 @@ public class EnemyHealth : MonoBehaviour
 {
     //change this to signaling
     //Make a base health class so i can stop copying code around 
-    [SerializeField] private LayerMask playerDamageLayer;
-    [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private LayerMask playerDamageLayer;    
     private float currentHealth;
-
-    [SerializeField][Tooltip("Percentage Based - how much knockback is negated?")] private float knockBackResistance = 10f;
+    private int maxHealth;
+    private float knockBackResistance = 10f;
     public bool dead;
 
     
@@ -25,17 +24,24 @@ public class EnemyHealth : MonoBehaviour
     private ProgressionBlocker progressionBlocker;
     private Flash flash;    
     private bool gettingKnockBacked = false;
-    [SerializeField][Tooltip("x out 10 chance of berserking after next hit when bellow 30% health")] private int chanceOfBerserking = 2; 
-    [SerializeField] private float maxKnockBackTime = 5f;
-    [SerializeField] private float AfterDeathLingerTime = 5f;
+    [SerializeField][Tooltip("x out 10 chance of berserking after next hit when bellow 30% health")] private int chanceOfBerserking = 2;
+    private float maxKnockBackTime;
+    private float AfterDeathLingerTime;
 
     private UIManager uiManager;
     public bool invunerable = false;
     public void SetProgressionBlocker(ProgressionBlocker progressionBlocker) => this.progressionBlocker = progressionBlocker;
+    CombatStats combatData;
     void Start()
     {
-        enemyReferences = GetComponent<EnemyReferences>();        
-        flash = enemyReferences.flash;        
+        enemyReferences = GetComponent<EnemyReferences>();
+        combatData = FindAnyObjectByType<CombatDataManager>().combatData;
+        knockBackResistance = enemyReferences.isCaster ? combatData.CasterKnockBackResistance : combatData.BrawlerKnockBackResistance;
+        maxHealth = enemyReferences.isCaster ? combatData.CasterHealth : combatData.BrawlerHealth;
+        maxKnockBackTime = combatData.MaxKnockBackTime;
+        AfterDeathLingerTime = combatData.AfterDeathLingerTime;
+            
+        flash = enemyReferences.flash;
         currentHealth = maxHealth;
         uiManager = enemyReferences.uIManager;
 
@@ -88,6 +94,20 @@ public class EnemyHealth : MonoBehaviour
         }
 
     }
+    //this is for when the player position is better for direction like the meele attacks
+    public void Damage(float damage, float knockBackForce)
+    {
+
+        Vector3 KnockBackDirection = (gameObject.transform.position - enemyReferences.playerRef.position).normalized;
+        Vector3 KnockBackDirectionFlat = new Vector3(KnockBackDirection.x, gameObject.transform.position.y, KnockBackDirection.z);
+        Damage(damage, KnockBackDirectionFlat * knockBackForce * 5);
+    }
+    public void Damage (float damage, float knockBackForce,Vector3 knockBackOriginPos)
+    {
+        Vector3 KnockBackDirection = (gameObject.transform.position - knockBackOriginPos).normalized;
+        Vector3 KnockBackDirectionFlat = new Vector3(KnockBackDirection.x, gameObject.transform.position.y, KnockBackDirection.z);
+        Damage(damage, KnockBackDirectionFlat * knockBackForce*5);
+    }
     //With KnockBack
     public void Damage(float damage,Vector3 force)
     {
@@ -95,7 +115,7 @@ public class EnemyHealth : MonoBehaviour
         enemyReferences.enemySoundManager.PlayGettingHitSounds();
         currentHealth -= damage;
         Vector3 forceAfterKnockBackNegation = force - (force * knockBackResistance / 100 );
-        if (currentHealth - damage <= 0 ) ApllyKnockBack(forceAfterKnockBackNegation);
+        ApllyKnockBack(forceAfterKnockBackNegation);
         if(RollTheDice())
         {
             if (currentHealth < maxHealth * .3f && !enemyReferences.enemyBrain.isBerserk)
@@ -144,15 +164,14 @@ public class EnemyHealth : MonoBehaviour
         //  agent is active
         //  agent is on NavMesh;
         //  agent isint' already stopped
-
+        
         enemyReferences.enemyNavigation.StopNow(true);
         enemyReferences.enemyNavigation.ToggleEnableAgent(false); //disable agent
         
         enemyReferences.rb.linearVelocity = Vector3.zero;
         enemyReferences.rb.angularVelocity = Vector3.zero;
         enemyReferences.rb.AddForce(force, ForceMode.Impulse);
-
-
+        
         //only exit after the fixedUpdate frame is passed. To make sure the force is applied
         yield return new WaitForFixedUpdate();
         float knockBackTime = Time.time;
