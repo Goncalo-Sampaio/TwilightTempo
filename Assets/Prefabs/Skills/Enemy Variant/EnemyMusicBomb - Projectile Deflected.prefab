@@ -1,0 +1,164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8059975084415692582
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 990657556184121824, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 451.52628
+      objectReference: {fileID: 0}
+    - target: {fileID: 990657556184121824, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.15766
+      objectReference: {fileID: 0}
+    - target: {fileID: 990657556184121824, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 774.9942
+      objectReference: {fileID: 0}
+    - target: {fileID: 990657556184121824, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 990657556184121824, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 990657556184121824, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 990657556184121824, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 990657556184121824, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 990657556184121824, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 990657556184121824, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1134009448600490212, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1134009448600490212, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1134009448600490212, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201054109782124054, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201054109782124054, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9654912
+      objectReference: {fileID: 0}
+    - target: {fileID: 4201054109782124054, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801407217063617012, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.042452812
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801407217063617012, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.9580411
+      objectReference: {fileID: 0}
+    - target: {fileID: 4801407217063617012, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5196862162054553283, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 19c41e949c169ef4998ece08957ab2b6, type: 2}
+    - target: {fileID: 5814675405232539316, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_Name
+      value: EnemyMusicBomb - Projectile Deflected
+      objectReference: {fileID: 0}
+    - target: {fileID: 5814675405232539316, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6922740714197371797, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6922740714197371797, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.7194255
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174278255916245996, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.042452812
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174278255916245996, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.98883307
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174278255916245996, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8497217556833582719, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: speed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8497217556833582719, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: explosion
+      value: 
+      objectReference: {fileID: 5814675405232539316, guid: fd2e6eda1a8cb684a880fa8d23ecbd19, type: 3}
+    - target: {fileID: 8497217556833582719, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8497217556833582719, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5814675405232539316, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 74485998827240491}
+  m_SourcePrefab: {fileID: 100100000, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+--- !u!1 &4569791170108893586 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5814675405232539316, guid: 612f8cd6a0623134180b6cc9655f7084, type: 3}
+  m_PrefabInstance: {fileID: 8059975084415692582}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &74485998827240491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569791170108893586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1873c981ef8c5284690da9d022e115d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicBombProjectile
+  speed: 20
+  explosion: {fileID: 5814675405232539316, guid: fd2e6eda1a8cb684a880fa8d23ecbd19, type: 3}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256

@@ -70,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: be66c9f91c309d047818b5e3d3d874d2, type: 2}
+  - {fileID: 2100000, guid: 0dbb75d53f156294cabb2ff34af14df4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134,6 +134,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 990657556184121824}
     m_Modifications:
+    - target: {fileID: 1241044493859258187, guid: c42699183a6e8df46b2726a2189504a0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1241044493859258187, guid: c42699183a6e8df46b2726a2189504a0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1241044493859258187, guid: c42699183a6e8df46b2726a2189504a0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1241044493859258187, guid: c42699183a6e8df46b2726a2189504a0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -263,6 +275,18 @@ PrefabInstance:
     - target: {fileID: 5667182623760819995, guid: 635180ad844c49041aefc9b363a5732c, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709964582889324347, guid: 635180ad844c49041aefc9b363a5732c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709964582889324347, guid: 635180ad844c49041aefc9b363a5732c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709964582889324347, guid: 635180ad844c49041aefc9b363a5732c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5709964582889324347, guid: 635180ad844c49041aefc9b363a5732c, type: 3}
       propertyPath: m_LocalPosition.x
