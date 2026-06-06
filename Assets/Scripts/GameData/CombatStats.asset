@@ -28,10 +28,10 @@ MonoBehaviour:
     StunTime: 0
     GuageIncrease: 5
   MusicBomb:
-    Damage: 25
+    Damage: 20
     KnockbackForce: 100
     StunTime: 0
-    GuageIncrease: 5
+    GuageIncrease: 10
   LuminousLazer:
     Damage: 65
     KnockbackForce: 100

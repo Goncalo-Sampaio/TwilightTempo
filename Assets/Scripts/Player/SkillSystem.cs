@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SkillSystem : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class SkillSystem : MonoBehaviour
     private List<SkillSlot> skillSlots = new List<SkillSlot>();
     [SerializeField]
     private List<SkillSO> skillSOs = new List<SkillSO>();
+    [SerializeField]
+    private AudioClip skillSwitchClip;
 
     private Vector3 rightRotation = new Vector3(0, 0, -60);
     private Vector3 leftRotation = new Vector3(0, 0, 60);
@@ -25,6 +28,7 @@ public class SkillSystem : MonoBehaviour
     private PlayerStateManagerPlayables playerStateManager;
     private PlayerStates state;
     private ThirdPersonCam thirdPersonCam;
+    private AudioSource audioSource;
 
     public bool Paused { get; set; } = false;
 
@@ -32,6 +36,7 @@ public class SkillSystem : MonoBehaviour
     void Start()
     {
         playerStateManager = GetComponent<PlayerStateManagerPlayables>();
+        audioSource = GetComponent<AudioSource>();
         thirdPersonCam = GetComponentInChildren<ThirdPersonCam>();
 
         currentlyActiveSlot = 0;
@@ -64,6 +69,7 @@ public class SkillSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !rotating)
         {
             if (!CheckForSkillHolderReference()) return;
+            audioSource.PlayOneShot(skillSwitchClip);
             rotating = true;
             rotationProgress = 0;            
             //skillHolder.Rotate(rightRotation);
@@ -79,6 +85,7 @@ public class SkillSystem : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Q) && !rotating)
         {
             if (!CheckForSkillHolderReference()) return;
+            audioSource.PlayOneShot(skillSwitchClip);
             rotating = true;
             rotationProgress = 0;
             //skillHolder.Rotate(leftRotation);
