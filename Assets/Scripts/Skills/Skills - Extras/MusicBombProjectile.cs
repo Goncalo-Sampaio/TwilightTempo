@@ -56,7 +56,7 @@ public class MusicBombProjectile : MonoBehaviour
             Debug.Log("Hit");
             Explosion();
             other.GetComponentInParent<EnemyHealth>().Damage(combatData.MusicBomb.Damage, combatData.MusicBomb.KnockbackForce, transform.position);
-            gaugeManager.IncreaseGauge(combatData.MusicBomb.KnockbackForce, SkillAttunement.None);
+            gaugeManager.IncreaseGauge(combatData.MusicBomb.GuageIncrease, SkillAttunement.None);
         }
     }
 }

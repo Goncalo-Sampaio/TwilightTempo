@@ -231,7 +231,7 @@ public class EnemyNavigation : MonoBehaviour
         if (Physics.Raycast(rayCastOrigin.position, targetDirection, out hit, maxRayDistance))
         {
             //if hits object tagged with "targetTag"
-            if (hit.transform.gameObject.tag == targetTag) return true;
+            if (hit.transform.gameObject.tag == targetTag && hit.transform.GetComponent<PlayerHealth>() != null) return true;
         }
 
         //if hit nothing:            

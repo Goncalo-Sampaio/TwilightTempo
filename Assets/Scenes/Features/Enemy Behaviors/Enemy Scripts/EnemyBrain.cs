@@ -80,7 +80,7 @@ public class EnemyBrain : MonoBehaviour
 
         Any(gotHit, () => wasHit && !dead && !enteringBerserkState);
         Any(death, () => dead);
-        Any(combat, () => withinAttackRange && engaged && !dead && !enteringBerserkState);
+        Any(combat, () => withinAttackRange && engaged && !dead && !enteringBerserkState && playerWithinLineOfSight);
         Any(berserk, () => enteringBerserkState && !dead);
 
         //START STATE

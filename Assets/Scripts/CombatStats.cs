@@ -44,7 +44,7 @@ public struct PlayerAttack
     public float KnockbackForce;
     public float StunTime;    
     public float GuageIncrease;
-    public PlayerAttack(int Damage, float KnockbackForce, float StunTime = 0f, float GuageIncrease = 5f)
+    public PlayerAttack(int Damage, float KnockbackForce, float StunTime = 0f, float GuageIncrease = 0f)
     {
         this.Damage = Damage;
         this.KnockbackForce = KnockbackForce;

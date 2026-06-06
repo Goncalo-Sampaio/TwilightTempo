@@ -89,6 +89,7 @@ public class GaugeManager : MonoBehaviour
             CheckFormToActivate();
         }
         uiManager.ChangeGauge(currentGauge);
+        
     }
 
     private void CheckFormToActivate()
