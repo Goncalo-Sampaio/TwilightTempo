@@ -6,8 +6,6 @@ public class CombatStats : ScriptableObject
 {
 
     [Header("Player Stats")]
-    //public int PlayerHealth;
-    //public float PlayerSpeed;
     public PlayerAttack BaseAttack;
     public PlayerAttack Dash;    
     public PlayerAttack LightDash;
@@ -44,15 +42,13 @@ public struct PlayerAttack
 {
     public int Damage;
     public float KnockbackForce;
-    public float StunTime;
-    public float CoolDownTime;
+    public float StunTime;    
     public float GuageIncrease;
-    public PlayerAttack(int Damage, float KnockbackForce, float StunTime = 0f, float CoolDownTime = 0f, float GuageIncrease = 5f)
+    public PlayerAttack(int Damage, float KnockbackForce, float StunTime = 0f, float GuageIncrease = 5f)
     {
         this.Damage = Damage;
         this.KnockbackForce = KnockbackForce;
-        this.StunTime = StunTime;
-        this.CoolDownTime = CoolDownTime;
+        this.StunTime = StunTime;        
         this.GuageIncrease = GuageIncrease;
     }
     
