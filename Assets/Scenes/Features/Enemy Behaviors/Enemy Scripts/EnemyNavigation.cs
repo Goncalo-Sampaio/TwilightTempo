@@ -218,6 +218,7 @@ public class EnemyNavigation : MonoBehaviour
     //Can look for other things besides player
     bool somethingHit;
     RaycastHit hitData;
+    public LayerMask ignoreThisLayer;
     public bool HasLineOfSight(Vector3 targetPos, string targetTag = "Player")
     {        
         Vector3 targetDirection = (targetPos - rayCastOrigin.position).normalized;
@@ -232,7 +233,7 @@ public class EnemyNavigation : MonoBehaviour
         
         RaycastHit hit;
         //if hits anything
-        if (Physics.Raycast(rayCastOrigin.position, targetDirection, out hit, maxRayDistance))
+        if (Physics.Raycast(rayCastOrigin.position, targetDirection, out hit, maxRayDistance, ~ignoreThisLayer))
         {
             somethingHit = true;
             hitData = hit;

@@ -44,7 +44,7 @@ MonoBehaviour:
     GuageIncrease: 0
   BrawlerHealth: 200
   BrawlerMovementSpeed: 0
-  BrawlerAttackDamage: 5
+  BrawlerAttackDamage: 10
   BrawlerAttackSpeed: 0
   BrawlerKnockBackResistance: 10
   BerserkDamageMultiplier: 0

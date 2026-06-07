@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
   chaseUpdateFrequency: 0.05
-  attackUpdateFrequency: 0.75
+  attackUpdateFrequency: 1.5
   attackRange: 3.5
   attackRangeTolerance: 0.75
   attackWindow: 0.75
@@ -165,7 +165,7 @@ MonoBehaviour:
   debugger: 1
   maxRayDistance: 100
   rayCastOrigin: {fileID: 8527910691337372366}
-  arrivedDistance: 0.1
+  arrivedDistance: 1
   isOnIce: 1
   iceForceMultiplier: 0.2
   iceLinearDamp: 0.5
@@ -175,6 +175,10 @@ MonoBehaviour:
   avoidFactor: 5
   avoidPDistance: 0.5
   moving: 0
+  hasLineOfSight: 0
+  ignoreThisLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!195 &4242322043275516276
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -189,9 +193,9 @@ NavMeshAgent:
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 720
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 3.5
   m_BaseOffset: 0
@@ -5499,7 +5503,7 @@ Transform:
   m_GameObject: {fileID: 5309183367078513333}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.891, y: 0.293, z: 1.682}
+  m_LocalPosition: {x: 0.621, y: 0.293, z: 1.531}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5524,7 +5528,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.45
+  m_Radius: 1.57
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5595784412577234012
 GameObject:
@@ -5638,13 +5642,13 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: -0, y: 0.0000025610689, z: 0}
+      - m_Value: {x: -0, y: 0.00000019326862, z: 0}
         m_Name: Transform_angles
         m_Overridden: 1
-      - m_Value: {x: -0.00000057526836, y: -0.0000000053261004, z: 0.0000014496879}
+      - m_Value: {x: 0.0000029872392, y: -3.5017722e-10, z: 0.0000009869318}
         m_Name: Transform_position
         m_Overridden: 1
-      - m_Value: {x: 1.0000006, y: 1.0000001, z: 1.0000006}
+      - m_Value: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
         m_Name: Transform_scale
         m_Overridden: 1
     m_Vector4f:
@@ -10676,6 +10680,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8062210318721165020}
     m_Modifications:
+    - target: {fileID: 100016, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 100156, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -10690,7 +10698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100162, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100164, guid: f81dce3b8f1ce4266b00dd660227a963, type: 3}
       propertyPath: m_IsActive
