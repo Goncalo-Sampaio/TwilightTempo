@@ -57,32 +57,10 @@ public class EnemyNavigation : MonoBehaviour
         rb = enemyReferences.rb;
         TogglePhysicsModeOn();
 
-    }
-
-    private void Update()
-    {
-        ////Wandering:
-        
-        //if (state == EState.Waiting)
-        //{
-        //    waitTime -= Time.deltaTime;
-        //    if (waitTime < 0f)
-        //    {
-        //        ChangeState(EState.Wandering);
-        //    }
-        //}
-        //else if (state == EState.Wandering)
-        //{
-        //    wanderTime -= Time.deltaTime;
-        //    if (HasArrived()|| wanderTime < 0f)
-        //    {
-        //        ChangeState (EState.Waiting);
-        //    }
-
-        //}
-    }
+    }   
     private void FixedUpdate()
     {
+        Debug.Log("Remaining distance = " + agent.remainingDistance);
         if (!moving)
         {
             //stopped and attacking agents can't be pushed since they have higher priority:
@@ -192,7 +170,7 @@ public class EnemyNavigation : MonoBehaviour
         agent.SetDestination(destination);
         currentTarget = destination;
     }
-
+    
     public void Warp(Vector3 position) => agent.Warp(position);
     //Only use in states that are not "Chase". MoveWithPhysics already orients orc agent towards player.
     public void LookAtTarget(Vector3 target)
@@ -307,9 +285,9 @@ public class EnemyNavigation : MonoBehaviour
             }
         }
     }
-    public bool HasArrivedAtTarget(float minDistance = 0.1f)
+    public bool HasArrivedAtTarget()
     {
-        return NavMeshDistanceToDestination() < minDistance;
+        return NavMeshDistanceToDestination() < agent.stoppingDistance;
     }
 
     #region Trigger Events

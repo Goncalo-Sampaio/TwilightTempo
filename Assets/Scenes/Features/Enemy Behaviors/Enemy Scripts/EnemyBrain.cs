@@ -60,7 +60,7 @@ public class EnemyBrain : MonoBehaviour
 
     private void Start()
     {
-
+        if(gameObject.activeSelf)isPatrolling = true;
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
         forgetTimmerCountdown = forgetTimmer;
         //STATES
@@ -71,18 +71,18 @@ public class EnemyBrain : MonoBehaviour
         var death = new EnemyState_Death();
         var berserk = new EnemyState_Berserk(enemyReferences);
         //TRANSITIONS
-        At(idle, chase, () => engaged && !dead); 
-        At(chase, idle, () => !engaged && !enteringBerserkState && !dead);        
-        At(combat, chase, () => engaged && !dead && (!withinAttackRange   || !playerWithinLineOfSight));  
-        At(gotHit, chase, ()=> !wasHit && engaged && !dead);
-        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged && !dead && playerWithinLineOfSight);        
-        At(berserk, chase, () => !enteringBerserkState && engaged && !dead);
-        At(berserk, combat, () => !enteringBerserkState && !wasHit && withinAttackRange && engaged && !dead);
+        At(idle, chase, () => engaged && !dead && !isPatrolling); 
+        At(chase, idle, () => !engaged && !enteringBerserkState && !dead && !isPatrolling);        
+        At(combat, chase, () => engaged && !dead && (!withinAttackRange   || !playerWithinLineOfSight) && !isPatrolling);  
+        At(gotHit, chase, ()=> !wasHit && engaged && !dead && !isPatrolling);
+        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged && !dead && playerWithinLineOfSight && !isPatrolling);        
+        At(berserk, chase, () => !enteringBerserkState && engaged && !dead && !isPatrolling);
+        At(berserk, combat, () => !enteringBerserkState && !wasHit && withinAttackRange && engaged && !dead && !isPatrolling);
 
-        Any(gotHit, () => wasHit && !dead && !enteringBerserkState);
+        Any(gotHit, () => wasHit && !dead && !enteringBerserkState && !isPatrolling);
         Any(death, () => dead);
-        Any(combat, () => withinAttackRange && engaged && !dead && !enteringBerserkState && playerWithinLineOfSight);
-        Any(berserk, () => enteringBerserkState && !dead);
+        Any(combat, () => withinAttackRange && engaged && !dead && !enteringBerserkState && playerWithinLineOfSight && !isPatrolling);
+        Any(berserk, () => enteringBerserkState && !dead && !isPatrolling);
 
         //START STATE
         stateMachine.SetState(idle);
@@ -91,11 +91,13 @@ public class EnemyBrain : MonoBehaviour
         void At(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
         void Any(IState to,Func<bool> condition) => stateMachine.AddAnyTransition(to, condition);
     }
+    
     private void Update()
     {
         stateMachine.Tick();
 
     }
+    
     private void FixedUpdate()
     {
         //I also need to :
@@ -114,6 +116,75 @@ public class EnemyBrain : MonoBehaviour
 
 
     }
+    private Coroutine patrolRoutine;
+    private int currentPatrolPointIndex = 0;
+    [SerializeField] private float patrolLingerTime = 6f;
+    [SerializeField] private float patrolLingerTimeVariation = 2f;
+    public bool isPatrolling  = false;
+    [Button]
+    public void StartPatrol()
+    {
+        
+        patrolRoutine = StartCoroutine(PatrolRoutine());
+        
+    }
+    [Button]
+    public void StopPatrol()
+    {
+        isPatrolling = false;
+        if (patrolRoutine != null) StopCoroutine(patrolRoutine);
+        enemyReferences.enemyNavigation.moving = false;
+        enemyReferences.enemyNavigation.StopNow(true);
+
+        enemyReferences.enemyAnimator.StopWalking();
+        enemyReferences.enemyAnimator.StartIdle();
+
+    }    
+    private IEnumerator PatrolRoutine()
+    {
+        currentPatrolPointIndex = enemyReferences.WayPoints.wayPoints.IndexOf(enemyReferences.WayPoints.GetClosestWaypoint(transform.position));
+
+        while (true)
+        {
+            isPatrolling = true;
+
+            if (currentPatrolPointIndex >= enemyReferences.WayPoints.wayPoints.Count) currentPatrolPointIndex = 0;
+            
+            enemyReferences.enemyNavigation.StopNow(false);
+            enemyReferences.enemyNavigation.moving = true;
+
+            
+            yield return null;
+            enemyReferences.enemyNavigation.MoveTo(enemyReferences.WayPoints.wayPoints[currentPatrolPointIndex].position);
+
+            
+            enemyReferences.enemyAnimator.StopIdle();
+            yield return null; //pause before switching
+            enemyReferences.enemyAnimator.StartWalking();
+
+            yield return new WaitForEndOfFrame();
+            
+            yield return new WaitForFixedUpdate();
+
+            
+            yield return new WaitUntil(() => enemyReferences.enemyNavigation.HasArrivedAtTarget());
+
+
+            enemyReferences.enemyNavigation.moving = false;
+            enemyReferences.enemyNavigation.StopNow(true);
+
+            enemyReferences.enemyAnimator.StopWalking();
+            yield return null;
+            enemyReferences.enemyAnimator.StartIdle();
+
+            float lingerTime = patrolLingerTime + UnityEngine.Random.Range(-patrolLingerTimeVariation, patrolLingerTimeVariation);
+            yield return new WaitForSeconds(lingerTime);
+
+           
+            currentPatrolPointIndex++;
+        }
+    }
+    
     private void AlertNearbyEnemies()
     {
         

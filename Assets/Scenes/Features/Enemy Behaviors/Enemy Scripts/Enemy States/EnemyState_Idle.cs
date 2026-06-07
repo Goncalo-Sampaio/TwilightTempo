@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class EnemyState_Idle : IState
 {    
-    private EnemyReferences enemyReferences;    
+    private EnemyReferences enemyReferences;
+    
     public EnemyState_Idle(EnemyReferences enemyReferences)
     {
         this.enemyReferences = enemyReferences;
@@ -11,9 +12,14 @@ public class EnemyState_Idle : IState
     {
         if (enemyReferences.enemyAnimator != null)
         {
+            if (enemyReferences.enemyBrain.isPatrolling) return;
             enemyReferences.enemyAnimator.StartIdle();
         }
         Debug.Log("Idle OnEnter");
+    }
+    public void Tick()
+    {
+        
     }
     //Make sure the state values Reset when leaving.
     public void OnExit()
@@ -21,14 +27,12 @@ public class EnemyState_Idle : IState
         Debug.Log("Idle OnExit");
         if (enemyReferences.enemyAnimator != null)
         {
+            if (enemyReferences.enemyBrain.isPatrolling) return;
             enemyReferences.enemyAnimator.StopIdle();
         }
     }
 
-    public void Tick()
-    {
-        
-    }
+    
 
     public Color GizmoColor()
     {

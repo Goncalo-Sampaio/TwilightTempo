@@ -14,6 +14,7 @@ public class EnemyReferences : MonoBehaviour
     [HideInInspector] public ParticleSystem berserkParticles;
     [HideInInspector] public UIManager uIManager;
     [HideInInspector] public EnemySoundManager enemySoundManager;
+    public WaypointHandler WayPoints;
     //temporary:
     [HideInInspector] public bool isCaster = false;
     public EnemyScriptableObject enemyData;
