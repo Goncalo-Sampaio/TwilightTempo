@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAnimEventsHandler : MonoBehaviour
@@ -19,9 +20,20 @@ public class PlayerAnimEventsHandler : MonoBehaviour
         stateManagerPlayables = GetComponentInParent<PlayerStateManagerPlayables>();
         playerCombatPlayables = GetComponentInParent<PlayerCombatPlayables>();
     }
-
+    float lastDeflectTime;
+    [SerializeField] private float maxDeflectTime = 1f;
+    private void FixedUpdate()
+    {
+        if (Time.time >= lastDeflectTime + maxDeflectTime)
+        {
+            //disable the deflectors:
+            playerDeflectCollider.enabled = false;
+            playerDeflectCollider2.enabled = false;
+        }
+    }
     public void ActivateWeapon(int weapon)
     {
+        lastDeflectTime = Time.time;
         if (weapon == 0)
         {
             playerWeaponCollider.enabled = true;

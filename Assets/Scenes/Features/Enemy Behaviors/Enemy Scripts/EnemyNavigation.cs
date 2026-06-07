@@ -210,26 +210,45 @@ public class EnemyNavigation : MonoBehaviour
     
     public float NavMeshDistanceToDestination() => agent.remainingDistance;
 
+    public bool hasLineOfSight = false;
     //this should only be valid if there's no obstruction == line of sight = true;
     public float LinearDistanceFromTarget(Vector3 target) => Vector3.Distance(new Vector3(transform.position.x,0, transform.position.z), new Vector3(target.x,0,target.z));
 
     //Only call this if "playerInsideTrigger" is true    
     //Can look for other things besides player
+    bool somethingHit;
+    RaycastHit hitData;
     public bool HasLineOfSight(Vector3 targetPos, string targetTag = "Player")
-    {
+    {        
         Vector3 targetDirection = (targetPos - rayCastOrigin.position).normalized;
 
         //Only try casting if target is infront
-        if (Vector3.Dot(rayCastOrigin.forward, targetDirection) < 0f) return false;
-        
+        if (Vector3.Dot(rayCastOrigin.forward, targetDirection) < 0f) 
+        {
+            hasLineOfSight = false;
+            return false; }
+
         //Make sure to also include line of sight mwaybe? Using the dotP
+        
         RaycastHit hit;
         //if hits anything
         if (Physics.Raycast(rayCastOrigin.position, targetDirection, out hit, maxRayDistance))
         {
+            somethingHit = true;
+            hitData = hit;
             //if hits object tagged with "targetTag"
-            if (hit.transform.gameObject.tag == targetTag && hit.transform.GetComponent<PlayerHealth>() != null) return true;
+            if (hit.transform.gameObject.tag == targetTag && hit.transform.GetComponentInParent<PlayerHealth>() != null)
+            {
+                hasLineOfSight = true;
+                return true;
+            }
         }
+        else
+        {
+            hasLineOfSight = false;
+            somethingHit = false;
+        }
+        hasLineOfSight = false;
 
         //if hit nothing:            
         return false;

@@ -73,9 +73,9 @@ public class EnemyBrain : MonoBehaviour
         //TRANSITIONS
         At(idle, chase, () => engaged && !dead); 
         At(chase, idle, () => !engaged && !enteringBerserkState && !dead);        
-        At(combat, chase, () => engaged && !withinAttackRange && !dead);  
+        At(combat, chase, () => engaged && !dead && (!withinAttackRange   || !playerWithinLineOfSight));  
         At(gotHit, chase, ()=> !wasHit && engaged && !dead);
-        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged && !dead);        
+        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged && !dead && playerWithinLineOfSight);        
         At(berserk, chase, () => !enteringBerserkState && engaged && !dead);
         At(berserk, combat, () => !enteringBerserkState && !wasHit && withinAttackRange && engaged && !dead);
 
@@ -228,6 +228,7 @@ public class EnemyBrain : MonoBehaviour
         //forgetting player after loosing sight:
         if (engaged && !playerWithinLineOfSight)
         {
+            //Here have the enemy head to the last spotted location
             forgetTimmerCountdown -= Time.deltaTime;
             if (forgetTimmerCountdown <= 0f)
             {
@@ -264,6 +265,8 @@ public class EnemyBrain : MonoBehaviour
             Gizmos.color = stateMachine.GetGizmoColor();
             Gizmos.DrawSphere(transform.position + Vector3.up * 3, 0.4f);
         }
+        if (!Application.isPlaying) return;
+        
     }
 
     
