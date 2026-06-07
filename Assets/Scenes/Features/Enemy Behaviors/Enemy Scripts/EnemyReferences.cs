@@ -24,7 +24,13 @@ public class EnemyReferences : MonoBehaviour
     {
         //Set something by default so this doesn't just crap itself from no reference:
         playerRef = FindAnyObjectByType<PlayerHealth>().transform;
-        
+        if (WayPoints == null)
+        {
+            //if no waypoint object is present then just create one and add this transform as its only waypoint
+            WayPoints = gameObject.AddComponent<WaypointHandler>();
+            WayPoints.wayPoints.Add(gameObject.transform);
+            Debug.Log($"Warning {gameObject.name} did not have an assigned Waypoint Handler, created single patroll point on object instead");
+        }
         enemyBrain = GetComponent<EnemyBrain>();
         enemyHealth = GetComponent<EnemyHealth>();
         enemyNavigation = GetComponent<EnemyNavigation>();

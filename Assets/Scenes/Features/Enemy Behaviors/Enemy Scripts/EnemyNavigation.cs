@@ -12,7 +12,7 @@ public class EnemyNavigation : MonoBehaviour
 {
     [SerializeField] private bool debugger = true;
     [SerializeField] private float maxRayDistance = 100f;
-    private NavMeshAgent agent;    
+    public NavMeshAgent agent;    
     private bool playerInsideTrigger = false;
     //[HideInInspector]public bool hasLineOfSight = false;
     [SerializeField] private Transform rayCastOrigin;

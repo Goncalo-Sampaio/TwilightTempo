@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using NUnit.Framework;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
@@ -39,6 +40,7 @@ public class EnemyBrain : MonoBehaviour
     [HideInInspector] public bool wasHit;
     [HideInInspector] public bool dead;
     [HideInInspector] public bool isBerserk;
+    private float defaultArrivalDistance;
 
     private bool playerWithinLineOfSight, withinAttackRange;
     private bool playerFirstSpoted;
@@ -60,7 +62,7 @@ public class EnemyBrain : MonoBehaviour
 
     private void Start()
     {
-        
+        defaultArrivalDistance = enemyReferences.enemyNavigation.agent.stoppingDistance;
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
         forgetTimmerCountdown = forgetTimmer;
         //STATES
@@ -127,12 +129,17 @@ public class EnemyBrain : MonoBehaviour
     
     public void StartPatrol()
     {
+        //Change arrival distance to closer one
+       enemyReferences.enemyNavigation.agent.stoppingDistance = 1f;
+        //if there's only one waypoint
+        if (enemyReferences.enemyNavigation.HasArrivedAtTarget() && enemyReferences.WayPoints.wayPoints.Count == 1) return;
         if (!isPatrolling) patrolRoutine = StartCoroutine(PatrolRoutine());        
     }
     
     public void StopPatrol()
     {
-        
+        //change arrival distance back
+        enemyReferences.enemyNavigation.agent.stoppingDistance = defaultArrivalDistance;
         if (patrolRoutine != null) StopCoroutine(patrolRoutine);
         enemyReferences.enemyNavigation.moving = false;
         enemyReferences.enemyNavigation.StopNow(true);
@@ -156,7 +163,7 @@ public class EnemyBrain : MonoBehaviour
             enemyReferences.enemyNavigation.moving = true;
 
             
-            yield return null;
+            yield return null;          
             enemyReferences.enemyNavigation.MoveTo(enemyReferences.WayPoints.wayPoints[currentPatrolPointIndex].position);
 
             

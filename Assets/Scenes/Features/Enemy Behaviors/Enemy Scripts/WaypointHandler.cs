@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class WaypointHandler : MonoBehaviour
 {
-    public List<Transform> wayPoints;
+    public List<Transform> wayPoints = new();
+   
     public Transform GetClosestWaypoint(Vector3 origin)
     {
         Transform closestWayPoint = null;
@@ -20,6 +21,24 @@ public class WaypointHandler : MonoBehaviour
             }
         }
         return closestWayPoint;
+    }
+    private void OnDrawGizmos()
+    {
+        if (wayPoints != null)
+        {
+            Gizmos.color = Color.pink;
+            for (int i = 0; i < wayPoints.Count; i++)
+            {
+                if (i == wayPoints.Count -1)
+                {
+                    Gizmos.DrawLine(wayPoints[wayPoints.Count - 1].position, wayPoints[0].position);
+                }
+                else Gizmos.DrawLine(wayPoints[i].position, wayPoints[i + 1].position);
+            }
+            Gizmos.color = Color.yellow;
+            for (int i = 0; i < wayPoints.Count; i++) Gizmos.DrawWireSphere(wayPoints[i].position, .2f);
+        }
+
     }
 }
 
