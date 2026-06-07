@@ -9,9 +9,16 @@ public class EnemyMusicBombProjectile : MonoBehaviour
     [SerializeField]
     private LayerMask playerLayer;
 
-    private bool moving = true;    
+    private bool moving = true;
 
-    
+
+    private void Awake()
+    {
+        
+        combatData = FindAnyObjectByType<CombatDataManager>().combatData;
+    }
+
+    CombatStats combatData;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,7 +51,7 @@ public class EnemyMusicBombProjectile : MonoBehaviour
         if ((playerLayer.value & (1 << other.transform.gameObject.layer)) > 0)
         {            
             Explosion();
-            other.GetComponentInParent<PlayerHealth>().Damage(CombatDataManager.Instance.combatData.CasterAttackDamage);
+            other.GetComponentInParent<PlayerHealth>().Damage(combatData.CasterAttackDamage);
         }
     }
 }

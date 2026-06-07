@@ -37,7 +37,7 @@ public class EnemyNavigation : MonoBehaviour
 
     [SerializeField] private float avoidFactor = 5f;
     [SerializeField] private float avoidPDistance = .5f; //how far away to the nearest agent to start avoiding
-    private List<EnemyHealth> nearbyEnemies = new();
+    private List<EnemyBrain> nearbyEnemies = new();
     public bool moving;
     private bool HasArrived()
     {
@@ -196,10 +196,7 @@ public class EnemyNavigation : MonoBehaviour
     public void Warp(Vector3 position) => agent.Warp(position);
     //Only use in states that are not "Chase". MoveWithPhysics already orients orc agent towards player.
     public void LookAtTarget(Vector3 target)
-    {
-        /////return;
-        //var q = Quaternion.LookRotation(target - transform.position);
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, q, 100f * Time.deltaTime);
+    {       
         Vector3 direction = (target - transform.position);
         Vector3 flatDirection = new Vector3(direction.x, 0, direction.z);
 
@@ -301,22 +298,24 @@ public class EnemyNavigation : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player")) playerInsideTrigger = true;
-        if (other.gameObject.CompareTag("Enemy")) AddAndSort(other.GetComponentInParent<EnemyHealth>());
+        if (other.gameObject.CompareTag("Enemy")) AddAndSort(other.GetComponentInParent<EnemyBrain>());
 
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player")) playerInsideTrigger = false;
-        if (other.gameObject.CompareTag("Enemy")) nearbyEnemies.Remove(other.GetComponentInParent<EnemyHealth>());
+        if (other.gameObject.CompareTag("Enemy")) nearbyEnemies.Remove(other.GetComponentInParent<EnemyBrain>());
     }
     //Add new enemy and sort List by distance
-    private void AddAndSort(EnemyHealth enemy)
+    private void AddAndSort(EnemyBrain enemy)
     {
+        if (nearbyEnemies.Contains(enemy)) return;
         nearbyEnemies.Add(enemy);
         //Sort by distance: https://www.youtube.com/watch?v=7EALNQ9tFlw&t=224s
         nearbyEnemies.Sort((a, b) => Vector3.SqrMagnitude(b.transform.position - a.transform.position)
         .CompareTo(Vector3.SqrMagnitude(a.transform.position - transform.position)));
     }
+    public List<EnemyBrain> GetNearbyEnemies() { return nearbyEnemies; }
     #endregion
 
     #region Debugging

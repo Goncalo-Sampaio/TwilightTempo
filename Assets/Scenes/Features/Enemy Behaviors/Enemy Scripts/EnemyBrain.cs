@@ -1,5 +1,6 @@
 using DG.Tweening;
 using NaughtyAttributes;
+using NUnit.Framework;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -41,7 +42,7 @@ public class EnemyBrain : MonoBehaviour
 
     private bool playerWithinLineOfSight, withinAttackRange;
     private bool playerFirstSpoted;
-    [HideInInspector] public bool engaged = false;    
+    public bool engaged = false;    
     [SerializeField] private float forgetTimmer = 5f;
     private float forgetTimmerCountdown;
     private Collider[] colliders;
@@ -60,8 +61,8 @@ public class EnemyBrain : MonoBehaviour
     private void Start()
     {
 
-        groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;        
-        
+        groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
+        forgetTimmerCountdown = forgetTimmer;
         //STATES
         var idle = new EnemyState_Idle(enemyReferences);
         var chase = new EnemyState_Chase(enemyReferences, chaseUpdateFrequency);
@@ -90,52 +91,43 @@ public class EnemyBrain : MonoBehaviour
         void At(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
         void Any(IState to,Func<bool> condition) => stateMachine.AddAnyTransition(to, condition);
     }
-
-    //player detection
-    private void ProbeSurroundings ()
+    private void Update()
     {
-        playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideTriggerDistance();
-        if (playerInsideTrigger || engaged )
+        stateMachine.Tick();
+
+    }
+    private void FixedUpdate()
+    {
+        //I also need to :
+        //when line of sight is broke just go to the last place the player was spotted and stop.
+        ProbeSurroundings();
+        if (engaged && !dead)
         {
-            //Only probe line of sight if:
-            //  Player is inside sphere trigger
-            //  This Enemy is activly engaged with the player (Meaning it spotted them and is either chasing or attacking the player)
-            //reminder that the check is only done here:
-            playerWithinLineOfSight = enemyReferences.enemyNavigation.HasLineOfSight(enemyReferences.playerRef.position, "Player");
-            if (playerWithinLineOfSight )
+            if (playerFirstSpoted)
             {
-                //Enemy spots the player
-                engaged = true;
-                forgetTimmerCountdown = forgetTimmer;
+                enemyReferences.enemySoundManager.PlaySpottedPlayerSoundEffect();
+                playerFirstSpoted = false;
             }
+            //Alert Nearby enemies:
+            AlertNearbyEnemies();
         }
-        //forgetting player after loosing sight:
-        if(engaged && !playerWithinLineOfSight)
-        {
-            forgetTimmerCountdown -= Time.deltaTime;
-            if (forgetTimmerCountdown <= 0f)
-            {
-                playerFirstSpoted = true;
-                engaged = false;
-            }
-            
-        } 
-        //if within attack range or if was hit 
-        if(withinAttackRange || (!engaged && wasHit))
-        {
-            engaged = true;
-            forgetTimmerCountdown = forgetTimmer;
+
+
+    }
+    private void AlertNearbyEnemies()
+    {
+        
+        foreach (EnemyBrain enemyBrain in enemyReferences.enemyNavigation.GetNearbyEnemies())
+        {            
+            enemyBrain.engaged = true;
         }
         
-        withinAttackRange = enemyReferences.enemyNavigation.LinearDistanceFromTarget(enemyReferences.playerRef.position) <= attackRange;
-
     }
     private bool enteringBerserkState =false; //time span between non berserk and fully berserk state
     public void Berserk() => StartCoroutine(BerserkOn());
     //this should happen on the berserk state not here:
     private IEnumerator BerserkOn()
-    {
-        Debug.Log("Berserk Routine started");
+    {        
         isBerserk = true;
         //prevent other states from triggering when this is on
         enteringBerserkState = true;
@@ -166,8 +158,7 @@ public class EnemyBrain : MonoBehaviour
         enteringBerserkState = false;
         enemyReferences.enemyHealth.invunerable = false;
         
-        yield return null;
-        Debug.Log("Berserk Routine ended");
+        yield return null;       
 
     }
     public void Die()
@@ -209,6 +200,47 @@ public class EnemyBrain : MonoBehaviour
         wasHit = false;
     }
 
+    //player detection
+    private void ProbeSurroundings()
+    {
+        playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideTriggerDistance();
+        if (playerInsideTrigger || engaged)
+        {
+            //Only probe line of sight if:
+            //  Player is inside sphere trigger
+            //  This Enemy is activly engaged with the player (Meaning it spotted them and is either chasing or attacking the player)
+            //reminder that the check is only done here:
+            playerWithinLineOfSight = enemyReferences.enemyNavigation.HasLineOfSight(enemyReferences.playerRef.position, "Player");
+            if (playerWithinLineOfSight)
+            {
+                //Enemy spots the player
+                engaged = true;
+                forgetTimmerCountdown = forgetTimmer;
+            }
+        }
+        
+        //if within attack range or if was hit 
+        if (withinAttackRange || (!engaged && wasHit))
+        {
+            engaged = true;
+            forgetTimmerCountdown = forgetTimmer;
+        }
+        //forgetting player after loosing sight:
+        if (engaged && !playerWithinLineOfSight)
+        {
+            forgetTimmerCountdown -= Time.deltaTime;
+            if (forgetTimmerCountdown <= 0f)
+            {
+                playerFirstSpoted = true;
+                engaged = false;
+            }
+
+        }
+
+        withinAttackRange = enemyReferences.enemyNavigation.LinearDistanceFromTarget(enemyReferences.playerRef.position) <= attackRange;
+
+    }
+
 
     private void DisableColliders()
     {
@@ -223,23 +255,8 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.rb.angularVelocity = Vector3.zero;
         enemyReferences.rb.linearVelocity = Vector3.zero;
     }
-    private void Update()
-    {
-        stateMachine.Tick();
-        
-    }
-    private void FixedUpdate()
-    {
-        ProbeSurroundings();
-        if (engaged && !dead)
-        {
-            if (playerFirstSpoted)
-            {
-                enemyReferences.enemySoundManager.PlaySpottedPlayerSoundEffect();
-                playerFirstSpoted = false;
-            }
-        }
-    }
+    
+    
     private void OnDrawGizmos()
     {
         if (stateMachine != null)
