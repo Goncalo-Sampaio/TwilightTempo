@@ -60,7 +60,7 @@ public class EnemyNavigation : MonoBehaviour
     }   
     private void FixedUpdate()
     {
-        Debug.Log("Remaining distance = " + agent.remainingDistance);
+        
         if (!moving)
         {
             //stopped and attacking agents can't be pushed since they have higher priority:
@@ -86,7 +86,6 @@ public class EnemyNavigation : MonoBehaviour
         rb.isKinematic = false;
         rb.useGravity = true;
     }
-
     
 
     private void MoveWithPhysics()

@@ -60,37 +60,40 @@ public class EnemyBrain : MonoBehaviour
 
     private void Start()
     {
-        if(gameObject.activeSelf)isPatrolling = true;
+        
         groundOffset = GetComponentInChildren<CapsuleCollider>().height / 2;
         forgetTimmerCountdown = forgetTimmer;
         //STATES
-        var idle = new EnemyState_Idle(enemyReferences);
+        var idle = new EnemyState_Idle(enemyReferences, patrolLingerTime);
         var chase = new EnemyState_Chase(enemyReferences, chaseUpdateFrequency);
         var combat = new EnemyState_Combat(enemyReferences, attackUpdateFrequency);
         var gotHit = new EnemyState_GotHit(enemyReferences);
         var death = new EnemyState_Death();
         var berserk = new EnemyState_Berserk(enemyReferences);
         //TRANSITIONS
-        At(idle, chase, () => engaged && !dead && !isPatrolling); 
-        At(chase, idle, () => !engaged && !enteringBerserkState && !dead && !isPatrolling);        
-        At(combat, chase, () => engaged && !dead && (!withinAttackRange   || !playerWithinLineOfSight) && !isPatrolling);  
-        At(gotHit, chase, ()=> !wasHit && engaged && !dead && !isPatrolling);
-        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged && !dead && playerWithinLineOfSight && !isPatrolling);        
-        At(berserk, chase, () => !enteringBerserkState && engaged && !dead && !isPatrolling);
-        At(berserk, combat, () => !enteringBerserkState && !wasHit && withinAttackRange && engaged && !dead && !isPatrolling);
+        At(idle, chase, () => engaged && !dead ); 
+        At(chase, idle, () => !engaged && !enteringBerserkState && !dead && !isBerserk);        
+        At(combat, chase, () => engaged && !dead && (!withinAttackRange  || !playerWithinLineOfSight) );  
+        At(gotHit, chase, ()=> !wasHit && engaged && !dead);
+        At(gotHit, combat, () => !wasHit && withinAttackRange && engaged && !dead && playerWithinLineOfSight );        
+        At(berserk, chase, () => !enteringBerserkState && engaged && !dead );
+        At(berserk, combat, () => !enteringBerserkState && !wasHit && withinAttackRange && engaged && !dead);
 
-        Any(gotHit, () => wasHit && !dead && !enteringBerserkState && !isPatrolling);
+        Any(gotHit, () => wasHit && !dead && !enteringBerserkState );
         Any(death, () => dead);
-        Any(combat, () => withinAttackRange && engaged && !dead && !enteringBerserkState && playerWithinLineOfSight && !isPatrolling);
-        Any(berserk, () => enteringBerserkState && !dead && !isPatrolling);
+        Any(combat, () => withinAttackRange && engaged && !dead && !enteringBerserkState && playerWithinLineOfSight);
+        Any(berserk, () => enteringBerserkState && !dead);
 
         //START STATE
+        //should be called inside the iddle sttate
         stateMachine.SetState(idle);
 
         //FUNCTIONS & CONDITIONS
         void At(IState from, IState to, Func<bool> condition) => stateMachine.AddTransition(from, to, condition);
         void Any(IState to,Func<bool> condition) => stateMachine.AddAnyTransition(to, condition);
+
     }
+   
     
     private void Update()
     {
@@ -121,23 +124,22 @@ public class EnemyBrain : MonoBehaviour
     [SerializeField] private float patrolLingerTime = 6f;
     [SerializeField] private float patrolLingerTimeVariation = 2f;
     public bool isPatrolling  = false;
-    [Button]
+    
     public void StartPatrol()
     {
-        
-        patrolRoutine = StartCoroutine(PatrolRoutine());
-        
+        if (!isPatrolling) patrolRoutine = StartCoroutine(PatrolRoutine());        
     }
-    [Button]
+    
     public void StopPatrol()
     {
-        isPatrolling = false;
+        
         if (patrolRoutine != null) StopCoroutine(patrolRoutine);
         enemyReferences.enemyNavigation.moving = false;
         enemyReferences.enemyNavigation.StopNow(true);
 
         enemyReferences.enemyAnimator.StopWalking();
         enemyReferences.enemyAnimator.StartIdle();
+        isPatrolling = false;
 
     }    
     private IEnumerator PatrolRoutine()
@@ -287,6 +289,7 @@ public class EnemyBrain : MonoBehaviour
                 //Enemy spots the player
                 engaged = true;
                 forgetTimmerCountdown = forgetTimmer;
+                
             }
         }
         
@@ -295,6 +298,7 @@ public class EnemyBrain : MonoBehaviour
         {
             engaged = true;
             forgetTimmerCountdown = forgetTimmer;
+            
         }
         //forgetting player after loosing sight:
         if (engaged && !playerWithinLineOfSight)
@@ -305,6 +309,8 @@ public class EnemyBrain : MonoBehaviour
             {
                 playerFirstSpoted = true;
                 engaged = false;
+                //might need to add a delay for this
+                
             }
 
         }

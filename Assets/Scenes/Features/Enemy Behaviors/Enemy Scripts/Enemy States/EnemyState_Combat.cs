@@ -23,6 +23,7 @@ public class EnemyState_Combat : IState
     }
     public void OnEnter()
     {
+        enemyReferences.enemyBrain.isPatrolling = false;
         if (enemyReferences.enemyBrain.isBerserk) BerserkMode();
         Debug.Log("Combat");
         //The first attack happens emediatly

@@ -17,7 +17,8 @@ public class EnemyState_Chase : IState
         this.chaseUpdateFrequency = chaseUpdateFrequency;
     }
     public void OnEnter()
-    {        
+    {
+        enemyReferences.enemyBrain.isPatrolling = false;
         enemyReferences.enemyNavigation.StopNow(false);
         enemyReferences.enemyNavigation.moving = true;
         if (enemyReferences.enemyAnimator != null)

@@ -9,6 +9,7 @@ public class EnemyState_Berserk : IState
     }
     public void OnEnter()
     {
+        enemyReferences.enemyBrain.isPatrolling = false;
         enemyReferences.enemyNavigation.StopNow(true);
     }
 
