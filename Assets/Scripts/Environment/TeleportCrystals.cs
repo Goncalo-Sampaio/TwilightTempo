@@ -31,7 +31,11 @@ public class TeleportCrystals : MonoBehaviour
     }
     void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.T)) player.ActivateTeleport(targetCrystal);
+        if (playerInRange && Input.GetKeyDown(KeyCode.T))
+        {
+            player.ActivateTeleport(targetCrystal);
+            wasTeleporting = true;
+        }
 
     }
     private void FixedUpdate()
