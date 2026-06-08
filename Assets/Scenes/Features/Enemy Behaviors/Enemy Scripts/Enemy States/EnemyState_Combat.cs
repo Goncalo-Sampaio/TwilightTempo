@@ -38,7 +38,7 @@ public class EnemyState_Combat : IState
         {
 
             if(isCaster)
-            {
+            {                
                 if (enemyReferences.enemyNavigation.GetVisionConeFactor(playerRef.position) < 0.65f) enemyReferences.enemyNavigation.LookAtTarget(playerRef.position);
                 else if (enemyReferences.enemyAnimator != null)
                 {                    

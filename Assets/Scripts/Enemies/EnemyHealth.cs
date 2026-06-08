@@ -140,6 +140,7 @@ public class EnemyHealth : MonoBehaviour
                     if (!enemyReferences.isCaster) enemyReferences.enemyBrain.Berserk();
                 }
             }
+            uiManager.UpdateEnemyHealth(true, maxHealth, currentHealth);
             enemyReferences.enemyAnimator.HitStop(10);
             enemyReferences.enemyBrain.GotHit();
 

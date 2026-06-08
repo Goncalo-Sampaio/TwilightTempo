@@ -145,7 +145,7 @@ public class EnemyBrain : MonoBehaviour
         enemyReferences.enemyNavigation.StopNow(true);
 
         enemyReferences.enemyAnimator.StopWalking();
-        enemyReferences.enemyAnimator.StartIdle();
+        
         isPatrolling = false;
 
     }    
@@ -284,6 +284,7 @@ public class EnemyBrain : MonoBehaviour
     private void ProbeSurroundings()
     {
         playerInsideTrigger = enemyReferences.enemyNavigation.PlayerInsideTriggerDistance();
+       
         if (playerInsideTrigger || engaged)
         {
             //Only probe line of sight if:

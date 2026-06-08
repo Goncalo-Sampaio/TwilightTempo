@@ -714,7 +714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4242322043275516276, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: m_StoppingDistance
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6192708092241260225, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: meshes.Array.size
@@ -818,7 +818,7 @@ PrefabInstance:
       objectReference: {fileID: 5324276159017480509}
     - target: {fileID: 7536817106837133628, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: attackRange
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7536817106837133628, guid: 2713646820f931f4d9147d819c770826, type: 3}
       propertyPath: attackUpdateFrequency
