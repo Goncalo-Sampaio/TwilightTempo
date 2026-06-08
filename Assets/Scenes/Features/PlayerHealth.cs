@@ -18,8 +18,14 @@ public class PlayerHealth : MonoBehaviour
 
     private Flash flash;
     [SerializeField] private bool LinkToHealthUi = true;
+    private AudioSource healthSounds;
+    [SerializeField] private AudioClip[] takingDamageSFX;
+    [SerializeField] private AudioClip hitImpactSFX;
+    public bool invunerable = false;
     void Start()
     {
+        invunerable = false;
+        healthSounds = GetComponent<AudioSource>();
         damageScreenController = gameObject.GetComponent<DamageScreenController>();
         flash = gameObject.GetComponent<Flash>();
         currentHealth = maxHealth;
@@ -46,20 +52,35 @@ public class PlayerHealth : MonoBehaviour
         LevelDataManager.onCanvasRegister -= SetupUIReferences;
     }
 
+    private void PlayGotDamageSound()
+    {
+        PlaySound(takingDamageSFX[(int)UnityEngine.Random.Range(0, takingDamageSFX.Length)]);
+    }
+    private void PlaySound(AudioClip clip)
+    {
+
+        healthSounds.pitch = UnityEngine.Random.Range(0.95f, 1.05f);
+        healthSounds.PlayOneShot(clip);
+        healthSounds.PlayOneShot(hitImpactSFX,0.3f);
+    }
 
     public void Damage()
     {
-        Damage(5f);        
+        if (invunerable) return;
+        Damage(5f);
+        PlayGotDamageSound();
     }
     public void Damage(float damage)
     {
-        Damage(new Vector3(0f, -0.5f, -1f), damage);
+        if (invunerable) return;
+        Damage(new Vector3(0f, -0.5f, -1f), damage);        
     }
 
     //We need a version of this with the int/ enum of the attack to check against already registered attacks
     //Force comes from collision contact point -> change this on enemy
     public void Damage(Vector3 force ,float damage)
     {
+        if (invunerable) return;
         currentHealth -= damage;
 
         if (currentHealth <= 0)
@@ -72,6 +93,7 @@ public class PlayerHealth : MonoBehaviour
         {
             //Should be moved to its own class:
             if (LinkToHealthUi)healthUI.value = currentHealth;
+            PlayGotDamageSound();
         }
 
         //VISUAL FEEDBACK:

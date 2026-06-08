@@ -36,6 +36,7 @@ public class GaugeManager : MonoBehaviour
     private PlayerStateManagerPlayables playerStateManager;
 
     private AudioSource audioSource;
+    private PlayerHealth playerHealth;
 
 
     Dictionary<SkillAttunement, float> attunementCharges = new Dictionary<SkillAttunement, float>();
@@ -44,6 +45,7 @@ public class GaugeManager : MonoBehaviour
 
     private void Start()
     {
+        playerHealth = GetComponentInParent<PlayerHealth>();
         finisherReadyMaterial.SetFloat("_VignetePower", 5f);
         finisherReadyMaterial.SetFloat("_VigneteIntensity", 0f);
         audioSource = GetComponent<AudioSource>();
@@ -130,6 +132,7 @@ public class GaugeManager : MonoBehaviour
 
     private IEnumerator ActivateFinisherCoroutine()
     {
+        playerHealth.invunerable = true;
         playerStateManager.SetCurrentState(PlayerStates.Finisher);
         playerStateManager.Attack(finisherAnimation);
         playerCinematics.ActivateFinisher();
@@ -147,6 +150,7 @@ public class GaugeManager : MonoBehaviour
         {
             finisher.transform.GetChild(i).gameObject.SetActive(false);
         }
+        playerHealth.invunerable = false;
     }
 
     private void ResetGauge()
