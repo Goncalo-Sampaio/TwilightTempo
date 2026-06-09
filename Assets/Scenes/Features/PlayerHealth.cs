@@ -103,7 +103,15 @@ public class PlayerHealth : MonoBehaviour
         flash.FlashForXIterations(1);
         //Reduce health
     }
-
+    public void FetchMeTheirSouls(int healValue)
+    {
+        //trigger a vfx on player
+        gameObject.GetComponent<Flash>().HealVisual();
+        if (currentHealth + healValue >= maxHealth) currentHealth = maxHealth;
+        else currentHealth += healValue;
+        if (LinkToHealthUi) healthUI.value = currentHealth;
+        Debug.Log("Player healed, new health = " + currentHealth);
+    }
     public void Heal()
     {
         currentHealth = maxHealth;

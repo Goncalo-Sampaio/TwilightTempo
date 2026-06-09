@@ -2,7 +2,9 @@ using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.VFX;
 
 public class Flash : MonoBehaviour
@@ -28,15 +30,31 @@ public class Flash : MonoBehaviour
         {
             if (renderer is not UnityEngine.VFX.VFXRenderer || renderer is not UnityEngine.ParticleSystemRenderer) renderers.Add(renderer);
         }
+        isPlayer = GetComponent<PlayerHealth>() != null;
+        
 
     }
-
+    private Coroutine flasherIttRot = null;
     [Button]
     public void FlashForXIterationsBTN() => FlashForXIterations(flashIterations);
     public void FlashForXIterations(int flashes)
     {
         flashIterations = flashes;
-        StartCoroutine(FlashMultipleInterationsRot());
+        if (flasherIttRot != null)
+        {
+            StopCoroutine(flasherIttRot);
+            ResetFlash();
+        }
+        flasherIttRot = StartCoroutine(FlashMultipleInterationsRot());
+
+
+
+    }
+    private void ResetFlash()
+    {
+        SetFlashEmissionValueInChildren(Color.black);
+        EnableEmissionInChildren(false);
+        isFlashing = false;
     }
     [Button]
     public void FlashForXSecondsBTN() => FlashForXSeconds(maxFlashTime);
@@ -170,11 +188,64 @@ public class Flash : MonoBehaviour
         }
 
     }
+    private bool isPlayer = true;
+    private Coroutine healRot = null;
+    private float healValue = 0f;    
+
+    public void HealVisual()
+    {
+        if (!isPlayer) return;
+
+        if (healRot != null)
+        {
+            StopCoroutine(healRot);
+        }
+        healRot = StartCoroutine(FlashandHealMultipleInterationsRot());
+    }
+
+    private IEnumerator FlashandHealMultipleInterationsRot()
+    {
+        float flashValue = 0f;
+        float speed = 4f;
+        int direction = 1;
+
+        while (direction == 1 || flashValue > 0f)
+        {
+            flashValue += Time.deltaTime * speed * direction;
+
+            if (flashValue >= 1f && direction == 1)
+            {
+                flashValue = 1f;
+                direction = -1;
+            }
+
+            SetHealFlashEmissionValueInChildren(flashValue);
+            yield return null;
+        }
+
+        SetHealFlashEmissionValueInChildren(0f);
+        healRot = null;
+    }
+
+    private void SetHealFlashEmissionValueInChildren(float flashValue)
+    {
+        healValue = flashValue;
+
+        foreach (Renderer rend in renderers)
+        {
+            if (rend != null)
+            {
+                // Replace "_FlashValue" with the EXACT reference name in your shader
+                rend.material.SetFloat("_HealFactor", flashValue);
+            }
+        }
+    }
 
 
-    
-    
-    
+
+
+
+
 
 }
 

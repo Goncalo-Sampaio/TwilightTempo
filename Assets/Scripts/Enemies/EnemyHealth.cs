@@ -86,6 +86,7 @@ public class EnemyHealth : MonoBehaviour
             }
             uiManager.UpdateEnemyHealth(true, maxHealth, currentHealth);
             enemyReferences.enemyAnimator.HitStop(10);
+            enemyReferences.flash.FlashForXIterations(1);
             enemyReferences.enemyBrain.GotHit();
         }
 
@@ -142,6 +143,7 @@ public class EnemyHealth : MonoBehaviour
             }
             uiManager.UpdateEnemyHealth(true, maxHealth, currentHealth);
             enemyReferences.enemyAnimator.HitStop(10);
+            enemyReferences.flash.FlashForXIterations(1);
             enemyReferences.enemyBrain.GotHit();
 
         }
@@ -196,11 +198,19 @@ public class EnemyHealth : MonoBehaviour
     private IEnumerator DeathRot()
     {
         dead = true;
+        int healValue = enemyReferences.isCaster ? combatData.CasterPlayerHealContribution : combatData.BrawlerPlayerHealContribution;
+        enemyReferences.playerRef.GetComponent<PlayerHealth>().FetchMeTheirSouls(healValue);
+        yield return null;
         enemyReferences.enemySoundManager.PlayDeathSFX();
-        enemyReferences.enemyNavigation.StopNow(true);        
+        enemyReferences.enemyNavigation.StopNow(true);
+        enemyReferences.enemyAnimator.Die();
+        yield return new WaitForEndOfFrame();
         enemyReferences.enemyBrain.Die();
+        yield return new WaitForFixedUpdate();
         LevelDataManager.Instance.RemoveEnemy(this);
-        yield return new WaitForSeconds(AfterDeathLingerTime);        
+        yield return new WaitForSeconds(AfterDeathLingerTime);
+        
+        
         //Instead of destroy just leave the bodies:
         //Destroy(this.gameObject);
 

@@ -49,10 +49,12 @@ MonoBehaviour:
   BrawlerKnockBackResistance: 10
   BerserkDamageMultiplier: 0
   BerserkKnockBackResistanceMultiplier: 0
+  BrawlerPlayerHealContribution: 15
   CasterHealth: 125
   CasterMovementSpeed: 0
   CasterAttackDamage: 15
   CasterAttackSpeed: 0
   CasterKnockBackResistance: 4
+  CasterPlayerHealContribution: 5
   MaxKnockBackTime: 5
   AfterDeathLingerTime: 5

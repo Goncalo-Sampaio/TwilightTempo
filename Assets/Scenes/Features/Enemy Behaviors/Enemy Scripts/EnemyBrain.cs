@@ -246,12 +246,13 @@ public class EnemyBrain : MonoBehaviour
     {
         dead = true;
         StopAllCoroutines();
-        enemyReferences.enemyAnimator.Die();
+        
         enemyReferences.rb.isKinematic = true;
         enemyReferences.rb.useGravity =false;
         DisableColliders();        
         StopRiggidbodyMovement();
         burst.Stop();
+        //
     }    
     float defaultStaggerTime;
     public void GotHit()

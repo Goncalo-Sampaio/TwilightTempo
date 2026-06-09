@@ -32,28 +32,33 @@ public class EnemyState_Chase : IState
     {
         if (ChaseUpdate()) enemyNav.MoveTo(playerRef.position);
         //Not moving:
-        if (enemyReferences.rb.linearVelocity.magnitude <= 0.05f )
+        //Don't enable this logic on ice, We WANT them to slide 
+        if(!enemyReferences.enemyNavigation.isOnIce)
         {
-            //stops this from triggering multiple time
-            if (!idling)
+            if (enemyReferences.rb.linearVelocity.magnitude <= 0.05f)
             {
-                enemyReferences.enemyAnimator.StopRunning();
-                enemyReferences.enemyAnimator.StartIdle();
-                idling = true;
+                //stops this from triggering multiple time
+                if (!idling)
+                {
+                    enemyReferences.enemyAnimator.StopRunning();
+                    enemyReferences.enemyAnimator.StartIdle();
+                    idling = true;
+                }
+
+
             }
-            
-            
-        }
-        else
-        {
-            if (idling)
+            else
             {
-                enemyReferences.enemyAnimator.StartRunning();
-                enemyReferences.enemyAnimator.StopIdle();
-                idling = false;
+                if (idling)
+                {
+                    enemyReferences.enemyAnimator.StartRunning();
+                    enemyReferences.enemyAnimator.StopIdle();
+                    idling = false;
+                }
+
             }
-            
         }
+        
     }
 
     public void OnExit()

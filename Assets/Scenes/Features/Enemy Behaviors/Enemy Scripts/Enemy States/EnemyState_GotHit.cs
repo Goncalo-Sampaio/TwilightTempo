@@ -14,7 +14,7 @@ public class EnemyState_GotHit : IState
         enemyReferences.enemyBrain.isPatrolling = false;
         enemyReferences.enemyNavigation.StopNow(true);
 
-        enemyReferences.flash.FlashForXIterations(1);
+        
         enemyReferences.enemyBrain.isPatrolling = false;
         Debug.Log("EnemyState_GotHit OnEnter()");
         

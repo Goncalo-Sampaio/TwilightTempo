@@ -27,7 +27,7 @@ public class EnemyNavigation : MonoBehaviour
     private Vector3 desiredVelocity;
 
 
-    [SerializeField] private bool isOnIce = false;
+    [SerializeField] public bool isOnIce = false;
     [SerializeField] private float iceForceMultiplier = 0.2f;
     [SerializeField] private float iceLinearDamp = 0.5f;
     [SerializeField] private float defaultLinearDamp = 10;

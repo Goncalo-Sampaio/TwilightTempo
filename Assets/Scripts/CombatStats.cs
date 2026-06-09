@@ -21,6 +21,7 @@ public class CombatStats : ScriptableObject
     public float BrawlerKnockBackResistance;
     public float BerserkDamageMultiplier;
     public float BerserkKnockBackResistanceMultiplier;
+    public int BrawlerPlayerHealContribution;
 
     [Header("Enemy Caster Stats")]
     public int CasterHealth;
@@ -28,6 +29,7 @@ public class CombatStats : ScriptableObject
     public int CasterAttackDamage;
     public float CasterAttackSpeed;
     public float CasterKnockBackResistance;
+    public int CasterPlayerHealContribution;
 
 
     [Header("Universal Enemy Stats")]
