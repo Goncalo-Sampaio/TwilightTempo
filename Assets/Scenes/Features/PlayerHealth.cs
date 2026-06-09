@@ -85,9 +85,9 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
             if (LinkToHealthUi)healthUI.value = 0;
-            SceneManager.LoadScene(0);
+            FindAnyObjectByType<UIManager>().ActivateScreen(1);
         }
         else
         {
