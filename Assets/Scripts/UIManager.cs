@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject enemyHealth;
+
+    private float screensCounter = 0f;
     
     public void ActivateFinisher(bool activated)
     {
@@ -28,6 +30,12 @@ public class UIManager : MonoBehaviour
     {
         gauge.value = gaugeValue;
     }
+
+    private void FixedUpdate()
+    {
+        
+    }
+
     private void Start()
     {
         if (LevelDataManager.Instance != null)
