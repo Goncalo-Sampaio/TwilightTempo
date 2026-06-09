@@ -21,6 +21,7 @@ public class PlayerHealth : MonoBehaviour
     private AudioSource healthSounds;
     [SerializeField] private AudioClip[] takingDamageSFX;
     [SerializeField] private AudioClip hitImpactSFX;
+    [SerializeField] private AudioClip healAudio;
     public bool invunerable = false;
     void Start()
     {
@@ -103,8 +104,10 @@ public class PlayerHealth : MonoBehaviour
         flash.FlashForXIterations(1);
         //Reduce health
     }
+    
     public void FetchMeTheirSouls(int healValue)
     {
+        PlaySound(healAudio);
         //trigger a vfx on player
         gameObject.GetComponent<Flash>().HealVisual();
         if (currentHealth + healValue >= maxHealth) currentHealth = maxHealth;

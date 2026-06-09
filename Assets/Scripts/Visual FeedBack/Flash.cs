@@ -202,7 +202,7 @@ public class Flash : MonoBehaviour
         }
         healRot = StartCoroutine(FlashandHealMultipleInterationsRot());
     }
-
+    
     private IEnumerator FlashandHealMultipleInterationsRot()
     {
         float flashValue = 0f;
@@ -226,7 +226,7 @@ public class Flash : MonoBehaviour
         SetHealFlashEmissionValueInChildren(0f);
         healRot = null;
     }
-
+    //Copypasted from gemini (brain is cooked help):
     private void SetHealFlashEmissionValueInChildren(float flashValue)
     {
         healValue = flashValue;
@@ -234,8 +234,7 @@ public class Flash : MonoBehaviour
         foreach (Renderer rend in renderers)
         {
             if (rend != null)
-            {
-                // Replace "_FlashValue" with the EXACT reference name in your shader
+            {                
                 rend.material.SetFloat("_HealFactor", flashValue);
             }
         }
