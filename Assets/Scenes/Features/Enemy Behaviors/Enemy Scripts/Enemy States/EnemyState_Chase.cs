@@ -6,6 +6,7 @@ public class EnemyState_Chase : IState
     private EnemyNavigation enemyNav;
 
     private Transform playerRef;
+    private bool idling;
 
     private float chaseUpdateFrequency; // via a scriptable object
     private float chaseTimer;
@@ -30,6 +31,29 @@ public class EnemyState_Chase : IState
     public void Tick()
     {
         if (ChaseUpdate()) enemyNav.MoveTo(playerRef.position);
+        //Not moving:
+        if (enemyReferences.rb.linearVelocity.magnitude <= 0.05f )
+        {
+            //stops this from triggering multiple time
+            if (!idling)
+            {
+                enemyReferences.enemyAnimator.StopRunning();
+                enemyReferences.enemyAnimator.StartIdle();
+                idling = true;
+            }
+            
+            
+        }
+        else
+        {
+            if (idling)
+            {
+                enemyReferences.enemyAnimator.StartRunning();
+                enemyReferences.enemyAnimator.StopIdle();
+                idling = false;
+            }
+            
+        }
     }
 
     public void OnExit()

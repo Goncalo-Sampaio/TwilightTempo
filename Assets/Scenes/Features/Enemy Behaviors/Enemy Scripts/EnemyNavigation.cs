@@ -56,6 +56,7 @@ public class EnemyNavigation : MonoBehaviour
         //state = EState.Waiting;
         rb = enemyReferences.rb;
         TogglePhysicsModeOn();
+        NavMesh.avoidancePredictionTime = 0.5f ;
 
     }   
     private void FixedUpdate()
@@ -89,19 +90,69 @@ public class EnemyNavigation : MonoBehaviour
     
 
     private void MoveWithPhysics()
-    {        
+    {
+        //rb.linearVelocity is what the phisics is pushing on the agent. This includes being shoved, slidding collisions etc.
+        //agent.desiredVelocity is what the agent "intends" to do. Discounting phisics just the pathfinding's result with avoidance and all that
+
+
+        //update agent's simulation with ridibody's simulation value
         agent.velocity = rb.linearVelocity;
         
+        //get the target velocity towards our destination(this includes any avoidance)
+        desiredVelocity = agent.desiredVelocity;
+
+        //if on ice then constantly blend (play catchup) from the phisics simulation and the "intended velocity"
+        //this causes the agent to constantly try to fight against the ice sliding catching up to its intended velocity.
+        //This only blends the velocity vector
+        if (isOnIce)
+        {
+            //with lerp  of 0.1 - Think of it like trying to controll a very heavy car with agreesive inertia in a phisics game 
+            desiredVelocity = Vector3.Lerp(rb.linearVelocity, desiredVelocity, 0.1f);
+        }
+        //always accelerates towards the intended velocity at "maxAcceleration"
+        //The output is the same as the ice phisics example from above but this actually uses a input acceleration value.
+        //This is meant to stack with the ice contribution
+        //prevents spikes
+        Vector3 targetVelocity = Vector3.MoveTowards(rb.linearVelocity, desiredVelocity, maxAcceleration * Time.fixedDeltaTime);
+
+        //After getting the target velocity we want to actully apply it to the riggibody.
+        //Since we want to use AddForce its better to first derive the acceleration we want and use that instead:
+        var desiredAcceleration = (targetVelocity - rb.linearVelocity) / Time.fixedDeltaTime;
+
+        float accelLimit = isOnIce ? iceAcceleration : maxAcceleration;
+        desiredAcceleration = Vector3.ClampMagnitude(desiredAcceleration, accelLimit);
+
+        //smoth it out
+        rb.AddForce(desiredAcceleration * rb.mass, ForceMode.Force);
+        rb.linearDamping = isOnIce ? iceLinearDamp : defaultLinearDamp;
+        
+        //updates the agent's position in the navmesh simulation to the current position of the riggidbody
+        agent.nextPosition = rb.position;
+
+        //Rotates towards target:
+        Vector3 direction = (currentTarget - transform.position);
+        Vector3 flatDirection = new Vector3(direction.x, 0, direction.z);
+
+        if (flatDirection.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(flatDirection.normalized, transform.up);
+            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, 0.15f);
+        }
+    }
+    private void MoveWithPhysicsbackup()
+    {
+        agent.velocity = rb.linearVelocity;
+
         desiredVelocity = agent.desiredVelocity;
 
         if (isOnIce)
         {
             desiredVelocity = Vector3.Lerp(rb.linearVelocity, desiredVelocity, 0.1f);
-        }                
+        }
         //prevents spikes
         Vector3 targetVelocity = Vector3.MoveTowards(rb.linearVelocity, desiredVelocity, maxAcceleration * Time.fixedDeltaTime);
 
-        
+
         var desiredAcceleration = (targetVelocity - rb.linearVelocity) / Time.fixedDeltaTime;
 
         float accelLimit = isOnIce ? iceAcceleration : maxAcceleration;
@@ -111,10 +162,10 @@ public class EnemyNavigation : MonoBehaviour
         rb.AddForce(desiredAcceleration * rb.mass, ForceMode.Force);
         rb.linearDamping = isOnIce ? iceLinearDamp : defaultLinearDamp;
 
-        
+
         agent.nextPosition = rb.position;
 
-        
+
         Vector3 direction = (currentTarget - transform.position);
         Vector3 flatDirection = new Vector3(direction.x, 0, direction.z);
 
@@ -125,7 +176,7 @@ public class EnemyNavigation : MonoBehaviour
         }
     }
 
-    
+
     private Vector3 CalculateForceNeededToReachDesiredVelocity(Vector3 desiredVelocity)
     {
         // Calculate force needed to reach targetVelocity in the next fixed update

@@ -106,6 +106,9 @@ MonoBehaviour:
   forgetTimmer: 10
   burst: {fileID: 6223780181406722522}
   shockwave: {fileID: 3266292523959144646}
+  patrolLingerTime: 6
+  patrolLingerTimeVariation: 2
+  isPatrolling: 0
 --- !u!114 &7019767393199814816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +132,7 @@ MonoBehaviour:
   berserkParticles: {fileID: 0}
   uIManager: {fileID: 0}
   enemySoundManager: {fileID: 0}
+  WayPoints: {fileID: 0}
   isCaster: 0
   enemyData: {fileID: 11400000, guid: 42418886d2886b245abc18591f26150f, type: 2}
   playerRef: {fileID: 0}
@@ -164,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyNavigation
   debugger: 1
   maxRayDistance: 100
+  agent: {fileID: 0}
   rayCastOrigin: {fileID: 8527910691337372366}
   arrivedDistance: 1
   isOnIce: 1
@@ -188,7 +193,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1811496294509267395}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 2
+  m_Radius: 1.25
   m_Speed: 20
   m_Acceleration: 100
   avoidancePriority: 50
