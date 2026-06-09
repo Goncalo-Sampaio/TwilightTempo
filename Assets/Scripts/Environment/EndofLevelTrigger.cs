@@ -18,6 +18,6 @@ public class EndofLevelTrigger : MonoBehaviour
         m_IsActive = true;
         yield return null;
         yield return new WaitForSeconds(waitTime);
-        SceneManager.LoadScene(0);
+        FindAnyObjectByType<UIManager>().ActivateScreen(2);
     }
 }

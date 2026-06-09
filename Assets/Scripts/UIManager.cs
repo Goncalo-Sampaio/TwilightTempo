@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -18,7 +20,89 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject enemyHealth;
-    
+
+    [SerializeField]
+    private TextMeshProUGUI spacebarPrompt;
+    [SerializeField]
+    private GameObject[] screens;
+    [SerializeField]
+    private float timeToFade = 1f;
+    [SerializeField]
+    private float textAlpha = 0f;
+
+    [SerializeField]
+    private float screensCounter = 0f;
+    [SerializeField]
+    private bool counting = false;
+    [SerializeField]
+    private bool canInteractWithScreen = false;
+
+    [SerializeField]
+    private MovementPlayables playerMov;
+    [SerializeField]
+    private PlayerCombatPlayables playerAttack;
+    [SerializeField]
+    private SkillSystem playerSkills;
+    [SerializeField]
+    private PlayerDodge playerDodge;
+    [SerializeField]
+    private Teleport playerTeleport;
+
+    private void Start()
+    {
+        ActivateScreen(0);
+
+        if (LevelDataManager.Instance != null)
+        {
+            LevelDataManager.Instance.RegisterCanvas(this);
+
+        }
+        else Debug.LogWarning("LevelDataManager is missing - Add one to the scene");
+    }
+
+    private void Update()
+    {
+        if (textAlpha <= 1f && canInteractWithScreen)
+        {
+            textAlpha +=  Time.unscaledDeltaTime/timeToFade;
+            spacebarPrompt.alpha = textAlpha;
+        }
+
+        if (screensCounter > 0f)
+        {
+            screensCounter -= Time.unscaledDeltaTime;
+        }
+
+        if (screensCounter <= 0f && counting)
+        {
+            counting = false;
+            canInteractWithScreen = true;
+        }
+
+        if (Input.GetKey(KeyCode.Space) && canInteractWithScreen)
+        {
+            textAlpha = 0f;
+            spacebarPrompt.alpha = 0f;
+            canInteractWithScreen = false;
+            Time.timeScale = 1f;
+
+            DisablePlayerActions(false);
+
+            if (screens[0].activeInHierarchy)
+            {
+                screens[0].SetActive(false);
+            }
+            else if (screens[1].activeInHierarchy)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+            else if (screens[2].activeInHierarchy)
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
+    }
+
     public void ActivateFinisher(bool activated)
     {
         finisherReady.SetActive(activated);
@@ -28,15 +112,6 @@ public class UIManager : MonoBehaviour
     {
         gauge.value = gaugeValue;
     }
-    private void Start()
-    {
-        if (LevelDataManager.Instance != null)
-        {            
-            LevelDataManager.Instance.RegisterCanvas(this);
-            
-        }
-        else Debug.LogWarning("LevelDataManager is missing - Add one to the scene"); 
-    }    
     
     public GameObject GetSkillVisual(int skillNumber)
     {
@@ -71,5 +146,28 @@ public class UIManager : MonoBehaviour
     {
         healthUI.maxValue = maxHealth;
         healthUI.value = currentHealth;
+    }
+
+    /// <summary>
+    /// activate the corresponding screen
+    /// 0 - intro, 1 - game over, 2 - end screen
+    /// </summary>
+    /// <param name="screenId"></param>
+    public void ActivateScreen(int screenId)
+    {
+        DisablePlayerActions(true);
+        Time.timeScale = 0f;
+        screens[screenId].SetActive(true);
+        screensCounter = 1f;
+        counting = true;
+    }
+
+    public void DisablePlayerActions(bool enable)
+    {
+        playerMov.Paused = enable;
+        playerAttack.Paused = enable;
+        playerSkills.Paused = enable;
+        playerDodge.Paused = enable;
+        playerTeleport.Paused = enable;
     }
 }
