@@ -143,6 +143,7 @@ public class EnemyBrain : MonoBehaviour
         if (patrolRoutine != null) StopCoroutine(patrolRoutine);
         enemyReferences.enemyNavigation.moving = false;
         enemyReferences.enemyNavigation.StopNow(true);
+        enemyReferences.enemyAnimator.StopIdle();
 
         enemyReferences.enemyAnimator.StopWalking();
         
