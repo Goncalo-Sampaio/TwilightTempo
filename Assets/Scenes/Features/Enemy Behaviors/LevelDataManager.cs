@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LevelDataManager : MonoBehaviour
 {
+    public bool spawnEnemiesOnAwake = true;
     //PLAYER:
     [HideInInspector]public PlayerHealth playerRef = null;
     //ENEMIES:

@@ -48,7 +48,8 @@ public class EnemyHealth : MonoBehaviour
         dead = false;
         if (LevelDataManager.Instance != null)
         {
-            LevelDataManager.Instance.AddEnemy(this);            
+            LevelDataManager.Instance.AddEnemy(this);
+            if (LevelDataManager.Instance.spawnEnemiesOnAwake) enemyReferences.enemyAnimator.EnableSpawn();
         }
         else Debug.LogWarning("LevelDataManager is missing - Add one to the scene");
     }

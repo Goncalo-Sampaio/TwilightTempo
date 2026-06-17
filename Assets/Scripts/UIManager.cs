@@ -47,7 +47,11 @@ public class UIManager : MonoBehaviour
     private PlayerDodge playerDodge;
     [SerializeField]
     private Teleport playerTeleport;
-
+    private void Awake()
+    {
+        var canvasOBJ = GetComponent<Canvas>();
+        if (!canvasOBJ.isActiveAndEnabled) canvasOBJ.enabled = true;
+    }
     private void Start()
     {
         ActivateScreen(0);
